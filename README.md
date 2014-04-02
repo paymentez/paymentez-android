@@ -36,6 +36,10 @@ permissions in the manifest:
 </manifest>
 ```
 
+Live GUI Example
+-----
+https://www.dropbox.com/s/fl9wrn9d6z1pxat/PaymentExample.apk
+
 Simple Example
 -----
 ```java
