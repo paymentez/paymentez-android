@@ -113,7 +113,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		// DeviceCollector.Collector.GEO_LOCATION);
 		// dc.skipCollectors(skipList);
 		this.dc.setStatusListener(this);
-		checkout();
+		getSessionId();
 	}
 
 	public String cardAdd(String uid, String email) {
@@ -376,11 +376,11 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	} // end stopNow ()
 
 	/**
-	 * Handle the checkout
+	 * This method generates the sessionId and call kount Collect
 	 * 
-	 * @param view
+	 * @return sessionId
 	 */
-	public void checkout() {
+	public String getSessionId() {
 		// Check if we are already running
 		if (!this.running) {
 			// Check if we already finished
@@ -397,17 +397,21 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 				this.debug("Checking out with sessionid [" + sessionId + "]");
 				this.startTime = new Date();
 				this.dc.collect(sessionId);
+				
 				// we should store this sessionId somewhere so we can pass it to
 				// whatever is making the RIS call down the line.
 			} else {
 				this.debug("Already completed for this transaction. Why are you"
 						+ "trying to run again?");
+				
 			} // end if (!this.finished) / else
 
 		} else {
 			this.debug("Already running");
 		} // end if (!this.running) / else
-	} // end checkout (View view)
+		
+		return sessionId;
+	} 
 
 	/**
 	 * Implementation of handling an error coming from the collector.
