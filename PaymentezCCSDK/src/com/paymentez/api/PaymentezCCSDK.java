@@ -123,11 +123,13 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		String params = "application_code=" + app_code + "&email="
 				+ Uri.encode(email) + "&session_id=" + sessionId + "&uid="
 				+ uid;
-
+		String params2 = "application_code=" + app_code + "&email="
+				+ email + "&session_id=" + sessionId + "&uid="
+				+ uid;
 		String auth_token = getAuthToken(auth_timestamp, params);
 		
 		
-		return SERVER_URL + "/api/cc/add/?" + params + "&auth_timestamp="
+		return SERVER_URL + "/api/cc/add/?" + params2 + "&auth_timestamp="
 				+ auth_timestamp + "&auth_token=" + auth_token;
 
 	}
