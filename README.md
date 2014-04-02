@@ -51,8 +51,11 @@ public class ExampleActivity extends Activity{
 		
 		//get Payment URL
 		String payment_url = paymentezsdk.cardAdd("1234", "martin.mucito@gmail.com");
-		System.out.println("Example:"+payment_url);
+		System.out.println("payment_url:"+payment_url);
 		
+		//get sessionId for kount
+		String session_id = paymentezsdk.getSessionId();
+		System.out.println("session_id:"+session_id);
 		
 		//To list the cards related to a user
 		new CallApiListCardAsyncTask().execute("1234");
@@ -64,6 +67,6 @@ public class ExampleActivity extends Activity{
 		
 		//To delete a user saved card
 		new CallApiDeleteCardAsyncTask().execute( "1234", "17974018243686635624");
-	}  
+	}
 }
 ```
