@@ -14,8 +14,9 @@ you need, like R.java, etc.
 Minimum Requirements
 -----
 The following minimum requirements are needed to utilize the Android Device Collector:
-• Min SDK API Level - 8
-• Application with the following permissions in the Android Manifest File:
+* Min SDK API Level - 8
+* Application with the following permissions in the Android Manifest File:
+```xml
 <manifest ...>
 . . .
 <uses-permission android:name="android.permission.INTERNET" />
@@ -33,7 +34,7 @@ permissions in the manifest:
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest>
-
+```
 
 Simple Example
 -----
