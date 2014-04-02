@@ -37,6 +37,12 @@ public class ExampleActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		//get sessionId for kount
+		String session_id = PaymentezCCSDK.getSessionId();
+		System.out.println("session_id:"+session_id);
+				
+				
+		//init library
 		paymentezsdk = new PaymentezCCSDK(this, true, "ST-MX", "vgVfq0kLZveGIdD9ljGjPtt6ieYtIQ","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY");		
 		
 		
@@ -44,9 +50,7 @@ public class ExampleActivity extends Activity{
 		String payment_url = paymentezsdk.cardAdd("1234", "martin.mucito@gmail.com");
 		System.out.println("payment_url:"+payment_url);
 		
-		//get sessionId for kount
-		String session_id = paymentezsdk.getSessionId();
-		System.out.println("session_id:"+session_id);
+		
 		
 		//To list the cards related to a user
 		new CallApiListCardAsyncTask().execute("1234");

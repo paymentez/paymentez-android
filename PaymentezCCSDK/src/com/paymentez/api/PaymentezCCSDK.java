@@ -63,13 +63,13 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	private String SERVER_PROD_URL = "https://pmntzsec.paymentez.com";
 	private String SERVER_URL = SERVER_DEV_URL;
 
-	private DeviceCollector dc;
-	String sessionId;
+	private static DeviceCollector dc;
+	static String sessionId;
 	private static final String LOG_TAG = "CheckoutTestActivity";
-	private boolean running = false;
-	private boolean finished = false;
+	private static boolean running = false;
+	private static boolean finished = false;
 	private String message;
-	private Date startTime;
+	private static Date startTime;
 
 	private Context mContext;
 
@@ -380,11 +380,11 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	 * 
 	 * @return sessionId
 	 */
-	public String getSessionId() {
+	public static String getSessionId() {
 		// Check if we are already running
-		if (!this.running) {
+		if (!running) {
 			// Check if we already finished
-			if (!this.finished) {
+			if (!finished) {
 				// Create a sessionID (Unique ID) that doesn't repeat over a 30
 				// day
 				// period per transaction
@@ -394,20 +394,20 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 				sessionId = sessionId.replace("-", "");
 				sessionId = "i"+sessionId.substring(1, sessionId.length());
 				
-				this.debug("Checking out with sessionid [" + sessionId + "]");
-				this.startTime = new Date();
-				this.dc.collect(sessionId);
+				debug("Checking out with sessionid [" + sessionId + "]");
+				startTime = new Date();
+				dc.collect(sessionId);
 				
 				// we should store this sessionId somewhere so we can pass it to
 				// whatever is making the RIS call down the line.
 			} else {
-				this.debug("Already completed for this transaction. Why are you"
+				debug("Already completed for this transaction. Why are you"
 						+ "trying to run again?");
 				
 			} // end if (!this.finished) / else
 
 		} else {
-			this.debug("Already running");
+			debug("Already running");
 		} // end if (!this.running) / else
 		
 		return sessionId;
@@ -482,7 +482,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	 * 
 	 * @param message The message to pass to the view and logs
 	 */
-	private void debug(String message) {
+	private static void debug(String message) {
 		Log.d(LOG_TAG, message);
 
 	} // end debug (String message)
