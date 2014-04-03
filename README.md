@@ -76,5 +76,99 @@ public class ExampleActivity extends Activity{
 		//To delete a user saved card
 		new CallApiDeleteCardAsyncTask().execute( "1234", "17974018243686635624");
 	}
+
+	private class CallApiDebitCardAsyncTask extends AsyncTask<String, Void, JSONObject>{
+
+		@Override
+		protected JSONObject doInBackground(String... params) {
+			String uid = params[0];
+			String email = params[1];
+			String card_reference = params[2];
+			String product_amount = params[3];
+			String product_description = params[4];
+			String dev_reference = params[5];
+			
+			
+			return paymentezsdk.cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference);
+		}
+		
+		
+		protected void onPostExecute(JSONObject json) {
+			super.onPostExecute(json);
+			
+			System.out.println("TRANSACTION INFO");
+			try {
+				System.out.println(json.getString("status"));
+				System.out.println(json.getString("payment_date"));
+				System.out.println(json.getDouble("amount"));
+				System.out.println(json.getString("transaction_id"));
+				System.out.println(json.getString("status_detail"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
+	
+	private class CallApiDeleteCardAsyncTask extends AsyncTask<String, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			String uid = params[0];
+			String card_reference = params[1];
+			
+			
+			return paymentezsdk.cardDelete(uid, card_reference);
+		}
+		
+		
+		protected void onPostExecute(Boolean json) {
+			super.onPostExecute(json);
+			
+			System.out.println("DELETE INFO");
+			
+			System.out.println(json);
+				
+			
+		}
+		
+	}
+	
+	
+	
+	private class CallApiListCardAsyncTask extends AsyncTask<String, Void, JSONArray>{
+
+		@Override
+		protected JSONArray doInBackground(String... params) {
+			String uid = params[0];
+			return paymentezsdk.cardList(uid);
+		}
+		
+		
+		protected void onPostExecute(JSONArray json) {
+			super.onPostExecute(json);
+			for (int i = 0; i < json.length(); i++) {
+				JSONObject cardObject;
+				try {
+					cardObject = json.getJSONObject(i);	
+					System.out.println("CARD INFO");
+					System.out.println(cardObject.get("name"));
+					System.out.println(cardObject.get("card_reference"));
+					System.out.println(cardObject.get("expiry_year"));
+					System.out.println(cardObject.get("termination"));
+					System.out.println(cardObject.get("expiry_month"));
+					System.out.println(cardObject.get("type"));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+	}
 }
 ```
