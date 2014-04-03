@@ -36,11 +36,14 @@ permissions in the manifest:
 </manifest>
 ```
 
-Live GUI Example
+Example
 -----
+Try out the sample application
 https://www.dropbox.com/s/fl9wrn9d6z1pxat/PaymentExample.apk
 
-Simple Example
+You can found the Code in /PaymentExample/
+
+Usage
 -----
 ```java
 public class ExampleActivity extends Activity{
