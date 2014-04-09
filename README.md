@@ -39,7 +39,7 @@ permissions in the manifest:
 Example
 -----
 Try out the sample application
-https://www.dropbox.com/s/fl9wrn9d6z1pxat/PaymentExample.apk
+http://cdn-checkout-1.paymentez.com/checkout/docs/development/PaymentExample.apk
 
 You can found the Code in /PaymentExample/
 
