@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,8 @@ public class AddCardActivity extends Activity {
 		
 		
 		final WebView webView1 = (WebView) findViewById(R.id.webView1);
+		WebSettings webSettings = webView1.getSettings();
+		webSettings.setJavaScriptEnabled(true);
 		
 		final Button button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
