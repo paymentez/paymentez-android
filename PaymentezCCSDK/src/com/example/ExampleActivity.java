@@ -18,6 +18,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.devicecollector.DeviceCollector;
@@ -49,6 +51,12 @@ public class ExampleActivity extends Activity{
 		//get Payment URL
 		String payment_url = paymentezsdk.cardAdd("1234", "martin.mucito@gmail.com");
 		System.out.println("payment_url:"+payment_url);
+		//you must enable JavaScript for your WebView. 
+		//example:
+		//final WebView webView1 = (WebView) findViewById(R.id.webView1);
+		//WebSettings webSettings = webView1.getSettings();
+		//webSettings.setJavaScriptEnabled(true);
+		//webView1.loadUrl(payment_url);
 		
 		
 		
