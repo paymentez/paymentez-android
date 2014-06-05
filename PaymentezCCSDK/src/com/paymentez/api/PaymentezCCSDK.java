@@ -3,13 +3,11 @@ package com.paymentez.api;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -20,7 +18,6 @@ import java.util.Enumeration;
 import java.util.UUID;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
@@ -28,7 +25,6 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.conn.util.InetAddressUtils;
@@ -41,17 +37,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.devicecollector.DeviceCollector;
-import com.devicecollector.DeviceCollector.ErrorCode;
-
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import com.devicecollector.DeviceCollector;
+import com.devicecollector.DeviceCollector.ErrorCode;
 
 public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	private String username;
@@ -63,13 +57,14 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	private String SERVER_PROD_URL = "https://pmntzsec.paymentez.com";
 	private String SERVER_URL = SERVER_DEV_URL;
 
-	private static DeviceCollector dc;
-	static String sessionId;
+	private DeviceCollector dc;
+	String sessionId;
 	private static final String LOG_TAG = "CheckoutTestActivity";
-	private static boolean running = false;
-	private static boolean finished = false;
+	private boolean running = false;
+	private boolean finished = false;
 	private String message;
-	private static Date startTime;
+	private Date startTime;
+	private int collect_count;
 
 	private Context mContext;
 
@@ -84,27 +79,27 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	 * @param username
 	 * @param password
 	 */
-	public PaymentezCCSDK(Context mContext, boolean dev_environment,
-			String app_code, String app_secret_key, String username,
-			String password) {
+	public PaymentezCCSDK(Context mContext, boolean dev_environment) {
 		this.mContext = mContext;
-		this.app_code = app_code;
-		this.app_secret_key = app_secret_key;
-		this.username = username;
-		this.password = password;
+		
 		this.dev_environment = dev_environment;
-		if (dev_environment)
-			SERVER_URL = SERVER_DEV_URL;
-		else
-			SERVER_URL = SERVER_PROD_URL;
-
+		
 		this.debug("Building new...");
 		// No saved instances, create a new one
 		this.dc = new DeviceCollector((Activity) mContext);
 		// TODO Put your Merchant ID here
 		this.dc.setMerchantId("500005");
 		// TODO Put your data collector URL here
-		this.dc.setCollectorUrl("https://tst.kaptcha.com/logo.htm");
+		
+		if (dev_environment){
+			SERVER_URL = SERVER_DEV_URL;
+			this.dc.setCollectorUrl("https://tst.kaptcha.com/logo.htm");
+		}else{
+			SERVER_URL = SERVER_PROD_URL;
+			this.dc.setCollectorUrl("https://ssl.kaptcha.com/logo.htm");
+		}
+		
+		collect_count = 0;
 
 		// Skipping Collectors
 		// If we wanted to skip a test or two, we could uncomment this code
@@ -113,7 +108,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		// DeviceCollector.Collector.GEO_LOCATION);
 		// dc.skipCollectors(skipList);
 		this.dc.setStatusListener(this);
-		getSessionId();
+		//getSessionId();
 	}
 
 	public String cardAdd(String uid, String email) {
@@ -123,13 +118,11 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		String params = "application_code=" + app_code + "&email="
 				+ Uri.encode(email) + "&session_id=" + sessionId + "&uid="
 				+ uid;
-		String params2 = "application_code=" + app_code + "&email="
-				+ email + "&session_id=" + sessionId + "&uid="
-				+ uid;
+
 		String auth_token = getAuthToken(auth_timestamp, params);
 		
 		
-		return SERVER_URL + "/api/cc/add/?" + params2 + "&auth_timestamp="
+		return SERVER_URL + "/api/cc/add/?" + params + "&auth_timestamp="
 				+ auth_timestamp + "&auth_token=" + auth_token;
 
 	}
@@ -382,11 +375,11 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	 * 
 	 * @return sessionId
 	 */
-	public static String getSessionId() {
+	public String getSessionId() {
 		// Check if we are already running
-		if (!running) {
+		if (!this.running) {
 			// Check if we already finished
-			if (!finished) {
+			if (!this.finished) {
 				// Create a sessionID (Unique ID) that doesn't repeat over a 30
 				// day
 				// period per transaction
@@ -394,22 +387,22 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 				// The device collector does not like special characters in the
 				// sessionID, so let's strip them out
 				sessionId = sessionId.replace("-", "");
-				sessionId = "i"+sessionId.substring(1, sessionId.length());
+				sessionId = "a"+sessionId.substring(1, sessionId.length());
 				
-				debug("Checking out with sessionid [" + sessionId + "]");
-				startTime = new Date();
-				dc.collect(sessionId);
+				this.debug("Checking out with sessionid [" + sessionId + "]");
+				this.startTime = new Date();
+				this.dc.collect(sessionId);
 				
 				// we should store this sessionId somewhere so we can pass it to
 				// whatever is making the RIS call down the line.
 			} else {
-				debug("Already completed for this transaction. Why are you"
+				this.debug("Already completed for this transaction. Why are you"
 						+ "trying to run again?");
 				
 			} // end if (!this.finished) / else
 
 		} else {
-			debug("Already running");
+			this.debug("Already running");
 		} // end if (!this.running) / else
 		
 		return sessionId;
@@ -427,7 +420,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	@Override
 	public void onCollectorError(ErrorCode code, Exception ex) {
 		long totalTime = getTotalTime();
-
+		
 		this.finished = true;
 		if (null != ex) {
 			if (code.equals(ErrorCode.MERCHANT_CANCELLED)) {
@@ -447,6 +440,14 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 			this.debug("Collector failed in (" + totalTime
 					+ ") ms. It had an error [" + code + "]:");
 		} // end if (null != ex) / else
+		
+		if(code.equals(ErrorCode.RUNTIME_FAILURE)){
+			this.debug("Time out try"+collect_count);
+			this.getSessionId();
+			collect_count++;
+			
+		}
+		
 	} // end onCollectorError (ErrorCode code, Exception ex)
 
 	/**
@@ -484,7 +485,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	 * 
 	 * @param message The message to pass to the view and logs
 	 */
-	private static void debug(String message) {
+	private void debug(String message) {
 		Log.d(LOG_TAG, message);
 
 	} // end debug (String message)
