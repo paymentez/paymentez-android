@@ -73,14 +73,18 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	/**
 	 * 
 	 * @param mContext
-	 * @param dev_environment
+	 * @param dev_environment	 * 
 	 * @param app_code
 	 * @param app_secret_key
 	 * @param username
 	 * @param password
 	 */
-	public PaymentezCCSDK(Context mContext, boolean dev_environment) {
+	public PaymentezCCSDK(Context mContext, boolean dev_environment, String app_code, String app_secret_key, String username, String password) {
 		this.mContext = mContext;
+		this.app_code = app_code;
+		this.app_secret_key = app_secret_key;
+		this.username = username;
+		this.password = password;
 		
 		this.dev_environment = dev_environment;
 		
