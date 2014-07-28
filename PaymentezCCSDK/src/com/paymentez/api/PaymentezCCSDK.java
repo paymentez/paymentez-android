@@ -53,8 +53,8 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	private String app_code;
 	private String app_secret_key;
 	private boolean dev_environment;
-	private String SERVER_DEV_URL = "https://pmntzsec-stg.paymentez.com";
-	private String SERVER_PROD_URL = "https://pmntzsec.paymentez.com";
+	private String SERVER_DEV_URL = "https://ccapi-stg.paymentez.com";
+	private String SERVER_PROD_URL = "https://ccapi.paymentez.com";
 	private String SERVER_URL = SERVER_DEV_URL;
 
 	private DeviceCollector dc;
