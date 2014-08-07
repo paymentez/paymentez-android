@@ -163,6 +163,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		paramsPost.add(new BasicNameValuePair("dev_reference", dev_reference)); 
 		paramsPost.add(new BasicNameValuePair("ip_address", getLocalIpAddress()));		
 		paramsPost.add(new BasicNameValuePair("session_id", sessionId));
+		paramsPost.add(new BasicNameValuePair("seller_id", ""));
 		
 		
 		String auth_token = getAuthToken(auth_timestamp, paramsPost);

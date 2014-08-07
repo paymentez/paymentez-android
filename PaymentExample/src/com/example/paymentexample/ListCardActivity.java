@@ -45,7 +45,7 @@ public class ListCardActivity extends Activity {
 		final EditText editText1 = (EditText) findViewById(R.id.editText1);
 		final EditText editText2 = (EditText) findViewById(R.id.editText2);
 		
-		paymentezsdk = new PaymentezCCSDK(this, true, "ST-MX", "vgVfq0kLZveGIdD9ljGjPtt6ieYtIQ","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY"); 
+		paymentezsdk = new PaymentezCCSDK(this, true, "BOHRA", "4JUGvENk5ztccCFrIKFNpZzOR9dJMW","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY"); 
 		
 		final Button button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +250,7 @@ public class ListCardActivity extends Activity {
 		
 	      switch (item.getItemId()) {
 	              case CONTEXT_MENU_DEBIT_ITEM:
-	            	 new CallApiDebitCardAsyncTask().execute(uid, email, cardObject.getString("card_reference"), "10.0", "test", "1234567");
+	            	 new CallApiDebitCardAsyncTask().execute(uid, email, cardObject.getString("card_reference"), "10.00", "test", "1234567");
 	                    
 	                   return(true);
 	             case CONTEXT_MENU_DELETE_ITEM:
