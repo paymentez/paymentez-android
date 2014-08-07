@@ -58,7 +58,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	private String SERVER_URL = SERVER_DEV_URL;
 
 	private DeviceCollector dc;
-	String sessionId;
+	public String sessionId;
 	private static final String LOG_TAG = "CheckoutTestActivity";
 	private boolean running = false;
 	private boolean finished = false;
@@ -112,7 +112,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		// DeviceCollector.Collector.GEO_LOCATION);
 		// dc.skipCollectors(skipList);
 		this.dc.setStatusListener(this);
-		//getSessionId();
+		getSessionId();
 	}
 
 	public String cardAdd(String uid, String email) {
