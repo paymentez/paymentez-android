@@ -43,11 +43,11 @@ public class ExampleActivity extends Activity{
 				
 				
 		//init library
-		paymentezsdk = new PaymentezCCSDK(this, true, "ST-MX", "vgVfq0kLZveGIdD9ljGjPtt6ieYtIQ","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY");		
+		paymentezsdk = new PaymentezCCSDK(this, true, "BOHRA", "4JUGvENk5ztccCFrIKFNpZzOR9dJMW","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY");		
 		
-		//get sessionId for kount
-		String session_id = paymentezsdk.getSessionId();
-		System.out.println("session_id:"+session_id);
+		
+		
+		System.out.println("session_id:"+paymentezsdk.sessionId);
 				
 		
 		//get Payment URL
