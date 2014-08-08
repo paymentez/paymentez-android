@@ -250,7 +250,7 @@ public class ListCardActivity extends Activity {
 		
 	      switch (item.getItemId()) {
 	              case CONTEXT_MENU_DEBIT_ITEM:
-	            	 new CallApiDebitCardAsyncTask().execute(uid, email, cardObject.getString("card_reference"), "10.00", "test", "1234567");
+	            	 new CallApiDebitCardAsyncTask().execute(uid, email, cardObject.getString("card_reference"), "10.00", "Servicio de belleza", "1234567");
 	                    
 	                   return(true);
 	             case CONTEXT_MENU_DELETE_ITEM:
