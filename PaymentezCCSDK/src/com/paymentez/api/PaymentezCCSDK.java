@@ -240,7 +240,7 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		
 		urltoken += auth_timestamp + "&" + app_secret_key;
 		
-		urltoken = urltoken.replaceAll("%20", "+");
+		//allanurltoken = urltoken.replaceAll("%20", "+");
 		
 		System.out.println("Vale:"+urltoken);
 
