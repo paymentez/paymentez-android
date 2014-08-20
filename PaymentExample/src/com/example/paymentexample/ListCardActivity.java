@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.paymentez.api.PaymentezCCSDK;
+import com.paymentez.api.Shipping;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -45,7 +46,9 @@ public class ListCardActivity extends Activity {
 		final EditText editText1 = (EditText) findViewById(R.id.editText1);
 		final EditText editText2 = (EditText) findViewById(R.id.editText2);
 		
+
 		paymentezsdk = new PaymentezCCSDK(this, true, "BOHRA", "4JUGvENk5ztccCFrIKFNpZzOR9dJMW","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY"); 
+
 		
 		final Button button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -69,9 +72,26 @@ public class ListCardActivity extends Activity {
 			String product_amount = params[3];
 			String product_description = params[4];
 			String dev_reference = params[5];
+			String seller_id = params[6];
 			
 			
-			return paymentezsdk.cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference);
+			//return paymentezsdk.cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference, seller_id);
+			
+			//Debit with shipping address
+			Shipping shipping = new Shipping();
+			shipping.setShipping_street("Av Jacutinga");
+			shipping.setShipping_house_number("607");
+			shipping.setShipping_city("São Paulo");
+			shipping.setShipping_zip("99999-999");
+			shipping.setShipping_state("SP");
+			shipping.setShipping_country("BR");
+			shipping.setShipping_district("");			
+			shipping.setShipping_additional_address_info("");
+			
+			
+			return paymentezsdk.cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference, seller_id, shipping);
+			
+			
 		}
 		
 		protected void onPreExecute(){ 
@@ -250,7 +270,7 @@ public class ListCardActivity extends Activity {
 		
 	      switch (item.getItemId()) {
 	              case CONTEXT_MENU_DEBIT_ITEM:
-	            	 new CallApiDebitCardAsyncTask().execute(uid, email, cardObject.getString("card_reference"), "5.00", "test", "1234567");
+	            	 new CallApiDebitCardAsyncTask().execute(uid, email, cardObject.getString("card_reference"), "5.00", "test", "1234567", "");
 	                    
 	                   return(true);
 	             case CONTEXT_MENU_DELETE_ITEM:
