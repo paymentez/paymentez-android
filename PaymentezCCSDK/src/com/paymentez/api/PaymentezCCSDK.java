@@ -47,6 +47,10 @@ import android.view.View;
 import com.devicecollector.DeviceCollector;
 import com.devicecollector.DeviceCollector.ErrorCode;
 
+/**
+ * @author mmucito
+ *
+ */
 public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	private String username;
 	private String password;
@@ -72,12 +76,12 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	
 	/**
 	 * 
-	 * @param mContext
-	 * @param dev_environment	 * 
-	 * @param app_code
-	 * @param app_secret_key
-	 * @param username
-	 * @param password
+	 * @param mContext Context of the Main Activity
+	 * @param dev_environment false to use production environment
+	 * @param app_code Application identifier (provided by Paymentez).
+	 * @param app_secret_key Application Secret key (provided by Paymentez).
+	 * @param username Username (provided by Paymentez)
+	 * @param password Password (provided by Paymentez)
 	 */
 	public PaymentezCCSDK(Context mContext, boolean dev_environment, String app_code, String app_secret_key, String username, String password) {
 		this.mContext = mContext;
@@ -115,6 +119,11 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		getSessionId();
 	}
 
+	/**
+	 * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
+	 * @param email Email of the user initiating the purchase. Format: Valid e-mail format.
+	 * @return An url string that must be loaded in a webview
+	 */
 	public String cardAdd(String uid, String email) {
 
 		String auth_timestamp = "" + (System.currentTimeMillis());
@@ -131,6 +140,10 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 
 	}
 	
+	/**
+	 * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
+	 * @return JSONArray of JSONObjects with the following params name, card_reference, expiry_year, termination, expiry_month, transaction_reference, type
+	 */
 	public JSONArray cardList(String uid) {
 
 		String auth_timestamp = "" + (System.currentTimeMillis());
@@ -146,7 +159,46 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 
 	}
 	
+	
+	/**
+	 * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
+	 * @param email Email of the user initiating the purchase. Format: Valid e-mail format.
+	 * @param card_reference New Card identifier. This code is unique among all cards.
+	 * @param product_amount Amount to debit.  Format: Decimal with two fraction digits (e.g: 10.00).
+	 * @param product_description Clear descriptions help players to better understand what they’re buying.
+	 * @param dev_reference Merchant order reference. You will identify this purchase using this reference.
+	 * @return JSONObject with the following params {"status": "", "payment_date": "", "status_detail": , "amount": , "card_data": {"account_type": "", "type": "", "number": "", "quotas": ""}, "transaction_id": "", "carrier_data": {"terminal_code": "", "unique_code": "", "acquirer_id": "", "authorization_code": ""}
+	 */
 	public JSONObject cardDebit(String uid, String email, String card_reference, String product_amount, String product_description, String dev_reference) {
+		return cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference, "", null);
+	}
+	
+	/**
+	  * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
+	 * @param email Email of the user initiating the purchase. Format: Valid e-mail format.
+	 * @param card_reference New Card identifier. This code is unique among all cards.
+	 * @param product_amount Amount to debit.  Format: Decimal with two fraction digits (e.g: 10.00).
+	 * @param product_description Clear descriptions help players to better understand what they’re buying.
+	 * @param dev_reference Merchant order reference. You will identify this purchase using this reference.
+	 * @param seller_id 18-length Alphanumeric
+	 * @return JSONObject with the following params {"status": "", "payment_date": "", "status_detail": , "amount": , "card_data": {"account_type": "", "type": "", "number": "", "quotas": ""}, "transaction_id": "", "carrier_data": {"terminal_code": "", "unique_code": "", "acquirer_id": "", "authorization_code": ""}
+	 */
+	public JSONObject cardDebit(String uid, String email, String card_reference, String product_amount, String product_description, String dev_reference, String seller_id) {
+		return cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference, seller_id, null);
+	}
+	
+	/**
+	  * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
+	 * @param email Email of the user initiating the purchase. Format: Valid e-mail format.
+	 * @param card_reference New Card identifier. This code is unique among all cards.
+	 * @param product_amount Amount to debit.  Format: Decimal with two fraction digits (e.g: 10.00).
+	 * @param product_description Clear descriptions help players to better understand what they’re buying.
+	 * @param dev_reference Merchant order reference. You will identify this purchase using this reference.
+	 * @param seller_id 18-length Alphanumeric
+	 * @param shipping Shipping object
+	 * @return JSONObject with the following params {"status": "", "payment_date": "", "status_detail": , "amount": , "card_data": {"account_type": "", "type": "", "number": "", "quotas": ""}, "transaction_id": "", "carrier_data": {"terminal_code": "", "unique_code": "", "acquirer_id": "", "authorization_code": ""}
+	 */
+	public JSONObject cardDebit(String uid, String email, String card_reference, String product_amount, String product_description, String dev_reference, String seller_id, Shipping shipping) {
 
 		String auth_timestamp = "" + (System.currentTimeMillis());
 		
@@ -163,7 +215,11 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 		paramsPost.add(new BasicNameValuePair("dev_reference", dev_reference)); 
 		paramsPost.add(new BasicNameValuePair("ip_address", getLocalIpAddress()));		
 		paramsPost.add(new BasicNameValuePair("session_id", sessionId));
-		paramsPost.add(new BasicNameValuePair("seller_id", ""));
+		paramsPost.add(new BasicNameValuePair("seller_id", seller_id));
+		
+		if(shipping!=null){
+			paramsPost.addAll(shipping.toArrayList());
+		}
 		
 		
 		String auth_token = getAuthToken(auth_timestamp, paramsPost);
@@ -176,6 +232,11 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 
 	}
 	
+	/**
+	 * @param uid
+	 * @param card_reference
+	 * @return
+	 */
 	public boolean cardDelete(String uid, String card_reference) {
 
 		String auth_timestamp = "" + (System.currentTimeMillis());
@@ -223,6 +284,8 @@ public class PaymentezCCSDK implements DeviceCollector.StatusListener {
 	
 	
 	private String getAuthToken(String auth_timestamp, ArrayList<NameValuePair> params) {
+		
+		
 		Comparator<NameValuePair> comp = new Comparator<NameValuePair>() {        // solution than making method synchronized
 		    @Override
 		    public int compare(NameValuePair p1, NameValuePair p2) {

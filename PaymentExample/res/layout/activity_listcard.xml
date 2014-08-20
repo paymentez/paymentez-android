@@ -34,10 +34,10 @@
         android:text="Call Api" />
 	
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Show the menu, press long-clicks on the item on the list:"
+        android:text="To Show the debit and delete menu press long-click on the item on the list:"
         android:textAppearance="?android:attr/textAppearanceSmall" />
     <ListView
         android:id="@+id/listView1"

@@ -85,9 +85,9 @@ public class ExampleActivity extends Activity{
 			String product_amount = params[3];
 			String product_description = params[4];
 			String dev_reference = params[5];
+			String seller_id = params[6];
 			
-			
-			return paymentezsdk.cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference);
+			return paymentezsdk.cardDebit(uid, email, card_reference, product_amount, product_description, dev_reference, seller_id);
 		}
 		
 		

@@ -30,7 +30,7 @@ public class AddCardActivity extends Activity {
 		
 		final EditText editText2 = (EditText) findViewById(R.id.editText2);
 		
-		final PaymentezCCSDK paymentezsdk = new PaymentezCCSDK(this, true, "BOHRA", "4JUGvENk5ztccCFrIKFNpZzOR9dJMW","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY"); 
+		final PaymentezCCSDK paymentezsdk = new PaymentezCCSDK(this, false, "BOHRA", "LgDGaLb7RgJqJw1Z3mYZhwzfBZh33q","PREPAID", "Ere68ttPklFTn89xZIhFYcqC5X8HX3Ob5qgbEkfjNfCLkud3wY"); 
 		
 		
 		final WebView webView1 = (WebView) findViewById(R.id.webView1);
