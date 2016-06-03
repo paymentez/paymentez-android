@@ -17,6 +17,7 @@ public class PaymentezResponse {
     private JSONArray bodyJsonArray;
     private String json;
     private String status;
+    private String msg;
 
 
     public boolean isSuccess() {
@@ -108,5 +109,13 @@ public class PaymentezResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

@@ -1,12 +1,10 @@
 package com.paymentez.androidsdk;
 
-import java.io.IOException;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,9 +14,6 @@ import java.util.TreeSet;
 import java.util.UUID;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,20 +26,16 @@ import android.view.View;
 
 import com.devicecollector.DeviceCollector;
 import com.devicecollector.DeviceCollector.ErrorCode;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.paymentez.androidsdk.models.PaymentezCard;
-import com.paymentez.androidsdk.models.PaymentezCardData;
-import com.paymentez.androidsdk.models.PaymentezCarrierData;
 import com.paymentez.androidsdk.models.PaymentezDebitParameters;
-import com.paymentez.androidsdk.models.PaymentezResponse;
-import com.paymentez.androidsdk.models.PaymentezResponseDebitCard;
-import com.paymentez.androidsdk.models.PaymentezResponseListCards;
-import com.paymentez.androidsdk.utils.LoggingInterceptor;
 
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+
+import cz.msebera.android.httpclient.Header;
+
 
 /**
  * Created by mmucito on 24/05/16.
@@ -72,6 +63,8 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
 
     private Context mContext;
 
+    private AsyncHttpClient clientAsync;
+
     String uiText;
 
 
@@ -86,7 +79,8 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
         this.mContext = mContext;
         this.app_code = app_code;
         this.app_secret_key = app_secret_key;
-
+        clientAsync = new AsyncHttpClient();
+        clientAsync.setUserAgent("Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36");
 
         this.dev_environment = dev_environment;
 
@@ -118,6 +112,9 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
     }
 
 
+    /**
+     * Method to Scan a Card
+     */
     public void scanCard(){
         Intent intent = new Intent(mContext, ScanCardActivity.class);
         ((Activity) mContext).startActivityForResult(intent, PAYMENTEZ_SCAN_CARD_REQUEST_CODE);
@@ -150,60 +147,72 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
 
     }
 
-    /**
-     * @param paymentezCard PaymentezCard parameters expected.
-     * @return JSONObject with the following params {"status": "", "payment_date": "", "status_detail": , "amount": , "card_data": {"account_type": "", "type": "", "number": "", "quotas": ""}, "transaction_id": "", "carrier_data": {"terminal_code": "", "unique_code": "", "acquirer_id": "", "authorization_code": ""}
-     */
-    public PaymentezResponse addCard(PaymentezCard paymentezCard) {
 
-        String auth_timestamp = "" + (System.currentTimeMillis());
-        Map<String,String> paramsPost = new HashMap<>();
+    /**
+     * @param paymentezCard
+     * @return PaymentezResponse
+     */
+    public void addCard(final PaymentezCard paymentezCard, final AsyncHttpResponseHandler responseHandler) {
+
+        final String auth_timestamp = "" + (System.currentTimeMillis());
+        final Map<String,String> paramsPost = new HashMap<>();
 
         paramsPost.put("uid", paymentezCard.getUid());
         paramsPost.put("email", paymentezCard.getEmail());
-
-
-
-
         paramsPost.put("session_id", sessionId);
         paramsPost.put("application_code", app_code);
-        paramsPost.put("ip_address", getLocalIpAddress());
-
-        String auth_token = getAuthToken(auth_timestamp, paramsPost);
-        paramsPost.put("auth_timestamp", auth_timestamp);
-        paramsPost.put("auth_token", auth_token);
-
-        paramsPost.put("expiryYear", paymentezCard.getExpiryYear());
-        paramsPost.put("expiryMonth", paymentezCard.getExpiryMonth());
-        paramsPost.put("holderName", paymentezCard.getCardHolder());
-        paramsPost.put("number", paymentezCard.getCardNumber());
-        paramsPost.put("cvc", paymentezCard.getCvc());
-        paramsPost.put("card_type", paymentezCard.getType());
-
-        PaymentezResponse paymentezResponse = callApiJSONObject(SERVER_URL + "/api/cc/add/creditcard", paramsPost);
-        String verify_transaction = "";
-        if(paymentezResponse.getJson().contains("verify_transaction")){
-            paymentezResponse.setCode(200);
-            paymentezResponse.setSuccess(true);
-            paymentezResponse.setStatus("failure");
-
-        }
-
-        Log.i("Mio", verify_transaction);
-        Log.i("Mio", ""+paymentezResponse.getCode());
-        Log.i("Mio", ""+paymentezResponse.isSuccess());
 
 
+        clientAsync.get(SERVER_URL + "/api/cc/ip", new TextHttpResponseHandler() {
 
-        return paymentezResponse;
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                String auth_token = getAuthToken(auth_timestamp, paramsPost);
+                paramsPost.put("auth_timestamp", auth_timestamp);
+                paramsPost.put("auth_token", auth_token);
+                paramsPost.put("expiryYear", paymentezCard.getExpiryYear());
+                paramsPost.put("expiryMonth", paymentezCard.getExpiryMonth());
+                paramsPost.put("holderName", paymentezCard.getCardHolder());
+                paramsPost.put("number", paymentezCard.getCardNumber());
+                paramsPost.put("cvc", paymentezCard.getCvc());
+                paramsPost.put("card_type", paymentezCard.getType());
+
+                RequestParams params = new RequestParams(paramsPost);
+                clientAsync.post(SERVER_URL + "/api/cc/add/creditcard", params, responseHandler);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String ip) {
+                String auth_token = getAuthToken(auth_timestamp, paramsPost);
+                paramsPost.put("auth_timestamp", auth_timestamp);
+                paramsPost.put("auth_token", auth_token);
+                paramsPost.put("expiryYear", paymentezCard.getExpiryYear());
+                paramsPost.put("expiryMonth", paymentezCard.getExpiryMonth());
+                paramsPost.put("holderName", paymentezCard.getCardHolder());
+                paramsPost.put("number", paymentezCard.getCardNumber());
+                paramsPost.put("cvc", paymentezCard.getCvc());
+                paramsPost.put("card_type", paymentezCard.getType());
+
+                RequestParams params = new RequestParams(paramsPost);
+                clientAsync.post(SERVER_URL + "/api/cc/add/creditcard", params, responseHandler);
+            }
+
+
+
+        });
+
 
     }
 
+
     /**
-     * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
-     * @return JSONArray of JSONObjects with the following params name, card_reference, expiry_year, termination, expiry_month, transaction_reference, type
+     * @param uid
+     * @param responseHandler
      */
-    public PaymentezResponseListCards listCards(String uid) {
+    public void listCards(String uid, AsyncHttpResponseHandler responseHandler) {
+
+
+
 
         String auth_timestamp = "" + (System.currentTimeMillis());
 
@@ -214,161 +223,56 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
 
         Map<String,String> paramsPost = new HashMap<>();
 
-        PaymentezResponse paymentezResponse = callApiJSONArray(SERVER_URL + "/api/cc/list/?" + params + "&auth_timestamp="
-                + auth_timestamp + "&auth_token=" + auth_token, paramsPost);
+        //clientAsync.setLoggingEnabled(true);
+        //clientAsync.setLoggingLevel(Log.DEBUG);
 
 
-        PaymentezResponseListCards listCards = new PaymentezResponseListCards();
-        listCards.setCode(paymentezResponse.getCode());
-        listCards.setSuccess(paymentezResponse.isSuccess());
-        listCards.setErrorMessage(paymentezResponse.getErrorMessage());
-
-        ArrayList<PaymentezCard> cards = new ArrayList<>();
-        if(paymentezResponse.isSuccess()) {
-            for (int i = 0; i < paymentezResponse.getBodyJsonArray().length(); i++) {
-                String card_reference = "";
-                try {
-                    card_reference = paymentezResponse.getBodyJsonArray().getJSONObject(i).getString("card_reference");
-                } catch (JSONException e) {}
-                String type = "";
-                try {
-                    type = paymentezResponse.getBodyJsonArray().getJSONObject(i).getString("type");
-                } catch (JSONException e) {}
-                String name = "";
-                try {
-                    name = paymentezResponse.getBodyJsonArray().getJSONObject(i).getString("name");
-                } catch (JSONException e) {}
-                String termination = "";
-                try {
-                    termination = paymentezResponse.getBodyJsonArray().getJSONObject(i).getString("termination");
-                } catch (JSONException e) {}
-                String expiry_month = "";
-                try {
-                    expiry_month = paymentezResponse.getBodyJsonArray().getJSONObject(i).getString("expiry_month");
-                } catch (JSONException e) {}
-                String expiry_year = "";
-                try {
-                    expiry_year = paymentezResponse.getBodyJsonArray().getJSONObject(i).getString("expiry_year");
-                } catch (JSONException e) {}
-                String bin = "";
-                try {
-                    bin = paymentezResponse.getBodyJsonArray().getJSONObject(i).getString("bin");
-                } catch (JSONException e) {}
-
-
-                PaymentezCard paymentezCard = new PaymentezCard();
-                paymentezCard.setCardReference(card_reference);
-                paymentezCard.setType(type);
-                paymentezCard.setCardHolder(name);
-                paymentezCard.setTermination(termination);
-                paymentezCard.setExpiryMonth(expiry_month);
-                paymentezCard.setExpiryYear(expiry_year);
-                paymentezCard.setBin(bin);
-
-                cards.add(paymentezCard);
-            }
-
-
-        }
-
-        listCards.setCards(cards);
-
-        return listCards;
+        clientAsync.get(SERVER_URL + "/api/cc/list/?" + params + "&auth_timestamp="
+                + auth_timestamp + "&auth_token=" + auth_token, null, responseHandler);
 
     }
 
-    /**
-     * @param debitParameters PaymentezDebitParameters parameters expected.
-     * @return JSONObject with the following params {"status": "", "payment_date": "", "status_detail": , "amount": , "card_data": {"account_type": "", "type": "", "number": "", "quotas": ""}, "transaction_id": "", "carrier_data": {"terminal_code": "", "unique_code": "", "acquirer_id": "", "authorization_code": ""}
-     */
-    public PaymentezResponseDebitCard debitCard(PaymentezDebitParameters debitParameters) {
 
-        String auth_timestamp = "" + (System.currentTimeMillis());
-        Map<String,String> paramsPost = new HashMap<>();
+    /**
+     * @param debitParameters
+     * @param responseHandler
+     */
+    public void debitCard(final PaymentezDebitParameters debitParameters, final AsyncHttpResponseHandler responseHandler) {
+        final String auth_timestamp = "" + (System.currentTimeMillis());
+        final Map<String,String> paramsPost = new HashMap<>();
 
         paramsPost.putAll(debitParameters.toHashMap());
 
         paramsPost.put("application_code", app_code);
-        paramsPost.put("ip_address", getLocalIpAddress());
         paramsPost.put("session_id", sessionId);
-        String auth_token = getAuthToken(auth_timestamp, paramsPost);
-        paramsPost.put("auth_timestamp", auth_timestamp);
-        paramsPost.put("auth_token", auth_token);
+
+        clientAsync.get(SERVER_URL + "/api/cc/ip", new TextHttpResponseHandler() {
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                paramsPost.put("ip_address", "127.0.0.1");
+                String auth_token = getAuthToken(auth_timestamp, paramsPost);
+                paramsPost.put("auth_timestamp", auth_timestamp);
+                paramsPost.put("auth_token", auth_token);
+                RequestParams params = new RequestParams(paramsPost);
+                clientAsync.post(SERVER_URL + "/api/cc/debit/", params, responseHandler);
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String ip) {
+                paramsPost.put("ip_address", ip);
+                String auth_token = getAuthToken(auth_timestamp, paramsPost);
+                paramsPost.put("auth_timestamp", auth_timestamp);
+                paramsPost.put("auth_token", auth_token);
+                RequestParams params = new RequestParams(paramsPost);
+                clientAsync.post(SERVER_URL + "/api/cc/debit/", params, responseHandler);
+            }
 
 
-        PaymentezResponse paymentezResponse = callApiJSONObject(SERVER_URL + "/api/cc/debit/", paramsPost);
 
-
-        PaymentezResponseDebitCard debitCard = new PaymentezResponseDebitCard();
-        debitCard.setSuccess(paymentezResponse.isSuccess());
-        debitCard.setCode(paymentezResponse.getCode());
-        debitCard.setErrorMessage(paymentezResponse.getErrorMessage());
-
-
-
-
-        if(paymentezResponse.getBodyJsonObject() != null) {
-
-            try {
-                debitCard.setStatus(paymentezResponse.getBodyJsonObject().getString("status"));
-            } catch (JSONException e) {}
-            try {
-                String dtStart = paymentezResponse.getBodyJsonObject().getString("payment_date");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                try {
-                    Date date = format.parse(dtStart);
-                    debitCard.setPaymentDate(date);
-                    System.out.println(date);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-
-            } catch (JSONException e) {}
-            try {
-                debitCard.setAmount(paymentezResponse.getBodyJsonObject().getDouble("amount"));
-            } catch (JSONException e) {}
-            try {
-                debitCard.setTransactionId(paymentezResponse.getBodyJsonObject().getString("transaction_id"));
-            } catch (JSONException e) {}
-            try {
-                debitCard.setStatusDetail(paymentezResponse.getBodyJsonObject().getString("status_detail"));
-            } catch (JSONException e) {}
-
-            PaymentezCardData paymentezCardData = new PaymentezCardData();
-            try {
-                JSONObject jsonCardData = paymentezResponse.getBodyJsonObject().getJSONObject("card_data");
-
-                paymentezCardData.setAccountType(jsonCardData.getString("account_type"));
-
-                paymentezCardData.setType(jsonCardData.getString("type"));
-
-                paymentezCardData.setNumber(jsonCardData.getString("number"));
-
-                paymentezCardData.setQuotas(jsonCardData.getString("quotas"));
-            } catch (JSONException e) {}
-
-            debitCard.setCardData(paymentezCardData);
-
-
-            PaymentezCarrierData paymentezCarrierData = new PaymentezCarrierData();
-            try {
-                JSONObject jsonCardData = paymentezResponse.getBodyJsonObject().getJSONObject("carrier_data");
-
-                paymentezCarrierData.setTerminalCode(jsonCardData.getString("terminal_code"));
-
-                paymentezCarrierData.setUniqueCode(jsonCardData.getString("unique_code"));
-
-                paymentezCarrierData.setAcquirerId(jsonCardData.getString("acquirer_id"));
-
-                paymentezCarrierData.setAuthorizationCode(jsonCardData.getString("authorization_code"));
-            } catch (JSONException e) {}
-
-            debitCard.setCarrierData(paymentezCarrierData);
-        }
-
-        return debitCard;
+        });
 
     }
 
@@ -377,25 +281,21 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
      * @param card_reference
      * @return
      */
-    public PaymentezResponse deleteCard(String uid, String card_reference) {
+    public void deleteCard(String uid, String card_reference, AsyncHttpResponseHandler responseHandler) {
 
         String auth_timestamp = "" + (System.currentTimeMillis());
 
         Map<String,String> paramsPost = new HashMap<>();
         paramsPost.put("application_code", app_code);
         paramsPost.put("uid", uid);
-
         paramsPost.put("card_reference", card_reference);
-
-
         String auth_token = getAuthToken(auth_timestamp, paramsPost);
         paramsPost.put("auth_timestamp", auth_timestamp);
         paramsPost.put("auth_token", auth_token);
 
-        PaymentezResponse paymentezResponse = callApiJSONObject(SERVER_URL + "/api/cc/delete/", paramsPost);
 
-
-        return paymentezResponse;
+        RequestParams params = new RequestParams(paramsPost);
+        clientAsync.post(SERVER_URL + "/api/cc/delete/", params, responseHandler);
 
     }
 
@@ -405,7 +305,7 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
      * @param verificationCode
      * @return
      */
-    public PaymentezResponseDebitCard verifyWithCode(String transactionId, String uid, String verificationCode) {
+    public void verifyWithCode(String transactionId, String uid, String verificationCode, AsyncHttpResponseHandler responseHandler) {
 
         String auth_timestamp = "" + (System.currentTimeMillis());
 
@@ -421,49 +321,11 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
         paramsPost.put("auth_timestamp", auth_timestamp);
         paramsPost.put("auth_token", auth_token);
 
-        PaymentezResponse paymentezResponse = callApiJSONObject(SERVER_URL + "/api/cc/verify/", paramsPost);
-
-        PaymentezResponseDebitCard debitCard = new PaymentezResponseDebitCard();
-        debitCard.setSuccess(paymentezResponse.isSuccess());
-        debitCard.setCode(paymentezResponse.getCode());
-        debitCard.setErrorMessage(paymentezResponse.getErrorMessage());
-
-        if(paymentezResponse.getBodyJsonObject() != null) {
-
-            try {
-                debitCard.setStatus(paymentezResponse.getBodyJsonObject().getString("status"));
-            } catch (JSONException e) {
-            }
-            try {
-                String dtStart = paymentezResponse.getBodyJsonObject().getString("payment_date");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                try {
-                    Date date = format.parse(dtStart);
-                    debitCard.setPaymentDate(date);
-                    System.out.println(date);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+        RequestParams params = new RequestParams(paramsPost);
+        clientAsync.post(SERVER_URL + "/api/cc/verify/", params, responseHandler);
 
 
-            } catch (JSONException e) {
-            }
-            try {
-                debitCard.setAmount(paymentezResponse.getBodyJsonObject().getDouble("amount"));
-            } catch (JSONException e) {
-            }
-            try {
-                debitCard.setTransactionId(paymentezResponse.getBodyJsonObject().getString("transaction_id"));
-            } catch (JSONException e) {
-            }
-            try {
-                debitCard.setStatusDetail(paymentezResponse.getBodyJsonObject().getString("status_detail"));
-            } catch (JSONException e) {
-            }
-        }
 
-        return debitCard;
 
     }
 
@@ -473,7 +335,7 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
      * @param amount
      * @return
      */
-    public PaymentezResponse verifyWithAmount(String transactionId, String uid, double amount) {
+    public void verifyWithAmount(String transactionId, String uid, double amount, AsyncHttpResponseHandler responseHandler) {
 
         String auth_timestamp = "" + (System.currentTimeMillis());
 
@@ -489,36 +351,13 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
         paramsPost.put("auth_timestamp", auth_timestamp);
         paramsPost.put("auth_token", auth_token);
 
+        RequestParams params = new RequestParams(paramsPost);
+        clientAsync.post(SERVER_URL + "/api/cc/verify/", params, responseHandler);
 
-        PaymentezResponse paymentezResponse = callApiJSONObject(SERVER_URL + "/api/cc/verify/", paramsPost);
-
-        return paymentezResponse;
 
     }
 
 
-    public String getLocalIpAddress() {
-
-        OkHttpClient client = new OkHttpClient();
-        String url = SERVER_URL + "/api/cc/ip";
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-            return response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-        return "127.0.0.1";
-    }
 
 
     public Comparator<Map<String, String>> mapComparator = new Comparator<Map<String, String>>() {
@@ -549,7 +388,6 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
 
         //allanurltoken = urltoken.replaceAll("%20", "+");
 
-        System.out.println("Vale:"+urltoken);
 
         return bin2hex(getHash(urltoken)).toLowerCase();
     }
@@ -577,120 +415,11 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
                 data));
     }
 
-    private PaymentezResponse callApiJSONArray(String url, Map<String,String> params) {
-        PaymentezResponse paymentezResponse = callApi(url, params);
-
-        String json = paymentezResponse.getJson();
-        JSONArray jObjArray;
-        try {
-            jObjArray = new JSONArray(json);
-            paymentezResponse.setBodyJsonArray(jObjArray);
-
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-
-        }
-
-        return paymentezResponse;
 
 
 
 
-    }
 
-
-    private OkHttpClient client;
-
-    private PaymentezResponse callApi(String url, Map<String,String> params){
-        PaymentezResponse paymentezResponse = new PaymentezResponse();
-
-        String json = "";
-
-        FormBody.Builder bodyParams = new FormBody.Builder();
-
-        for (final Map.Entry<String, String> entrySet : params.entrySet()) {
-            bodyParams.add(entrySet.getKey(), entrySet.getValue());
-        }
-
-        RequestBody formBody = bodyParams.build();
-
-        client = new OkHttpClient.Builder()
-                .addInterceptor(new LoggingInterceptor())
-                .build();
-
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(formBody)
-                .build();
-
-        Response response = null;
-
-
-        try {
-            response = client.newCall(request).execute();
-            if (!response.isSuccessful()){
-                json = response.body().string();
-                System.out.println(json);
-                System.out.println("Unexpected code " + response);
-
-                paymentezResponse.setCode(response.code());
-                if(response.code()==200){
-                    paymentezResponse.setSuccess(true);
-                }else{
-                    paymentezResponse.setErrorMessage(json);
-                }
-                paymentezResponse.setJson(json);
-
-
-            }else{
-                paymentezResponse.setCode(response.code());
-                if(response.code()==200){
-                    paymentezResponse.setSuccess(true);
-                }else{
-                    paymentezResponse.setErrorMessage(json);
-                }
-                json = response.body().string();
-
-               paymentezResponse.setJson(json);
-
-            }
-
-
-            System.out.println(json);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            String errorMsg = e.getMessage();
-            if(errorMsg.contains("No address associated with hostname")){
-                errorMsg = "Are you connected to the Internet?";
-            }
-            paymentezResponse.setErrorMessage(errorMsg);
-        }
-
-
-
-
-        return paymentezResponse;
-    }
-
-    private PaymentezResponse callApiJSONObject(String url, Map<String,String> params) {
-        PaymentezResponse paymentezResponse = callApi(url, params);
-        String json = paymentezResponse.getJson();
-        JSONObject jObjArray;
-        try {
-            jObjArray = new JSONObject(json);
-            paymentezResponse.setBodyJsonObject(jObjArray);
-        } catch (Exception e) {
-            if(json!=null)
-                paymentezResponse.setErrorMessage(json);
-            // TODO Auto-generated catch block
-            //e.printStackTrace();
-        }
-        return paymentezResponse;
-    }
 
 
 
