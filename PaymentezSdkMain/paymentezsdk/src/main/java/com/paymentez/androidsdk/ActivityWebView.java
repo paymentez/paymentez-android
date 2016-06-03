@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.CookieManager;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -109,11 +111,12 @@ public class ActivityWebView extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
+                                        finish();
                                     }
                                 });
                         AlertDialog alert11 = builder1.create();
                         alert11.show();
-                        finish();
+
                     }
                     else
                     {
@@ -126,6 +129,7 @@ public class ActivityWebView extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
+                                        finish();
                                     }
                                 });
                         AlertDialog alert11 = builder1.create();
@@ -146,16 +150,17 @@ public class ActivityWebView extends AppCompatActivity {
             catch(Exception e){}
         }
 
+
         @Override
-        public void onReceivedError(WebView view, int errorCod,String description, String failingUrl) {
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+
             Toast.makeText(ActivityWebView.this, "Card not registered successfully", Toast.LENGTH_LONG).show();
 
             is_error = true;
-
-
         }
 
-        public String getCookie(String siteName,String CookieName){
+        public String getCookie(String siteName, String CookieName){
             String CookieValue = null;
 
             CookieManager cookieManager = CookieManager.getInstance();
