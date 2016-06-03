@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Paymentez Example</string>
+    <string name="action_verify">Verify</string>
+    <string name="action_list">List Cards</string>
+    <string name="action_add_card">Add Card</string>
+
+    <string name="title_activity_home">Paymentez Example</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
