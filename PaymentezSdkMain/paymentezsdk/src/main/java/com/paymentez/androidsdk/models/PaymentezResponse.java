@@ -69,8 +69,10 @@ public class PaymentezResponse {
     }
 
     public boolean shouldVerify(){
-        if(getJson().contains("verify_transaction")){
-            return true;
+        if(getJson()!=null) {
+            if (getJson().contains("verify_transaction")) {
+                return true;
+            }
         }
         return false;
     }

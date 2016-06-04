@@ -12,7 +12,7 @@ Paymentez SDK Android
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.paymentez.paymentezsdk:paymentezsdk:1.0.2'
+    compile 'com.paymentez.paymentezsdk:paymentezsdk:1.0.3'
 
 
 ***REMOVED******REMOVED******REMOVED*** ProGuard
@@ -45,6 +45,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 ***REMOVED******REMOVED******REMOVED***Show "Add Card" WebView
+First, we'll assume that you're going to launch the scanner from a button, and that you've set the button's onClick handler. Then, add the method as:
 ```java
 callApiAddWebView.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {

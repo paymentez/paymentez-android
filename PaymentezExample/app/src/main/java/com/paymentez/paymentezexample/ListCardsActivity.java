@@ -65,32 +65,28 @@ public class ListCardsActivity extends AppCompatActivity {
         callApiListCards = (Button) findViewById(R.id.callApiListCards);
         callApiListCards.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                paymentezsdk.listCards(uid, new ListCardsResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, PaymentezResponseListCards response) {
-
-                        System.out.println("SUCCESS: " + response.isSuccess());
-                        System.out.println("CODE: " + response.getCode());
-
-                        ArrayList<String> values = new ArrayList<>();
-
-                        for (int i = 0; i < response.getCards().size(); i++) {
-
-                            PaymentezCard card = response.getCards().get(i);
-                            values.add("name:" + card.getCardHolder() + "\ncard_reference:" + card.getCardReference());
-
-                            System.out.println("CARD INFO");
-                            System.out.println(card.getCardHolder());
-                            System.out.println(card.getCardReference());
-                            System.out.println(card.getExpiryYear());
-                            System.out.println(card.getTermination());
-                            System.out.println(card.getExpiryMonth());
-                            System.out.println(card.getType());
-                        }
-                    }
+                uid = editTextUid.getText().toString();
+                email = editTextEmail.getText().toString();
 
 
-                });
+                if(uid.equals("")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
+                    builder1.setMessage("uid is required");
+
+                    builder1.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }else {
+
+                    getCards();
+
+
+                }
 
             }
         });
@@ -191,107 +187,92 @@ public class ListCardsActivity extends AppCompatActivity {
                 pd.setMessage("");
                 pd.show();
 
-paymentezsdk.debitCard(debitParameters, new DebitCardResponseHandler() {
-    @Override
-    public void onSuccess(int statusCode, Header[] headers, PaymentezResponseDebitCard paymentezResponse) {
-        if(!paymentezResponse.isSuccess()){
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
+                paymentezsdk.debitCard(debitParameters, new DebitCardResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, PaymentezResponseDebitCard paymentezResponse) {
+                        pd.dismiss();
+                        if(!paymentezResponse.isSuccess()){
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
 
-            builder1.setMessage("Error: " + paymentezResponse.getErrorMessage());
+                            builder1.setMessage("Error: " + paymentezResponse.getErrorMessage());
 
-            builder1.setCancelable(false);
-            builder1.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+                            builder1.setCancelable(false);
+                            builder1.setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
 
-        }else {
-            if(paymentezResponse.getStatus().equals("failure") && paymentezResponse.shouldVerify()){
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
+                        }else {
+                            if(paymentezResponse.getStatus().equals("failure") && paymentezResponse.shouldVerify()){
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
 
-                String message = "You must verify the transaction_id: " + paymentezResponse.getTransactionId();
+                                String message = "You must verify the transaction_id: " + paymentezResponse.getTransactionId();
 
 
-                builder1.setMessage(message);
+                                builder1.setMessage(message);
 
-                builder1.setCancelable(false);
-                builder1.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+                            }else {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
+
+                                builder1.setMessage("status: " + paymentezResponse.getStatus() +
+                                        "\nstatus_detail: " + paymentezResponse.getStatusDetail() +
+                                        "\nshouldVerify: " + paymentezResponse.shouldVerify() +
+                                        "\ntransaction_id:" + paymentezResponse.getTransactionId());
+
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+
+
+                                System.out.println("TRANSACTION INFO");
+                                System.out.println(paymentezResponse.getStatus());
+                                System.out.println(paymentezResponse.getPaymentDate());
+                                System.out.println(paymentezResponse.getAmount());
+                                System.out.println(paymentezResponse.getTransactionId());
+                                System.out.println(paymentezResponse.getStatusDetail());
+
+                                System.out.println("TRANSACTION card_data");
+                                System.out.println(paymentezResponse.getCardData().getAccountType());
+                                System.out.println(paymentezResponse.getCardData().getType());
+                                System.out.println(paymentezResponse.getCardData().getNumber());
+                                System.out.println(paymentezResponse.getCardData().getQuotas());
+
+                                System.out.println("TRANSACTION carrier_data");
+                                System.out.println(paymentezResponse.getCarrierData().getAuthorizationCode());
+                                System.out.println(paymentezResponse.getCarrierData().getAcquirerId());
+                                System.out.println(paymentezResponse.getCarrierData().getTerminalCode());
+                                System.out.println(paymentezResponse.getCarrierData().getUniqueCode());
                             }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
-            }else {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
-
-                builder1.setMessage("status: " + paymentezResponse.getStatus() +
-                        "\nstatus_detail: " + paymentezResponse.getStatusDetail() +
-                        "\nshouldVerify: " + paymentezResponse.shouldVerify() +
-                        "\ntransaction_id:" + paymentezResponse.getTransactionId());
-
-                builder1.setCancelable(false);
-                builder1.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
-
-
-                System.out.println("TRANSACTION INFO");
-                System.out.println(paymentezResponse.getStatus());
-                System.out.println(paymentezResponse.getPaymentDate());
-                System.out.println(paymentezResponse.getAmount());
-                System.out.println(paymentezResponse.getTransactionId());
-                System.out.println(paymentezResponse.getStatusDetail());
-
-                System.out.println("TRANSACTION card_data");
-                System.out.println(paymentezResponse.getCardData().getAccountType());
-                System.out.println(paymentezResponse.getCardData().getType());
-                System.out.println(paymentezResponse.getCardData().getNumber());
-                System.out.println(paymentezResponse.getCardData().getQuotas());
-
-                System.out.println("TRANSACTION carrier_data");
-                System.out.println(paymentezResponse.getCarrierData().getAuthorizationCode());
-                System.out.println(paymentezResponse.getCarrierData().getAcquirerId());
-                System.out.println(paymentezResponse.getCarrierData().getTerminalCode());
-                System.out.println(paymentezResponse.getCarrierData().getUniqueCode());
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
-        try {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
-
-            builder1.setMessage(jsonObject.toString(4));
-
-            builder1.setCancelable(false);
-            builder1.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
                         }
-                    });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+                    }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        pd.dismiss();
+                        System.out.println("Failure: "+ responseString);
+                    }
 
 
-});
+                });
 
 
 
@@ -302,35 +283,35 @@ paymentezsdk.debitCard(debitParameters, new DebitCardResponseHandler() {
                 pd2.setMessage("");
                 pd2.show();
 
-paymentezsdk.deleteCard(uid, cardObject.getCardReference(), new TextHttpResponseHandler() {
+                paymentezsdk.deleteCard(uid, cardObject.getCardReference(), new TextHttpResponseHandler() {
 
-    @Override
-    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-        pd2.dismiss();
-        System.out.println("Failure: "+ responseString);
-    }
-
-    @Override
-    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-        pd2.dismiss();
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
-        builder1.setMessage("Successfully Deleted!");
-        builder1.setCancelable(false);
-        builder1.setPositiveButton("OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        pd2.dismiss();
+                        System.out.println("Failure: "+ responseString);
                     }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        pd2.dismiss();
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
+                        builder1.setMessage("Successfully Deleted!");
+                        builder1.setCancelable(false);
+                        builder1.setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
+                        getCards();
+                    }
+
+
                 });
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-        getCards();
-    }
-
-
-});
                 return(true);
         }
 

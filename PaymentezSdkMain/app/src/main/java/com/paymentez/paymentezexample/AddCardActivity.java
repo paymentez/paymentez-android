@@ -154,6 +154,7 @@ public class AddCardActivity extends AppCompatActivity {
                                         AlertDialog.Builder builder1 = new AlertDialog.Builder(AddCardActivity.this);
 
                                         String message = "status: " + paymentezResponse.getStatus() +
+                                                "\nmsg: " + paymentezResponse.getMsg() +
                                                 "\nshouldVerify: " + paymentezResponse.shouldVerify() +
                                                 "\ntransaction_id: " + paymentezResponse.getTransactionId();
 

@@ -70,78 +70,84 @@ public class VerifyTransactionActivity extends AppCompatActivity {
                     pd2.setMessage("");
                     pd2.show();
 
-paymentezsdk.verifyWithCode(textTransactionId.getText().toString(), textUid.getText().toString(), textVerificationCode.getText().toString(), new VerifyResponseHandler() {
-    @Override
-    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
-        try {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
+                    paymentezsdk.verifyWithCode(textTransactionId.getText().toString(), textUid.getText().toString(), textVerificationCode.getText().toString(), new VerifyResponseHandler() {
 
-            builder1.setMessage(jsonObject.toString(4));
 
-            builder1.setCancelable(false);
-            builder1.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                            pd2.dismiss();
+                            try {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
+
+                                builder1.setMessage(jsonObject.toString(4));
+
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, PaymentezResponseDebitCard paymentezResponse) {
+                            pd2.dismiss();
 
-    @Override
-    public void onSuccess(int statusCode, Header[] headers, PaymentezResponseDebitCard paymentezResponse) {
-        if(!paymentezResponse.isSuccess()){
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
+                            if(!paymentezResponse.isSuccess()){
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
 
-            builder1.setMessage("Error: " + paymentezResponse.getErrorMessage());
+                                builder1.setMessage("Error: " + paymentezResponse.getErrorMessage());
 
-            builder1.setCancelable(false);
-            builder1.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+
+                            }else {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
+
+                                builder1.setMessage("Successfully Verified!" +
+                                        "\nstatus: " + paymentezResponse.getStatus() +
+                                        "\nstatus_detail: " + paymentezResponse.getStatusDetail() +
+                                        "\ntransaction_id:" + paymentezResponse.getTransactionId());
+
+                                builder1.setCancelable(false);
+                                builder1.setPositiveButton("OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+
+
+                                System.out.println("TRANSACTION INFO");
+                                System.out.println(paymentezResponse.getStatus());
+                                System.out.println(paymentezResponse.getPaymentDate());
+                                System.out.println(paymentezResponse.getAmount());
+                                System.out.println(paymentezResponse.getTransactionId());
+                                System.out.println(paymentezResponse.getStatusDetail());
+
+
+                            }
                         }
+
+
                     });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-
-        }else {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
-
-            builder1.setMessage("Successfully Verified!" +
-                    "\nstatus: " + paymentezResponse.getStatus() +
-                    "\nstatus_detail: " + paymentezResponse.getStatusDetail() +
-                    "\ntransaction_id:" + paymentezResponse.getTransactionId());
-
-            builder1.setCancelable(false);
-            builder1.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-
-
-            System.out.println("TRANSACTION INFO");
-            System.out.println(paymentezResponse.getStatus());
-            System.out.println(paymentezResponse.getPaymentDate());
-            System.out.println(paymentezResponse.getAmount());
-            System.out.println(paymentezResponse.getTransactionId());
-            System.out.println(paymentezResponse.getStatusDetail());
-
-
-        }
-    }
-
-
-});
 
 
                 }
