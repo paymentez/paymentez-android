@@ -41,7 +41,28 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="verification_code"/>
+        android:hint="verification_code / verification_amount"/>
+
+    <RadioGroup
+        android:id="@+id/radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/radioCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="By Code"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="By Amount" />
+
+    </RadioGroup>
+
     <Button
         android:id="@+id/callApi"
         android:layout_width="wrap_content"
