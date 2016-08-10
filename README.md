@@ -276,7 +276,7 @@ paymentezsdk.deleteCard(uid, cardObject.getCardReference(), new TextHttpResponse
 
 });
 ```
-***REMOVED******REMOVED******REMOVED***Verify  Transaction
+***REMOVED******REMOVED******REMOVED***Verify  Transaction With Code
 ```java
 paymentezsdk.verifyWithCode(textTransactionId.getText().toString(), textUid.getText().toString(), textVerificationCode.getText().toString(), new VerifyResponseHandler() {
     @Override
@@ -319,6 +319,86 @@ paymentezsdk.verifyWithCode(textTransactionId.getText().toString(), textUid.getT
             alert11.show();
 
         }else {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
+
+            builder1.setMessage("Successfully Verified!" +
+                    "\nstatus: " + paymentezResponse.getStatus() +
+                    "\nstatus_detail: " + paymentezResponse.getStatusDetail() +
+                    "\ntransaction_id:" + paymentezResponse.getTransactionId());
+
+            builder1.setCancelable(false);
+            builder1.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+
+            System.out.println("TRANSACTION INFO");
+            System.out.println(paymentezResponse.getStatus());
+            System.out.println(paymentezResponse.getPaymentDate());
+            System.out.println(paymentezResponse.getAmount());
+            System.out.println(paymentezResponse.getTransactionId());
+            System.out.println(paymentezResponse.getStatusDetail());
+
+
+        }
+    }
+
+
+});
+```
+***REMOVED******REMOVED******REMOVED***Verify  Transaction With Amount
+```java
+paymentezsdk.verifyWithAmount(textTransactionId.getText().toString(), textUid.getText().toString(), Double.parseDouble(textVerificationCode.getText().toString()), new VerifyResponseHandler() {
+
+
+    @Override
+    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+        pd2.dismiss();
+        try {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
+
+            builder1.setMessage(jsonObject.toString(4));
+
+            builder1.setCancelable(false);
+            builder1.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSuccess(int statusCode, Header[] headers, PaymentezResponseDebitCard paymentezResponse) {
+        pd2.dismiss();
+
+        if (!paymentezResponse.isSuccess()) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
+
+            builder1.setMessage("Error: " + paymentezResponse.getErrorMessage());
+
+            builder1.setCancelable(false);
+            builder1.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+        } else {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(VerifyTransactionActivity.this);
 
             builder1.setMessage("Successfully Verified!" +
