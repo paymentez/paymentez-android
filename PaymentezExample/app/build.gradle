@@ -27,6 +27,6 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.paymentez.paymentezsdk:paymentezsdk:1.0.3'
 
-
+    compile(name:'MobileSDK', ext:'aar')
 }
 
