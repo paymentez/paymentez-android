@@ -1,4 +1,4 @@
-package com.paymentez.paymentezexample;
+package com.paymentez.paymentezsdkmain;
 
 import org.junit.Test;
 
