@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="special_commands">
+        <item>Restart Collection</item>
+        <item>Collection Mode: </item>
+        <item>Display JSON</item>
+        <item>Save JSON</item>
+        <item>Add Custom Value</item>
+    </string-array>
+    <string-array name="info_items">
+        <item>Mobile SDK Version</item>
+        <item>Hardware ID</item>
+        <item>SIM ID</item>
+        <item>Phone Number</item>
+        <item>Geo-location Data</item>
+        <item>Device model</item>
+        <item>Device multitasking supported</item>
+        <item>Device Name</item>
+        <item>Device System Name</item>
+        <item>Device System Version</item>
+        <item>Languages</item>
+        <item>Wi-Fi MAC Address</item>
+        <item>Wi-Fi Networks data</item>
+        <item>Cell Tower ID</item>
+        <item>Location area code</item>
+        <item>Screen size</item>
+        <item>RSA Application key</item>
+        <item>MCC</item>
+        <item>MNC</item>
+        <item>OS ID</item>
+        <item>Compromised</item>
+        <item>Emulator</item>
+    </string-array>
+    <string-array name="json_key">
+        <item>SDK_VERSION</item>
+        <item>HardwareID</item>
+        <item>SIM_ID</item>
+        <item>PhoneNumber</item>
+        <item>GeoLocationInfo</item>
+        <item>DeviceModel</item>
+        <item>MultitaskingSupported</item>
+        <item>DeviceName</item>
+        <item>DeviceSystemName</item>
+        <item>DeviceSystemVersion</item>
+        <item>Languages</item>
+        <item>WiFiMacAddress</item>
+        <item>WiFiNetworksData</item>
+        <item>CellTowerId</item>
+        <item>LocationAreaCode</item>
+        <item>ScreenSize</item>
+        <item>RSA_ApplicationKey</item>
+        <item>MCC</item>
+        <item>MNC</item>
+        <item>OS_ID</item>
+        <item>Compromised</item>
+        <item>Emulator</item>
+    </string-array>
+    <string-array name="json_location_key">
+        <item>Longitude</item>
+        <item>Latitude</item>
+        <item>HorizontalAccuracy</item>
+        <item>Altitude</item>
+        <item>AltitudeAccuracy</item>
+        <item>Timestamp</item>
+        <item>Heading</item>
+        <item>Speed</item>
+        <item>Status</item>
+    </string-array>
+    <string-array name="json_networks_data_key">
+        <item>StationName</item>
+        <item>BBSID</item>
+        <item>SignalStrength</item>
+        <item>Channel</item>
+        <item>SSID</item>
+    </string-array>
+</resources>

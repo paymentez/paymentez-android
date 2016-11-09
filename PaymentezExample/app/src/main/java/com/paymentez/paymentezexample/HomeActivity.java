@@ -12,22 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.paymentez.paymentezexample.easysolutions.EasySolutionsActivity;
-import com.paymentez.paymentezexample.todo1.Todo1CollectActivity;
-import com.paymentez.paymentezexample.utils.Constants;
 
-import net.easysol.dsb.BlockedConnectionListener;
-import net.easysol.dsb.DSB;
-import net.easysol.dsb.UpdateListener;
-import net.easysol.dsb.device_protector.DeviceProtectorEventListener;
-import net.easysol.dsb.malware_protector.overlay.OverlapingApp;
-import net.easysol.dsb.malware_protector.overlay.OverlayListener;
-
-import java.io.IOException;
-import java.security.cert.CertificateException;
-import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -82,12 +67,6 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_verify) {
             Intent intent = new Intent(this, VerifyTransactionActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_todoen1) {
-            Intent intent = new Intent(this, Todo1CollectActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_easy_solutions) {
-            Intent intent = new Intent(this, EasySolutionsActivity.class);
             startActivity(intent);
         }
 
