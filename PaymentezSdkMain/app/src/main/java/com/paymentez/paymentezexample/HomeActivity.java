@@ -12,8 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.paymentez.paymentezexample.easysolutions.EasySolutionsActivity;
-import com.paymentez.paymentezexample.todo1.Todo1CollectActivity;
 import com.paymentez.paymentezexample.utils.Constants;
 
 import net.easysol.dsb.BlockedConnectionListener;
@@ -83,14 +81,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_verify) {
             Intent intent = new Intent(this, VerifyTransactionActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_todoen1) {
-            Intent intent = new Intent(this, Todo1CollectActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_easy_solutions) {
-            Intent intent = new Intent(this, EasySolutionsActivity.class);
-            startActivity(intent);
         }
-
 
 
 

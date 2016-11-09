@@ -23,9 +23,9 @@ public class ActivityWebView extends AppCompatActivity {
 
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
-        ab.setTitle("Agregar Tarjeta");
-        //ab.setSubtitle("This is Subtitle");
-
+        if(ab!=null){
+            ab.setTitle("Agregar Tarjeta");
+        }
 
         final WebView webView1 = (WebView) findViewById(R.id.webView);
         WebSettings webSettings = webView1.getSettings();

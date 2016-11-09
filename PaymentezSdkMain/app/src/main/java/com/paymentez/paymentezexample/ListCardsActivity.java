@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.paymentez.androidsdk.PaymentezSDKClient;
 import com.paymentez.androidsdk.models.DebitCardResponseHandler;
@@ -266,10 +267,25 @@ public class ListCardsActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    public void onFailure(int statusCode, Header[] headers, java.lang.Throwable throwable, org.json.JSONObject response) {
                         pd.dismiss();
-                        System.out.println("Failure: "+ responseString);
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ListCardsActivity.this);
+
+                        builder1.setMessage("Error: " + throwable.getMessage());
+
+                        builder1.setCancelable(false);
+                        builder1.setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+
                     }
+
 
 
                 });
@@ -290,6 +306,7 @@ public class ListCardsActivity extends AppCompatActivity {
                         pd2.dismiss();
                         System.out.println("Failure: "+ responseString);
                     }
+
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {

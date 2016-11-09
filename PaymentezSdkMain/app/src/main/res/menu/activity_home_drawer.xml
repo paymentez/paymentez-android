@@ -17,16 +17,7 @@
             android:title="Verify Transaction" />
 
 
-        <item
-            android:id="@+id/nav_todoen1"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Mobile Data Collection Module from RSA" />
 
-
-        <item
-            android:id="@+id/nav_easy_solutions"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="DSB Protector SDK from Easy Solutions" />
 
 
 
