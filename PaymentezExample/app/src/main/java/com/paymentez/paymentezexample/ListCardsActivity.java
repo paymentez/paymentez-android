@@ -164,26 +164,6 @@ public class ListCardsActivity extends AppCompatActivity {
                 debitParameters.setProductDescription("test");
                 debitParameters.setDevReference("prueba1");
 
-
-
-
-
-
-                //Debit with shipping address
-                /*
-                PaymentezShipping shipping = new PaymentezShipping();
-                shipping.setShipping_street("Av Jacutinga");
-                shipping.setShipping_house_number("607");
-                shipping.setShipping_city("São Paulo");
-                shipping.setShipping_zip("99999-999");
-                shipping.setShipping_state("SP");
-                shipping.setShipping_country("BR");
-                shipping.setShipping_district("");
-                shipping.setShipping_additional_address_info("");
-
-                debitParameters.setShipping(shipping);
-                */
-
                 final ProgressDialog pd = new ProgressDialog(ListCardsActivity.this);
                 pd.setMessage("");
                 pd.show();
