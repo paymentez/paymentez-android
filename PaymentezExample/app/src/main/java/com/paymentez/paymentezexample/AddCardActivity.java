@@ -65,15 +65,13 @@ public class AddCardActivity extends AppCompatActivity {
                             });
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
-                }else {
+                } else {
                     paymentezsdk.addCardShowWebView(editTextUid.getText().toString(), editTextEmail.getText().toString(), AddCardActivity.this);
 
                 }
 
             }
         });
-
-
 
         callScanCard = (Button) findViewById(R.id.callScanCard);
         callScanCard.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +80,6 @@ public class AddCardActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         callApiAddPci = (Button) findViewById(R.id.callApiAddPci);
         callApiAddPci.setEnabled(false);

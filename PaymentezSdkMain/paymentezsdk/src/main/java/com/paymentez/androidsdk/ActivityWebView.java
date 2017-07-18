@@ -3,9 +3,12 @@ package com.paymentez.androidsdk;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.webkit.CookieManager;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -24,7 +27,9 @@ public class ActivityWebView extends AppCompatActivity {
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if(ab!=null){
-            ab.setTitle("Agregar Tarjeta");
+            ab.setTitle(R.string.paymentez_addcard_header_title);
+            ab.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.paymentez_addcard_header_background))));
+            ab.setDisplayHomeAsUpEnabled(true);
         }
 
         final WebView webView1 = (WebView) findViewById(R.id.webView);
@@ -40,11 +45,18 @@ public class ActivityWebView extends AppCompatActivity {
         if(b != null)
             payment_url = b.getString("url");
 
-
-
-
-        System.out.println(payment_url);
         webView1.loadUrl(payment_url);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -105,7 +117,7 @@ public class ActivityWebView extends AppCompatActivity {
                     {
 
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(ActivityWebView.this);
-                        builder1.setMessage( "Card registered successfully");
+                        builder1.setMessage( getString(R.string.paymentez_addcard_success_message));
                         builder1.setCancelable(false);
                         builder1.setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
@@ -123,7 +135,8 @@ public class ActivityWebView extends AppCompatActivity {
                         String cookie2=getCookie(url, "pmntz_error_message");
 
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(ActivityWebView.this);
-                        builder1.setMessage( "Card not registered successfully. Error: "+cookie2);
+                        builder1.setTitle(getString(R.string.paymentez_addcard_error_message));
+                        builder1.setMessage(cookie2);
                         builder1.setCancelable(false);
                         builder1.setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
@@ -155,7 +168,7 @@ public class ActivityWebView extends AppCompatActivity {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view, request, error);
 
-            Toast.makeText(ActivityWebView.this, "Card not registered successfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(ActivityWebView.this, getString(R.string.paymentez_addcard_error_message), Toast.LENGTH_LONG).show();
 
             is_error = true;
         }
