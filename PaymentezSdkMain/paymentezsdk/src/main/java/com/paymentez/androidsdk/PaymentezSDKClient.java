@@ -13,8 +13,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
 
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +30,6 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.paymentez.androidsdk.models.PaymentezCard;
 import com.paymentez.androidsdk.models.PaymentezDebitParameters;
-
 
 import cz.msebera.android.httpclient.Header;
 
@@ -57,16 +54,12 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
     private static final String LOG_TAG = "CheckoutTestActivity";
     private boolean running = false;
     private boolean finished = false;
-    private String message;
     private Date startTime;
     private int collect_count;
 
     private Context mContext;
 
     private AsyncHttpClient clientAsync;
-
-    String uiText;
-
 
     /**
      *
@@ -147,6 +140,28 @@ public class PaymentezSDKClient implements DeviceCollector.StatusListener{
 
         mContext.startActivity(intent);
 
+    }
+
+
+    /**
+     * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
+     * @param email Email of the user initiating the purchase. Format: Valid e-mail format.
+     * @return An url string that must be loaded in a webview
+     */
+    public String getAddCardIframeUrl(String uid, String email) {
+
+        String auth_timestamp = "" + (System.currentTimeMillis());
+
+        String params = "application_code=" + app_code + "&email="
+                + Uri.encode(email) + "&session_id=" + sessionId + "&uid="
+                + uid;
+
+        String auth_token = getAuthToken(auth_timestamp, params);
+
+        String url = SERVER_URL + "/api/cc/add/?" + params + "&auth_timestamp="
+                + auth_timestamp + "&auth_token=" + auth_token;
+
+        return url;
     }
 
 

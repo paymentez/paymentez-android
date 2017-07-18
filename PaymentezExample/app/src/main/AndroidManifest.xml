@@ -53,54 +53,6 @@
                 android:value="com.paymentez.paymentezexample.HomeActivity" />
         </activity>
 
-
-        <activity android:name="com.paymentez.paymentezexample.todo1.Todo1CollectActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.paymentez.paymentezexample.HomeActivity" />
-        </activity>
-
-
-        <activity android:name="com.paymentez.paymentezexample.easysolutions.EasySolutionsActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.paymentez.paymentezexample.HomeActivity" />
-        </activity>
-
-
-
-
-
-        <!-- Servicios y Actividades de Easy Solutions -->
-
-        <service android:name="net.easysol.dsb.UpdateService"/>
-        <activity android:name="net.easysol.dsb.device_protector.DSBCommandActivity" >
-            <intent-filter>
-                <data android:scheme="dsb" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="net.easysol.dsb.malware_protector.MalwareScanActivity" android:theme="@android:style/Theme.Dialog" />
-        <activity android:name="net.easysol.dsb.malware_protector.MalwareNotificationActivity" android:configChanges="orientation" />
-        <activity android:name="net.easysol.dsb.malware_protector.CertificateNotificationActivity" android:configChanges="orientation" />
-        <receiver android:name="net.easysol.dsb.malware_protector.InstallAppReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_INSTALL" /> <action android:name="android.intent.action.PACKAGE_ADDED" /> <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-        <service android:name="net.easysol.dsb.web_protector.WebAnalyzerService" />
-        <receiver android:name="net.easysol.dsb.web_protector.InternetReceiver" android:exported="true" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> </intent-filter>
-        </receiver>
-        <receiver android:name="net.easysol.dsb.web_protector.ScreenReceiver" android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" /> <action android:name="android.intent.action.SCREEN_OFF" /> </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

@@ -12,13 +12,6 @@
     <string name="action_settings">Settings</string>
 
 
-    <!-- Strings para Todo en 1 -->
-    <string name="activity_collection_in_bg">CollectInBGActivity</string>
-    <string name="main_no_items">No items to display</string>
-    <string name="not_implemented">Not implemented</string>
-    <string name="not_available">The required information is not available</string>
-    <string name="collection_button">Collect</string>
-    <string name="push_to_collect">Push to collect</string>
-    <string name="hardware_id">Hardware ID</string>
-    <string name="hello_blank_fragment">Hello World</string>
+    <!-- Traducciones Paymentez SDK -->
+
 </resources>
