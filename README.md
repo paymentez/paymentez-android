@@ -6,9 +6,9 @@ Paymentez Android SDK
 
 ----------
 
-##Installation
+## Installation
 
-###Android Studio
+### Android Studio (or Gradle)
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
