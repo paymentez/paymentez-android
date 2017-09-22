@@ -1,0 +1,10 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+
+
+    <dimen name="add_card_element_vertical_margin">12dp</dimen>
+    <dimen name="add_card_expiry_middle_margin">8dp</dimen>
+    <dimen name="card_icon_multiline_padding">8dp</dimen>
+    <dimen name="card_icon_multiline_padding_bottom">1.52380955dp</dimen>
+</resources>

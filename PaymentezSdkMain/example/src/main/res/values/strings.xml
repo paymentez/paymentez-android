@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Paymentez Organic Boutique Cafe</string>
+    <string name="activity_addcard_name">Add Credit Card</string>
+    <string name="activity_listcards_name">My Credit Cards</string>
+    <string name="activity_checkout_name">Checkout</string>
+
+    <string name="action_verify">Verify</string>
+    <string name="action_list">List Cards</string>
+    <string name="action_add_card">Add Card</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="button_save">Save</string>
+    <string name="button_addcard">Add New Card</string>
+    <string name="add_paymentet_to_continue">Add payment to continue</string>
+    <string name="change">CHANGE</string>
+    <string name="make_a_simulated_order">Make a Simulated Order</string>
+</resources>
