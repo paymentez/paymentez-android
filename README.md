@@ -6,9 +6,9 @@ Paymentez Android SDK
 
 ----------
 
-***REMOVED******REMOVED***Installation
+***REMOVED******REMOVED*** Installation
 
-***REMOVED******REMOVED******REMOVED***Android Studio
+***REMOVED******REMOVED******REMOVED*** Android Studio (or Gradle)
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
