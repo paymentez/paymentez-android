@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="acc_label_card_number">Número do cartão</string>
+    <string name="acc_label_expiry_date">Data de validade</string>
+    <string name="acc_label_zip">Código postal</string>
+    <string name="expiry_date_hint">MM/AA</string>
+    <string name="expiry_label_short">Valid.</string>
+    <string name="invalid_card_number">Número do cartão Inválido.</string>
+    <string name="invalid_expiry_year">O ano de validade do cartão é inválido.</string>
+    <string name="invalid_cvc">Cod. Segurança Inválido.</string>
+    <string name="invalid_zip">Código postal Inválido.</string>
+    <string name="invalid_cardholdername">>Nome do Titular do cartão Inválido.</string>
+    <string name="acc_label_cardholdername">Nome do Titular do cartão</string>
+</resources>

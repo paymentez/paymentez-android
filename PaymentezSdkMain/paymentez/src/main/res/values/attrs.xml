@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CardInputView">
+        <attr name="cardHintText" format="string" />
+        <attr name="cardTint" format="color"/>
+        <attr name="cardTextErrorColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="CardMultilineWidget">
+        <attr name="shouldShowPostalCode" format="boolean" />
+        <attr name="shouldShowCardHolderName" format="boolean" />
+        <attr name="shouldShowScanCard" format="boolean" />
+        <attr name="shouldShowPaymentezLogo" format="boolean" />
+    </declare-styleable>
+</resources>
