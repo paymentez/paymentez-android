@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 
 public interface PaymentezService {
 
-    @POST("/v2/pci/create_token")
+    @POST("/v2/card/add")
     Call<CreateTokenResponse> createToken(@Body CreateTokenRequest createTokenRequest);
 
 }
