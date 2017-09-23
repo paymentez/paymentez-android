@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_list"
+            android:icon="@drawable/ic_unknown"
+            android:title="@string/activity_listcards_name" />
+
+
+        <item
+            android:id="@+id/nav_verify"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Verify Transaction" />
+
+
+
+
+
+
+    </group>
+
+
+
+</menu>
