@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#388E3C</color>
+    <color name="colorAccent">#8BC34A</color>
+    <color name="colorWhite">#FFFFFF</color>
 
-
-    <color name="item_color">#000</color>
-    <color name="command_color">#FF0000</color>
-    <color name="item_disabled_color">#808080</color>
 </resources>

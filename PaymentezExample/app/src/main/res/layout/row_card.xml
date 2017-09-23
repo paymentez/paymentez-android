@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageViewBrandCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:srcCompat="@drawable/ic_unknown" />
+
+
+
+    <ImageButton
+        android:id="@+id/imageViewDeleteCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:tint="#e61b3c"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:background="?android:attr/selectableItemBackground"
+        app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+
+
+    <TextView
+        android:id="@+id/textViewCardNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/imageViewDeleteCard"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@+id/imageViewBrandCard"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="XXXX.1234" />
+
+    <TextView
+        android:id="@+id/textViewCardHoldersName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/imageViewDeleteCard"
+        android:layout_alignLeft="@+id/textViewCardNumber"
+        android:layout_alignStart="@+id/textViewCardNumber"
+        android:layout_below="@+id/textViewCardNumber"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:text="MARTIN MUCITO" />
+
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#d9d9d9"/>
+</RelativeLayout>

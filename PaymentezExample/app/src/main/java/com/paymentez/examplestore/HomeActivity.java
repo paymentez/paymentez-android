@@ -1,6 +1,5 @@
-package com.paymentez.paymentezexample;
+package com.paymentez.examplestore;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,22 +10,22 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
-
+import android.view.View;
+import android.widget.Button;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Context myContext;
+    Button buttonMakeOrder;
+    Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        myContext = this;
+        mContext = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -37,6 +36,14 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        buttonMakeOrder = (Button) findViewById(R.id.buttonMakeOrder);
+        buttonMakeOrder.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, CheckoutActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -62,16 +69,10 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_list) {
             Intent intent = new Intent(this, ListCardsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_add_card) {
-            Intent intent = new Intent(this, AddCardActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_verify) {
+        }else if (id == R.id.nav_verify) {
             Intent intent = new Intent(this, VerifyTransactionActivity.class);
             startActivity(intent);
         }
-
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

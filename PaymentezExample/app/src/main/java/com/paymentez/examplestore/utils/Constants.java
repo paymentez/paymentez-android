@@ -8,12 +8,12 @@ public class Constants {
     public static String USER_ID = "uid1234";
 
     //Email of the user initiating the purchase.
-    public static String USER_EMAIL = "dev@paymentez.com";
+    public static String USER_EMAIL = "martin.mucito@gmail.com";
 
-    //Is Paymentez SDK DEV environment?
+    //Is dev environment?
     public static boolean PAYMENTEZ_IS_DEV_ENVIRONMENT = true;
 
-    //Ask the Paymentez team for it
+    //Ask the Paymentez team for it.º11º
     public static String PAYMENTEZ_APP_CODE = "AndroidTest-Add";
 
     //Ask the Paymentez team for it.
