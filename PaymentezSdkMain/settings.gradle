@@ -1,1 +1,1 @@
-include ':example', ':paymentez'
+include ':example', ':paymentez-android'
