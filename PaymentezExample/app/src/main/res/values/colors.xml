@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">***REMOVED***3F51B5</color>
-    <color name="colorPrimaryDark">***REMOVED***303F9F</color>
-    <color name="colorAccent">***REMOVED***FF4081</color>
+    <color name="colorPrimary">***REMOVED***4CAF50</color>
+    <color name="colorPrimaryDark">***REMOVED***388E3C</color>
+    <color name="colorAccent">***REMOVED***8BC34A</color>
+    <color name="colorWhite">***REMOVED***FFFFFF</color>
 
-
-    <color name="item_color">***REMOVED***000</color>
-    <color name="command_color">***REMOVED***FF0000</color>
-    <color name="item_disabled_color">***REMOVED***808080</color>
 </resources>

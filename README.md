@@ -6,9 +6,9 @@ Paymentez Android SDK
 
 ----------
 
-***REMOVED******REMOVED***Installation
+***REMOVED******REMOVED*** Installation
 
-***REMOVED******REMOVED******REMOVED***Android Studio
+***REMOVED******REMOVED******REMOVED*** Android Studio (or Gradle)
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
@@ -191,7 +191,7 @@ Convenience method to validate card number, expiry date and CVC.
 
 ***REMOVED******REMOVED*** Example apps
 
-There are 1 example app included in the repository:
+There is an example app included in the repository:
 
 - PaymentezStore project is a full walk-through of building a shop activity, including connecting to a back end.
 
@@ -201,7 +201,7 @@ To build and run the example app, clone the repository and open the project.
 
 ***REMOVED******REMOVED******REMOVED*** Getting started with the Android example app
 
-Note: both example apps require an [Android SDK](https://developer.android.com/studio/index.html) and [Gradle](https://gradle.org/) to build and run.
+Note: the app require an [Android SDK](https://developer.android.com/studio/index.html) and [Gradle](https://gradle.org/) to build and run.
 
 
 ***REMOVED******REMOVED******REMOVED*** Building and Running the PaymentezStore

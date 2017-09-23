@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PaymentezSdkMain.iml" filepath="$PROJECT_DIR$/PaymentezSdkMain.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
-      <module fileurl="file://$PROJECT_DIR$/paymentez/paymentez.iml" filepath="$PROJECT_DIR$/paymentez/paymentez.iml" />
+      <module fileurl="file://$PROJECT_DIR$/paymentez-android/paymentez-android.iml" filepath="$PROJECT_DIR$/paymentez-android/paymentez-android.iml" />
     </modules>
   </component>
 </project>
