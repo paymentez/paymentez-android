@@ -43,10 +43,10 @@ public class Paymentez{
      *
      * @param mContext Context of the Main Activity
      * @param is_dev false to use production environment
-     * @param app_code Application identifier (provided by Paymentez).
-     * @param app_secret_key Application Secret key (provided by Paymentez).
+     * @param app_client_code Application identifier (provided by Paymentez).
+     * @param app_client_key Application Secret key (provided by Paymentez).
      */
-    public Paymentez(Context mContext, boolean is_dev, String app_code, String app_secret_key) {
+    public Paymentez(Context mContext, boolean is_dev, String app_client_code, String app_client_key) {
         this.mContext = mContext;
         this.is_dev = is_dev;
         if (this.is_dev){
@@ -57,7 +57,7 @@ public class Paymentez{
 
         }
 
-        paymentezService = PaymenezClient.getClient(mContext, is_dev, app_code, app_secret_key).create(PaymentezService.class);
+        paymentezService = PaymenezClient.getClient(mContext, is_dev, app_client_code, app_client_key).create(PaymentezService.class);
 
     }
 

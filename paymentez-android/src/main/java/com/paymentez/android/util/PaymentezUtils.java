@@ -20,9 +20,9 @@ public class PaymentezUtils {
         return getHash(uniq_token_string);
     }
 
-    public static String getAuthToken(String app_code, String app_secret_key) {
+    public static String getAuthToken(String app_client_code, String app_client_key) {
         String auth_timestamp = "" + (System.currentTimeMillis());
-        String string_auth_token = app_code + ";" + auth_timestamp + ";" + getUniqToken(auth_timestamp, app_secret_key);
+        String string_auth_token = app_client_code + ";" + auth_timestamp + ";" + getUniqToken(auth_timestamp, app_client_key);
         String auth_token = Base64.encodeToString(string_auth_token.getBytes(), Base64.NO_WRAP);
         return auth_token;
     }
