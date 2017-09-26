@@ -5,23 +5,23 @@ Paymentez Android SDK
 
 ----------
 
-***REMOVED******REMOVED*** Installation
+## Installation
 
-***REMOVED******REMOVED******REMOVED*** Android Studio (or Gradle)
+### Android Studio (or Gradle)
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
     compile 'com.paymentez:paymentez-android:1.0.1'
 
-***REMOVED******REMOVED******REMOVED*** ProGuard
+### ProGuard
 
 If you're planning on optimizing your app with ProGuard, make sure that you exclude the Paymentez bindings. You can do this by adding the following to your app's `proguard.cfg` file:
 
     -keep class com.paymentez.android.** { *; }
 
-***REMOVED******REMOVED*** Usage
+## Usage
 
-***REMOVED******REMOVED******REMOVED*** Using the CardMultilineWidget
+### Using the CardMultilineWidget
 
 You can add a widget to your apps that easily handles the UI states for collecting card data.
 
@@ -64,9 +64,9 @@ if (cardToSave == null) {
 
 If the returned `Card` is null, error states will show on the fields that need to be fixed. 
 
-Once you have a non-null `Card` object from either widget, you can call [addCard](***REMOVED***addCard).
+Once you have a non-null `Card` object from either widget, you can call [addCard](#addCard).
 
-***REMOVED******REMOVED******REMOVED*** Init library
+### Init library
 You should initialize the library on your Application or in your first Activity. 
 
 ```java
@@ -85,7 +85,7 @@ Paymentez.setEnvironment(Constants.PAYMENTEZ_IS_TEST_MODE, Constants.PAYMENTEZ_C
  // Note: for most of the devs, that's not necessary.
 ```
 
-***REMOVED******REMOVED******REMOVED*** addCard
+### addCard
 
 addCard converts sensitive card data to a single-use token which you can safely pass to your server to charge the user. 
 
@@ -176,7 +176,7 @@ paymentez.addCard(
 
 `addCard` is an asynchronous call – it returns immediately and invokes the callback on the UI thread when it receives a response from Paymentez's servers.
 
-***REMOVED******REMOVED******REMOVED*** getSessionId
+### getSessionId
 
 The Session ID is a parameter Paymentez use for fraud purposes. 
 Call this method if you want to Collect your user's Device Information.
@@ -187,27 +187,27 @@ String session_id = Paymentez.getSessionId(mContext);
 
 Once you have the Session ID, you can pass it to your server to charge the user.
 
-***REMOVED******REMOVED******REMOVED*** Client-side validation helpers
+### Client-side validation helpers
 
 The Card object allows you to validate user input before you send the information to Paymentez.
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** validateNumber
+#### validateNumber
 
 Checks that the number is formatted correctly and passes the [Luhn check](http://en.wikipedia.org/wiki/Luhn_algorithm).
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** validateExpiryDate
+#### validateExpiryDate
 
 Checks whether or not the expiration date represents an actual month in the future.
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** validateCVC
+#### validateCVC
 
 Checks whether or not the supplied number could be a valid verification code.
 
-***REMOVED******REMOVED******REMOVED******REMOVED*** validateCard
+#### validateCard
 
 Convenience method to validate card number, expiry date and CVC.
 
-***REMOVED******REMOVED*** Example apps
+## Example apps
 
 There is an example app included in the repository:
 
@@ -217,12 +217,12 @@ http://d20omjwo1khove.cloudfront.net/ccapi/paymentez-store-v1.0.apk
 
 To build and run the example app, clone the repository and open the project.
 
-***REMOVED******REMOVED******REMOVED*** Getting started with the Android example app
+### Getting started with the Android example app
 
 Note: the app require an [Android SDK](https://developer.android.com/studio/index.html) and [Gradle](https://gradle.org/) to build and run.
 
 
-***REMOVED******REMOVED******REMOVED*** Building and Running the PaymentezStore
+### Building and Running the PaymentezStore
 
 Before you can run the PaymentezStore application, you need to provide it with your Paymentez Credentials and a Sample Backend.
 

@@ -88,7 +88,7 @@ public class CardNumberEditText extends PaymentezEditText {
     /**
      * Check whether or not the card number is valid
      *
-     * @return the value of {@link ***REMOVED***mIsCardNumberValid}
+     * @return the value of {@link #mIsCardNumberValid}
      */
     public boolean isCardNumberValid() {
         return mIsCardNumberValid;

@@ -25,7 +25,7 @@ class PaymentezJsonUtils {
     private static final String NULL = "null";
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***getString(String)} while safely
+     * Calls through to {@link JSONObject#getString(String)} while safely
      * converting the raw string "null" and the empty string to {@code null}.
      *
      * @param jsonObject the input object
@@ -41,7 +41,7 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optInt(String)} only in the case that the
+     * Calls through to {@link JSONObject#optInt(String)} only in the case that the
      * key exists. This returns {@code null} if the key is not in the object.
      *
      * @param jsonObject the input object
@@ -59,7 +59,7 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optInt(String)} only in the case that the
+     * Calls through to {@link JSONObject#optInt(String)} only in the case that the
      * key exists. This returns {@code null} if the key is not in the object.
      *
      * @param jsonObject the input object
@@ -77,7 +77,7 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optLong(String)} only in the case that the
+     * Calls through to {@link JSONObject#optLong(String)} only in the case that the
      * key exists. This returns {@code null} if the key is not in the object.
      *
      * @param jsonObject the input object
@@ -95,7 +95,7 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optString(String)} while safely
+     * Calls through to {@link JSONObject#optString(String)} while safely
      * converting the raw string "null" and the empty string to {@code null}. Will not throw
      * an exception if the field isn't found.
      *
@@ -111,7 +111,7 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optString(String)} while safely converting
+     * Calls through to {@link JSONObject#optString(String)} while safely converting
      * the raw string "null" and the empty string to {@code null}, along with any value that isn't
      * a two-character string.
      * @param jsonObject the object from which to retrieve the country code
@@ -131,7 +131,7 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optString(String)} while safely converting
+     * Calls through to {@link JSONObject#optString(String)} while safely converting
      * the raw string "null" and the empty string to {@code null}, along with any value that isn't
      * a three-character string.
      * @param jsonObject the object from which to retrieve the currency code
@@ -151,8 +151,8 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optJSONObject(String)} and then
-     * uses {@link ***REMOVED***jsonObjectToMap(JSONObject)} on the result.
+     * Calls through to {@link JSONObject#optJSONObject(String)} and then
+     * uses {@link #jsonObjectToMap(JSONObject)} on the result.
      *
      * @param jsonObject the input object
      * @param fieldName the required field name
@@ -171,8 +171,8 @@ class PaymentezJsonUtils {
     }
 
     /**
-     * Calls through to {@link JSONObject***REMOVED***optJSONObject(String)} and then
-     * uses {@link ***REMOVED***jsonObjectToStringMap(JSONObject)} on the result.
+     * Calls through to {@link JSONObject#optJSONObject(String)} and then
+     * uses {@link #jsonObjectToStringMap(JSONObject)} on the result.
      *
      * @param jsonObject the input object
      * @param fieldName the required field name

@@ -24,7 +24,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:tint="***REMOVED***e61b3c"
+        android:tint="#e61b3c"
         android:padding="@dimen/activity_horizontal_margin"
         android:background="?android:attr/selectableItemBackground"
         app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
@@ -59,5 +59,5 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="***REMOVED***d9d9d9"/>
+        android:background="#d9d9d9"/>
 </RelativeLayout>

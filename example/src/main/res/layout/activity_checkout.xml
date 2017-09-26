@@ -50,7 +50,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="***REMOVED***d9d9d9"/>
+        android:background="#d9d9d9"/>
 
 
     <LinearLayout
@@ -88,7 +88,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="***REMOVED***d9d9d9"/>
+        android:background="#d9d9d9"/>
 
 
     <LinearLayout
@@ -119,7 +119,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="***REMOVED***d9d9d9"/>
+        android:background="#d9d9d9"/>
 
 
     <LinearLayout
@@ -179,7 +179,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="***REMOVED***d9d9d9"/>
+        android:background="#d9d9d9"/>
 
     <LinearLayout
         android:layout_width="match_parent"

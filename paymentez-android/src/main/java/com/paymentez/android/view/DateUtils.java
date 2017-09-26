@@ -63,8 +63,8 @@ class DateUtils {
      * @param expiryYear An integer representing the full year (2017, not 17). Only positive values
      *                   are valid, but this is called by user input, so we have to check outside
      *                   for otherwise nonsensical dates. This code cannot validate years greater
-     *                   than {@link ***REMOVED***MAX_VALID_YEAR 9980} because of how we parse years in
-     *                   {@link ***REMOVED***convertTwoDigitYearToFour(int, Calendar)}.
+     *                   than {@link #MAX_VALID_YEAR 9980} because of how we parse years in
+     *                   {@link #convertTwoDigitYearToFour(int, Calendar)}.
      * @return {@code true} if the current month and year is the same as or later than the input
      * month and year, {@code false} otherwise. Note that some cards expire on the first of the
      * month, but we don't validate that here.

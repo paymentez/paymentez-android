@@ -84,7 +84,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
                 put(Card.UNKNOWN, R.drawable.ic_unknown);
             }};
 
-    // Based on http://en.wikipedia.org/wiki/Bank_card_number***REMOVED***Issuer_identification_number_.28IIN.29
+    // Based on http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
     public static final String[] PREFIXES_AMERICAN_EXPRESS = {"34", "37"};
     public static final String[] PREFIXES_DISCOVER = {"60", "62", "64", "65"};
     public static final String[] PREFIXES_JCB = {"35"};
@@ -651,7 +651,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * Checks whether or not the {@link ***REMOVED***number} field is valid.
+     * Checks whether or not the {@link #number} field is valid.
      *
      * @return {@code true} if valid, {@code false} otherwise.
      */
@@ -660,7 +660,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * Checks whether or not the {@link ***REMOVED***expiryMonth} and {@link ***REMOVED***expiryYear} fields represent a valid
+     * Checks whether or not the {@link #expiryMonth} and {@link #expiryYear} fields represent a valid
      * expiry date.
      *
      * @return {@code true} if valid, {@code false} otherwise
@@ -670,7 +670,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * Checks whether or not the {@link ***REMOVED***cvc} field is valid.
+     * Checks whether or not the {@link #cvc} field is valid.
      *
      * @return {@code true} if valid, {@code false} otherwise
      */
@@ -689,7 +689,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * Checks whether or not the {@link ***REMOVED***expiryMonth} field is valid.
+     * Checks whether or not the {@link #expiryMonth} field is valid.
      *
      * @return {@code true} if valid, {@code false} otherwise.
      */
@@ -698,7 +698,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * Checks whether or not the {@link ***REMOVED***expiryYear} field is valid.
+     * Checks whether or not the {@link #expiryYear} field is valid.
      *
      * @return {@code true} if valid, {@code false} otherwise.
      */
@@ -707,7 +707,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * @return the {@link ***REMOVED***number} of this card
+     * @return the {@link #number} of this card
      */
     public String getNumber() {
         return number;
@@ -735,9 +735,9 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
 
     /**
      * Setter for the card number. Note that mutating the number of this card object
-     * invalidates the {@link ***REMOVED***type} and {@link ***REMOVED***last4}.
+     * invalidates the {@link #type} and {@link #last4}.
      *
-     * @param number the new {@link ***REMOVED***number}
+     * @param number the new {@link #number}
      */
     public void setNumber(String number) {
         this.number = number;
@@ -748,21 +748,21 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * @return the {@link ***REMOVED***cvc} for this card
+     * @return the {@link #cvc} for this card
      */
     public String getCVC() {
         return cvc;
     }
 
     /**
-     * @param cvc the new {@link ***REMOVED***cvc} code for this card
+     * @param cvc the new {@link #cvc} code for this card
      */
     public void setCVC(String cvc) {
         this.cvc = cvc;
     }
 
     /**
-     * @return the {@link ***REMOVED***expiryMonth} for this card
+     * @return the {@link #expiryMonth} for this card
      */
     @Nullable
     @IntRange(from = 1, to = 12)
@@ -771,140 +771,140 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * @param expiryMonth sets the {@link ***REMOVED***expiryMonth} for this card
+     * @param expiryMonth sets the {@link #expiryMonth} for this card
      */
     public void setExpiryMonth(@Nullable @IntRange(from = 1, to = 12) Integer expiryMonth) {
         this.expiryMonth = expiryMonth;
     }
 
     /**
-     * @return the {@link ***REMOVED***expiryYear} for this card
+     * @return the {@link #expiryYear} for this card
      */
     public Integer getExpiryYear() {
         return expiryYear;
     }
 
     /**
-     * @param expiryYear sets the {@link ***REMOVED***expiryYear} for this card
+     * @param expiryYear sets the {@link #expiryYear} for this card
      */
     public void setExpiryYear(Integer expiryYear) {
         this.expiryYear = expiryYear;
     }
 
     /**
-     * @return the cardholder {@link ***REMOVED***holderName} for this card
+     * @return the cardholder {@link #holderName} for this card
      */
     public String getHolderName() {
         return holderName;
     }
 
     /**
-     * @param holderName sets the cardholder {@link ***REMOVED***holderName} for this card
+     * @param holderName sets the cardholder {@link #holderName} for this card
      */
     public void setHolderName(String holderName) {
         this.holderName = holderName;
     }
 
     /**
-     * @return the {@link ***REMOVED***addressLine1} of this card
+     * @return the {@link #addressLine1} of this card
      */
     public String getAddressLine1() {
         return addressLine1;
     }
 
     /**
-     * @param addressLine1 sets the {@link ***REMOVED***addressLine1} for this card
+     * @param addressLine1 sets the {@link #addressLine1} for this card
      */
     public void setAddressLine1(String addressLine1) {
         this.addressLine1 = addressLine1;
     }
 
     /**
-     * @return the {@link ***REMOVED***addressLine2} of this card
+     * @return the {@link #addressLine2} of this card
      */
     public String getAddressLine2() {
         return addressLine2;
     }
 
     /**
-     * @param addressLine2 sets the {@link ***REMOVED***addressLine2} for this card
+     * @param addressLine2 sets the {@link #addressLine2} for this card
      */
     public void setAddressLine2(String addressLine2) {
         this.addressLine2 = addressLine2;
     }
 
     /**
-     * @return the {@link ***REMOVED***addressCity} for this card
+     * @return the {@link #addressCity} for this card
      */
     public String getAddressCity() {
         return addressCity;
     }
 
     /**
-     * @param addressCity sets the {@link ***REMOVED***addressCity} for this card
+     * @param addressCity sets the {@link #addressCity} for this card
      */
     public void setAddressCity(String addressCity) {
         this.addressCity = addressCity;
     }
 
     /**
-     * @return the {@link ***REMOVED***addressZip} of this card
+     * @return the {@link #addressZip} of this card
      */
     public String getAddressZip() {
         return addressZip;
     }
 
     /**
-     * @param addressZip sets the {@link ***REMOVED***addressZip} for this card
+     * @param addressZip sets the {@link #addressZip} for this card
      */
     public void setAddressZip(String addressZip) {
         this.addressZip = addressZip;
     }
 
     /**
-     * @return the {@link ***REMOVED***addressState} of this card
+     * @return the {@link #addressState} of this card
      */
     public String getAddressState() {
         return addressState;
     }
 
     /**
-     * @param addressState sets the {@link ***REMOVED***addressState} for this card
+     * @param addressState sets the {@link #addressState} for this card
      */
     public void setAddressState(String addressState) {
         this.addressState = addressState;
     }
 
     /**
-     * @return the {@link ***REMOVED***addressCountry} of this card
+     * @return the {@link #addressCountry} of this card
      */
     public String getAddressCountry() {
         return addressCountry;
     }
 
     /**
-     * @param addressCountry sets the {@link ***REMOVED***addressCountry} for this card
+     * @param addressCountry sets the {@link #addressCountry} for this card
      */
     public void setAddressCountry(String addressCountry) {
         this.addressCountry = addressCountry;
     }
 
     /**
-     * @return the {@link ***REMOVED***currency} of this card. Only supported for Managed accounts.
+     * @return the {@link #currency} of this card. Only supported for Managed accounts.
      */
     public String getCurrency() {
         return currency;
     }
 
     /**
-     * @param currency sets the {@link ***REMOVED***currency} of this card. Only supported for Managed accounts.
+     * @param currency sets the {@link #currency} of this card. Only supported for Managed accounts.
      */
     public void setCurrency(String currency) {
         this.currency = currency;
     }
 
     /**
-     * @return the {@link ***REMOVED***last4} digits of this card. Sets the value based on the {@link ***REMOVED***number}
+     * @return the {@link #last4} digits of this card. Sets the value based on the {@link #number}
      * if it has not already been set.
      */
     public String getLast4() {
@@ -923,10 +923,10 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
 
 
     /**
-     * Gets the {@link ***REMOVED***type} of this card. Updates the value if none has yet been set, or
-     * if the {@link ***REMOVED***number} has been changed.
+     * Gets the {@link #type} of this card. Updates the value if none has yet been set, or
+     * if the {@link #number} has been changed.
      *
-     * @return the {@link ***REMOVED***type} of this card
+     * @return the {@link #type} of this card
      */
     @CardBrand
     public String getType() {
@@ -938,14 +938,14 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * @return the {@link ***REMOVED***fingerprint} of this card
+     * @return the {@link #fingerprint} of this card
      */
     public String getFingerprint() {
         return fingerprint;
     }
 
     /**
-     * @return the {@link ***REMOVED***funding} type of this card
+     * @return the {@link #funding} type of this card
      */
     @Nullable
     @FundingType
@@ -954,14 +954,14 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
     /**
-     * @return the {@link ***REMOVED***country} of this card
+     * @return the {@link #country} of this card
      */
     public String getCountry() {
         return country;
     }
 
     /**
-     * @return the {@link ***REMOVED***id} of this card
+     * @return the {@link #id} of this card
      */
     @Override
     public String getId() {

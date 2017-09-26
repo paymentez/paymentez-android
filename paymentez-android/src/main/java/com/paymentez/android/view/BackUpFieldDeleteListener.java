@@ -5,7 +5,7 @@ package com.paymentez.android.view;
  * from one text field to the previous. We use this to simulate multiple fields being all part
  * of the same EditText, so a delete key entry from field N+1 deletes the last character in
  * field N. Each BackUpFieldDeleteListener is attached to the N+1 field, from which it gets
- * its {@link ***REMOVED***onDeleteEmpty()} call, and given a reference to the N field, upon which
+ * its {@link #onDeleteEmpty()} call, and given a reference to the N field, upon which
  * it will be acting.
  */
 class BackUpFieldDeleteListener implements PaymentezEditText.DeleteEmptyListener {

@@ -72,7 +72,7 @@ public class PaymentezEditText extends TextInputEditText {
     /**
      * Gets whether or not the text should be displayed in error mode.
      *
-     * @return the value of {@link ***REMOVED***mShouldShowError}
+     * @return the value of {@link #mShouldShowError}
      */
     public boolean getShouldShowError() {
         return mShouldShowError;
@@ -91,7 +91,7 @@ public class PaymentezEditText extends TextInputEditText {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             errorColor = getResources().getColor(mDefaultErrorColorResId, null);
         } else {
-            // Resources***REMOVED***getColor(int) is deprecated, but the replacement only exists in
+            // Resources#getColor(int) is deprecated, but the replacement only exists in
             // SDK 23 and above.
             errorColor = getResources().getColor(mDefaultErrorColorResId);
         }

@@ -108,7 +108,7 @@ class ViewUtils {
         // about how to calculate the "brightness" of a color, often
         // thought of as how far along the spectrum from white to black the
         // grayscale version would be.
-        // See https://www.w3.org/TR/AERT***REMOVED***color-contrast and
+        // See https://www.w3.org/TR/AERT#color-contrast and
         // http://paulbourke.net/texture_colour/colourspace/ for further reading.
         double luminescence = 0.299* Color.red(color)
                 + 0.587* Color.green(color)

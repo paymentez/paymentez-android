@@ -33,7 +33,7 @@ public class PaymentezTextUtils {
 
     /**
      * A checker for whether or not the input value is entirely whitespace. This is slightly more
-     * aggressive than the android TextUtils***REMOVED***isEmpty method, which only returns true for
+     * aggressive than the android TextUtils#isEmpty method, which only returns true for
      * {@code null} or {@code ""}.
      *
      * @param value a possibly blank input string value

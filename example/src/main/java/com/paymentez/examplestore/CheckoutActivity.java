@@ -74,7 +74,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
                     double ORDER_AMOUNT = 10.5;
                     String ORDER_ID = ""+System.currentTimeMillis();
-                    String ORDER_DESCRIPTION = "ORDER ***REMOVED***" + ORDER_ID;
+                    String ORDER_DESCRIPTION = "ORDER #" + ORDER_ID;
                     String DEV_REFERENCE = ORDER_ID;
 
                     backendService.createCharge(Constants.USER_ID, Paymentez.getSessionId(mContext),
