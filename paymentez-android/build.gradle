@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/paymentez/paymentez-android-example'
     gitUrl = 'https://github.com/paymentez/paymentez-android-example.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '0.0.2'
 
     developerId = 'paymentez'
     developerName = 'Paymentez'
@@ -99,9 +99,12 @@ install {
     }
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 bintray {
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    user = properties.getProperty("bintrayUser")
+    key = properties.getProperty("bintrayApiKey")
     configurations = ['archives']
     pkg {
         repo = bintrayRepo
