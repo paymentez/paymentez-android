@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/paymentez/paymentez-android'
     gitUrl = 'https://github.com/paymentez/paymentez-android.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.1'
 
     developerId = 'paymentez'
     developerName = 'Paymentez'
