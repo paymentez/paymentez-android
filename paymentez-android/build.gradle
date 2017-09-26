@@ -12,8 +12,8 @@ ext {
 
     libraryDescription = 'Paymentez Android SDK is a library that allows developers to easily connect to the Paymentez CREDITCARDS API'
 
-    siteUrl = 'https://github.com/paymentez/paymentez-android-example'
-    gitUrl = 'https://github.com/paymentez/paymentez-android-example.git'
+    siteUrl = 'https://github.com/paymentez/paymentez-android'
+    gitUrl = 'https://github.com/paymentez/paymentez-android.git'
 
     libraryVersion = '1.0.0'
 
@@ -21,14 +21,13 @@ ext {
     developerName = 'Paymentez'
     developerEmail = 'dev@paymentez.com'
 
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
+    licenseName = 'MIT'
+    licenseUrl = 'https://github.com/paymentez/paymentez-android/blob/master/LICENSE'
+    allLicenses = ["MIT"]
 }
 
 group = publishedGroupId
 version = libraryVersion
-
 
 android {
     compileSdkVersion 23
@@ -79,8 +78,8 @@ install {
 
             licenses {
                 license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    name licenseName
+                    url licenseUrl
                 }
             }
             scm {
@@ -110,7 +109,7 @@ bintray {
         repo = bintrayRepo
         name = bintrayName
         userOrg = user
-        licenses = ['Apache-2.0']
+        licenses = allLicenses
         vcsUrl = gitUrl
         version {
             name = libraryVersion
