@@ -31,7 +31,7 @@ import static com.paymentez.android.view.ViewUtils.isColorDark;
  * but we listen here for hardware key presses, older Android soft keyboard delete presses,
  * and modern Google Keyboard delete key presses.
  */
-public class StripeEditText extends TextInputEditText {
+public class PaymentezEditText extends TextInputEditText {
 
     @Nullable
     private AfterTextChangedListener mAfterTextChangedListener;
@@ -49,17 +49,17 @@ public class StripeEditText extends TextInputEditText {
     private String mErrorMessage;
     private ErrorMessageListener mErrorMessageListener;
 
-    public StripeEditText(Context context) {
+    public PaymentezEditText(Context context) {
         super(context);
         initView();
     }
 
-    public StripeEditText(Context context, AttributeSet attrs) {
+    public PaymentezEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public StripeEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PaymentezEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
@@ -133,7 +133,7 @@ public class StripeEditText extends TextInputEditText {
     }
 
     /**
-     * Sets the error text color on this {@link StripeEditText}.
+     * Sets the error text color on this {@link PaymentezEditText}.
      *
      * @param errorColor a {@link ColorInt}
      */

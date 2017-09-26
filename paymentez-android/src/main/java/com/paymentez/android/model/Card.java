@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.paymentez.android.util.CardUtils;
-import com.paymentez.android.util.StripeTextUtils;
+import com.paymentez.android.util.PaymentezTextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,18 +25,18 @@ import java.util.List;
 import java.util.Map;
 import com.paymentez.android.R;
 
-import static com.paymentez.android.model.StripeJsonUtils.optCountryCode;
-import static com.paymentez.android.model.StripeJsonUtils.optCurrency;
-import static com.paymentez.android.model.StripeJsonUtils.optInteger;
-import static com.paymentez.android.model.StripeJsonUtils.optString;
-import static com.paymentez.android.model.StripeJsonUtils.putIntegerIfNotNull;
-import static com.paymentez.android.model.StripeJsonUtils.putStringIfNotNull;
+import static com.paymentez.android.model.PaymentezJsonUtils.optCountryCode;
+import static com.paymentez.android.model.PaymentezJsonUtils.optCurrency;
+import static com.paymentez.android.model.PaymentezJsonUtils.optInteger;
+import static com.paymentez.android.model.PaymentezJsonUtils.optString;
+import static com.paymentez.android.model.PaymentezJsonUtils.putIntegerIfNotNull;
+import static com.paymentez.android.model.PaymentezJsonUtils.putStringIfNotNull;
 
 
 /**
  * A model object representing a Card in the Android SDK.
  */
-public class Card extends StripeJsonModel implements StripePaymentSource {
+public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({
@@ -503,24 +503,24 @@ public class Card extends StripeJsonModel implements StripePaymentSource {
             String country,
             String currency,
             String id) {
-        this.number = StripeTextUtils.nullIfBlank(normalizeCardNumber(number));
+        this.number = PaymentezTextUtils.nullIfBlank(normalizeCardNumber(number));
         this.expiryMonth = expMonth;
         this.expiryYear = expYear;
-        this.cvc = StripeTextUtils.nullIfBlank(cvc);
-        this.holderName = StripeTextUtils.nullIfBlank(name);
-        this.addressLine1 = StripeTextUtils.nullIfBlank(addressLine1);
-        this.addressLine2 = StripeTextUtils.nullIfBlank(addressLine2);
-        this.addressCity = StripeTextUtils.nullIfBlank(addressCity);
-        this.addressState = StripeTextUtils.nullIfBlank(addressState);
-        this.addressZip = StripeTextUtils.nullIfBlank(addressZip);
-        this.addressCountry = StripeTextUtils.nullIfBlank(addressCountry);
+        this.cvc = PaymentezTextUtils.nullIfBlank(cvc);
+        this.holderName = PaymentezTextUtils.nullIfBlank(name);
+        this.addressLine1 = PaymentezTextUtils.nullIfBlank(addressLine1);
+        this.addressLine2 = PaymentezTextUtils.nullIfBlank(addressLine2);
+        this.addressCity = PaymentezTextUtils.nullIfBlank(addressCity);
+        this.addressState = PaymentezTextUtils.nullIfBlank(addressState);
+        this.addressZip = PaymentezTextUtils.nullIfBlank(addressZip);
+        this.addressCountry = PaymentezTextUtils.nullIfBlank(addressCountry);
         this.type = asCardBrand(type) == null ? getType() : type;
-        this.last4 = StripeTextUtils.nullIfBlank(last4) == null ? getLast4() : last4;
-        this.fingerprint = StripeTextUtils.nullIfBlank(fingerprint);
+        this.last4 = PaymentezTextUtils.nullIfBlank(last4) == null ? getLast4() : last4;
+        this.fingerprint = PaymentezTextUtils.nullIfBlank(fingerprint);
         this.funding = asFundingType(funding);
-        this.country = StripeTextUtils.nullIfBlank(country);
-        this.currency = StripeTextUtils.nullIfBlank(currency);
-        this.id = StripeTextUtils.nullIfBlank(id);
+        this.country = PaymentezTextUtils.nullIfBlank(country);
+        this.currency = PaymentezTextUtils.nullIfBlank(currency);
+        this.id = PaymentezTextUtils.nullIfBlank(id);
     }
 
     /**
@@ -675,7 +675,7 @@ public class Card extends StripeJsonModel implements StripePaymentSource {
      * @return {@code true} if valid, {@code false} otherwise
      */
     public boolean validateCVC() {
-        if (StripeTextUtils.isBlank(cvc)) {
+        if (PaymentezTextUtils.isBlank(cvc)) {
             return false;
         }
         String cvcValue = cvc.trim();
@@ -908,7 +908,7 @@ public class Card extends StripeJsonModel implements StripePaymentSource {
      * if it has not already been set.
      */
     public String getLast4() {
-        if (!StripeTextUtils.isBlank(last4)) {
+        if (!PaymentezTextUtils.isBlank(last4)) {
             return last4;
         }
 
@@ -930,7 +930,7 @@ public class Card extends StripeJsonModel implements StripePaymentSource {
      */
     @CardBrand
     public String getType() {
-        if (StripeTextUtils.isBlank(type) && !StripeTextUtils.isBlank(number)) {
+        if (PaymentezTextUtils.isBlank(type) && !PaymentezTextUtils.isBlank(number)) {
             type = CardUtils.getPossibleCardType(number);
         }
 
@@ -1100,32 +1100,32 @@ public class Card extends StripeJsonModel implements StripePaymentSource {
     }
 
     private Card(Builder builder) {
-        this.number = StripeTextUtils.nullIfBlank(normalizeCardNumber(builder.number));
+        this.number = PaymentezTextUtils.nullIfBlank(normalizeCardNumber(builder.number));
         this.expiryMonth = builder.expMonth;
         this.expiryYear = builder.expYear;
-        this.cvc = StripeTextUtils.nullIfBlank(builder.cvc);
-        this.holderName = StripeTextUtils.nullIfBlank(builder.name);
-        this.addressLine1 = StripeTextUtils.nullIfBlank(builder.addressLine1);
-        this.addressLine1Check = StripeTextUtils.nullIfBlank(builder.addressLine1Check);
-        this.addressLine2 = StripeTextUtils.nullIfBlank(builder.addressLine2);
-        this.addressCity = StripeTextUtils.nullIfBlank(builder.addressCity);
-        this.addressState = StripeTextUtils.nullIfBlank(builder.addressState);
-        this.addressZip = StripeTextUtils.nullIfBlank(builder.addressZip);
-        this.addressZipCheck = StripeTextUtils.nullIfBlank(builder.addressZipCheck);
-        this.addressCountry = StripeTextUtils.nullIfBlank(builder.addressCountry);
-        this.last4 = StripeTextUtils.nullIfBlank(builder.last4) == null
+        this.cvc = PaymentezTextUtils.nullIfBlank(builder.cvc);
+        this.holderName = PaymentezTextUtils.nullIfBlank(builder.name);
+        this.addressLine1 = PaymentezTextUtils.nullIfBlank(builder.addressLine1);
+        this.addressLine1Check = PaymentezTextUtils.nullIfBlank(builder.addressLine1Check);
+        this.addressLine2 = PaymentezTextUtils.nullIfBlank(builder.addressLine2);
+        this.addressCity = PaymentezTextUtils.nullIfBlank(builder.addressCity);
+        this.addressState = PaymentezTextUtils.nullIfBlank(builder.addressState);
+        this.addressZip = PaymentezTextUtils.nullIfBlank(builder.addressZip);
+        this.addressZipCheck = PaymentezTextUtils.nullIfBlank(builder.addressZipCheck);
+        this.addressCountry = PaymentezTextUtils.nullIfBlank(builder.addressCountry);
+        this.last4 = PaymentezTextUtils.nullIfBlank(builder.last4) == null
                 ? getLast4()
                 : builder.last4;
         this.type = asCardBrand(builder.brand) == null
                 ? getType()
                 : builder.brand;
-        this.fingerprint = StripeTextUtils.nullIfBlank(builder.fingerprint);
+        this.fingerprint = PaymentezTextUtils.nullIfBlank(builder.fingerprint);
         this.funding = asFundingType(builder.funding);
-        this.country = StripeTextUtils.nullIfBlank(builder.country);
-        this.currency = StripeTextUtils.nullIfBlank(builder.currency);
-        this.customerId = StripeTextUtils.nullIfBlank(builder.customer);
-        this.cvcCheck = StripeTextUtils.nullIfBlank(builder.cvcCheck);
-        this.id = StripeTextUtils.nullIfBlank(builder.id);
+        this.country = PaymentezTextUtils.nullIfBlank(builder.country);
+        this.currency = PaymentezTextUtils.nullIfBlank(builder.currency);
+        this.customerId = PaymentezTextUtils.nullIfBlank(builder.customer);
+        this.cvcCheck = PaymentezTextUtils.nullIfBlank(builder.cvcCheck);
+        this.id = PaymentezTextUtils.nullIfBlank(builder.id);
     }
 
     private String normalizeCardNumber(String number) {

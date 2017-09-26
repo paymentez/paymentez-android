@@ -7,9 +7,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Utility class for common text-related operations on Stripe data coming from the server.
+ * Utility class for common text-related operations on Paymentez data coming from the server.
  */
-public class StripeTextUtils {
+public class PaymentezTextUtils {
 
     /**
      * Util Array for converting bytes to a hex string.
@@ -87,7 +87,7 @@ public class StripeTextUtils {
      */
     @Nullable
     static String shaHashInput(@Nullable String toHash) {
-        if (StripeTextUtils.isBlank(toHash)) {
+        if (PaymentezTextUtils.isBlank(toHash)) {
             return null;
         }
 

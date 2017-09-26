@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Size;
 
-import com.paymentez.android.util.StripeTextUtils;
+import com.paymentez.android.util.PaymentezTextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * A set of JSON parsing utility functions.
  */
-class StripeJsonUtils {
+class PaymentezJsonUtils {
 
     private static final String EMPTY = "";
     private static final String NULL = "null";
@@ -399,7 +399,7 @@ class StripeJsonUtils {
             @NonNull JSONObject jsonObject,
             @NonNull @Size(min = 1) String fieldName,
             @Nullable String value) {
-        if (!StripeTextUtils.isBlank(value)) {
+        if (!PaymentezTextUtils.isBlank(value)) {
             try {
                 jsonObject.put(fieldName, value);
             } catch (JSONException ignored) { }

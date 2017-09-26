@@ -8,11 +8,11 @@ package com.paymentez.android.view;
  * its {@link ***REMOVED***onDeleteEmpty()} call, and given a reference to the N field, upon which
  * it will be acting.
  */
-class BackUpFieldDeleteListener implements StripeEditText.DeleteEmptyListener {
+class BackUpFieldDeleteListener implements PaymentezEditText.DeleteEmptyListener {
 
-    private StripeEditText backUpTarget;
+    private PaymentezEditText backUpTarget;
 
-    BackUpFieldDeleteListener(StripeEditText backUpTarget) {
+    BackUpFieldDeleteListener(PaymentezEditText backUpTarget) {
         this.backUpTarget = backUpTarget;
     }
 

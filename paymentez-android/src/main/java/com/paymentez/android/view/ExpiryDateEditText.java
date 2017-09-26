@@ -13,7 +13,7 @@ import android.widget.EditText;
 /**
  * An {@link EditText} that handles putting numbers around a central divider character.
  */
-public class ExpiryDateEditText extends StripeEditText {
+public class ExpiryDateEditText extends PaymentezEditText {
 
     static final int INVALID_INPUT = -1;
     private static final int MAX_INPUT_LENGTH = 5;

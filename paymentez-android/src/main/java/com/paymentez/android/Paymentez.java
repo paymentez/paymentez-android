@@ -31,25 +31,27 @@ import retrofit2.Response;
  */
 public class Paymentez{
 
-    private boolean is_dev;
+    private static boolean TEST_MODE;
+    private static String PAYMENTEZ_CLIENT_APP_CODE;
+    private static String PAYMENTEZ_CLIENT_APP_KEY;
 
     static int MERCHANT_ID = 500005;
     static int KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_TEST;
 
-    Context mContext;
-    final PaymentezService paymentezService;
+    static PaymentezService paymentezService;
 
     /**
+     * Init library
      *
-     * @param mContext Context of the Main Activity
-     * @param is_dev false to use production environment
-     * @param app_client_code Application identifier (provided by Paymentez).
-     * @param app_client_key Application Secret key (provided by Paymentez).
+     * @param test_mode false to use production environment
+     * @param paymentez_client_app_code provided by Paymentez.
+     * @param paymentez_client_app_key provided by Paymentez.
      */
-    public Paymentez(Context mContext, boolean is_dev, String app_client_code, String app_client_key) {
-        this.mContext = mContext;
-        this.is_dev = is_dev;
-        if (this.is_dev){
+    public static void setEnvironment(boolean test_mode, String paymentez_client_app_code, String paymentez_client_app_key) {
+        TEST_MODE = test_mode;
+        PAYMENTEZ_CLIENT_APP_CODE = paymentez_client_app_code;
+        PAYMENTEZ_CLIENT_APP_KEY = paymentez_client_app_key;
+        if (TEST_MODE){
             KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_TEST;
 
         }else{
@@ -57,30 +59,36 @@ public class Paymentez{
 
         }
 
-        paymentezService = PaymenezClient.getClient(mContext, is_dev, app_client_code, app_client_key).create(PaymentezService.class);
+
 
     }
 
-
-
+    /**
+     * Set your Risk Merchant ID
+     * @param merchant_id Insert your valid merchant ID
+     *
+     */
+    public static void setRiskMerchantId(int merchant_id){
+        MERCHANT_ID = merchant_id;
+    }
 
     /**
      * The simplest way to create a token, using a {@link Card} and {@link TokenCallback}. T
-     *
+     * @param mContext Context of the Main Activity
      * @param uid User identifier. This is the identifier you use inside your application; you will receive it in notifications.
      * @param email Email of the user initiating the purchase. Format: Valid e-mail format.
      * @param card the {@link Card} used to create this payment token
      * @param callback a {@link TokenCallback} to receive either the token or an error
      */
-    public void createToken(@NonNull final String uid, @NonNull final String email, @NonNull final Card card, @NonNull final TokenCallback callback) {
+    public static void addCard(Context mContext, @NonNull final String uid, @NonNull final String email, @NonNull final Card card, @NonNull final TokenCallback callback) {
 
-
+        paymentezService = PaymenezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
         User user = new User();
         user.setId(uid);
         user.setEmail(email);
 
         CreateTokenRequest createTokenRequest = new CreateTokenRequest();
-        createTokenRequest.setSessionId(getSessionId());
+        createTokenRequest.setSessionId(getSessionId(mContext));
         createTokenRequest.setCard(card);
         createTokenRequest.setUser(user);
 
@@ -128,14 +136,14 @@ public class Paymentez{
      *
      * @return session_id
      */
-    public String getSessionId(){
+    public static String getSessionId(Context mContext){
         String sessionID = UUID.randomUUID().toString();
         final String deviceSessionID = sessionID.replace("-", "");
 
 
         // Configure the collector
         final DataCollector dataCollector = com.kount.api.DataCollector.getInstance();
-        if(is_dev)
+        if(TEST_MODE)
             dataCollector.setDebug(true);
         else
             dataCollector.setDebug(false);

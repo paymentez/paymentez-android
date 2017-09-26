@@ -57,9 +57,9 @@ public class CardMultilineWidget extends LinearLayout {
     CardInputListener mCardInputListener;
     private CardNumberEditText mCardNumberEditText;
     private ExpiryDateEditText mExpiryDateEditText;
-    private StripeEditText mCvcEditText;
-    private StripeEditText mPostalCodeEditText;
-    private StripeEditText mCardHolderNameEditText;
+    private PaymentezEditText mCvcEditText;
+    private PaymentezEditText mPostalCodeEditText;
+    private PaymentezEditText mCardHolderNameEditText;
     private TextInputLayout mCardNumberTextInputLayout;
     private TextInputLayout mExpiryTextInputLayout;
     private TextInputLayout mCvcTextInputLayout;
@@ -406,9 +406,9 @@ public class CardMultilineWidget extends LinearLayout {
 
         mCardNumberEditText = (CardNumberEditText) findViewById(R.id.et_add_source_card_number_ml);
         mExpiryDateEditText = (ExpiryDateEditText) findViewById(R.id.et_add_source_expiry_ml);
-        mCvcEditText = (StripeEditText) findViewById(R.id.et_add_source_cvc_ml);
-        mPostalCodeEditText = (StripeEditText) findViewById(R.id.et_add_source_postal_ml);
-        mCardHolderNameEditText = (StripeEditText) findViewById(R.id.et_add_source_cardholdername_ml);
+        mCvcEditText = (PaymentezEditText) findViewById(R.id.et_add_source_cvc_ml);
+        mPostalCodeEditText = (PaymentezEditText) findViewById(R.id.et_add_source_postal_ml);
+        mCardHolderNameEditText = (PaymentezEditText) findViewById(R.id.et_add_source_cardholdername_ml);
         mTintColorInt = mCardNumberEditText.getHintTextColors().getDefaultColor();
 
         mCardBrand = Card.UNKNOWN;
@@ -471,7 +471,7 @@ public class CardMultilineWidget extends LinearLayout {
                 });
 
         mCvcEditText.setAfterTextChangedListener(
-                new StripeEditText.AfterTextChangedListener() {
+                new PaymentezEditText.AfterTextChangedListener() {
                     @Override
                     public void onTextChanged(String text) {
                         if (ViewUtils.isCvcMaximalLength(mCardBrand, text)) {
@@ -498,7 +498,7 @@ public class CardMultilineWidget extends LinearLayout {
         adjustViewForPaymentezLogoAttribute();
 
         mPostalCodeEditText.setAfterTextChangedListener(
-                new StripeEditText.AfterTextChangedListener() {
+                new PaymentezEditText.AfterTextChangedListener() {
                     @Override
                     public void onTextChanged(String text) {
                         if (isPostalCodeMaximalLength(true, text)
@@ -723,7 +723,7 @@ public class CardMultilineWidget extends LinearLayout {
         mCardNumberEditText.setCompoundDrawables(compatIcon, null, null, null);
     }
 
-    private static class ErrorListener implements StripeEditText.ErrorMessageListener {
+    private static class ErrorListener implements PaymentezEditText.ErrorMessageListener {
 
         TextInputLayout textInputLayout;
 

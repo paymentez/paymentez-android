@@ -26,7 +26,7 @@ public class PaymenezClient {
     private static Retrofit retrofit = null;
     static OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
 
-    public static Retrofit getClient(Context mContext, boolean is_dev, final String app_client_code, final String app_client_key) {
+    public static Retrofit getClient(Context mContext, boolean is_dev, final String PAYMENTEZ_CLIENT_APP_CODE, final String PAYMENTEZ_CLIENT_APP_KEY) {
         if (retrofit==null) {
             String SERVER_URL;
             if (is_dev){
@@ -41,7 +41,7 @@ public class PaymenezClient {
             builder.addInterceptor(new Interceptor() {
                 @Override public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request().newBuilder().addHeader("Content-Type", "application/json")
-                            .addHeader("Auth-Token", PaymentezUtils.getAuthToken(app_client_code, app_client_key))
+                            .addHeader("Auth-Token", PaymentezUtils.getAuthToken(PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY))
                             .build();
                     return chain.proceed(request);
                 }

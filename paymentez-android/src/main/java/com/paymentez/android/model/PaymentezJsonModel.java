@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents a JSON model used in the Stripe Api.
+ * Represents a JSON model used in the Paymentez Api.
  */
-public abstract class StripeJsonModel {
+public abstract class PaymentezJsonModel {
 
     @NonNull
     public abstract Map<String, Object> toMap();
@@ -28,10 +28,10 @@ public abstract class StripeJsonModel {
         return this.toJson().toString();
     }
 
-    static void putStripeJsonModelMapIfNotNull(
+    static void putPaymentezJsonModelMapIfNotNull(
         @NonNull Map<String, Object> upperLevelMap,
         @NonNull @Size(min = 1) String key,
-        @Nullable StripeJsonModel jsonModel){
+        @Nullable PaymentezJsonModel jsonModel){
         if (jsonModel == null) {
             return;
         }
@@ -39,10 +39,10 @@ public abstract class StripeJsonModel {
     }
 
 
-    static void putStripeJsonModelIfNotNull(
+    static void putPaymentezJsonModelIfNotNull(
             @NonNull JSONObject jsonObject,
             @NonNull @Size(min = 1) String key,
-            @Nullable StripeJsonModel jsonModel) {
+            @Nullable PaymentezJsonModel jsonModel) {
         if (jsonModel == null) {
             return;
         }
@@ -52,10 +52,10 @@ public abstract class StripeJsonModel {
         } catch (JSONException ignored) {}
     }
 
-    static void putStripeJsonModelListIfNotNull(
+    static void putPaymentezJsonModelListIfNotNull(
             @NonNull Map<String, Object> upperLevelMap,
             @NonNull @Size(min = 1) String key,
-            @Nullable List<? extends StripeJsonModel> jsonModelList) {
+            @Nullable List<? extends PaymentezJsonModel> jsonModelList) {
         if (jsonModelList == null) {
             return;
         }
@@ -68,17 +68,17 @@ public abstract class StripeJsonModel {
     }
 
 
-    static void putStripeJsonModelListIfNotNull(
+    static void putPaymentezJsonModelListIfNotNull(
             @NonNull JSONObject jsonObject,
             @NonNull @Size(min = 1) String key,
-            @Nullable List<? extends StripeJsonModel> jsonModelList) {
+            @Nullable List<? extends PaymentezJsonModel> jsonModelList) {
         if (jsonModelList == null) {
             return;
         }
 
         try {
             JSONArray array = new JSONArray();
-            for (StripeJsonModel model : jsonModelList) {
+            for (PaymentezJsonModel model : jsonModelList) {
                 array.put(model.toJson());
             }
             jsonObject.put(key, array);
