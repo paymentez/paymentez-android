@@ -11,7 +11,7 @@ Paymentez Android SDK
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.paymentez:paymentez-android:1.0.1'
+    compile 'com.paymentez:paymentez-android:1.0.0'
 
 ### ProGuard
 
