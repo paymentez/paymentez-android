@@ -31,6 +31,7 @@ import com.paymentez.android.util.CardUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Locale;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
@@ -370,7 +371,7 @@ public class CardMultilineWidget extends LinearLayout {
 
                                 if(scanResult.expiryMonth > 0 && scanResult.expiryYear > 0){
 
-                                    mExpiryDateEditText.setText(String.format("%02d", scanResult.expiryMonth)+"/"+ (""+scanResult.expiryYear).substring(2));
+                                    mExpiryDateEditText.setText(String.format(Locale.ENGLISH, "%02d", scanResult.expiryMonth)+"/"+ (""+scanResult.expiryYear).substring(2));
                                 }
 
                                 validateAllFields();

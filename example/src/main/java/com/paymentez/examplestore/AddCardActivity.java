@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-
 import com.paymentez.android.Paymentez;
 import com.paymentez.android.model.Card;
 import com.paymentez.android.rest.TokenCallback;
@@ -63,7 +62,7 @@ public class AddCardActivity extends AppCompatActivity {
                         public void onSuccess(Card card) {
                             buttonNext.setEnabled(true);
                             pd.dismiss();
-                            if(card!=null){
+                            if(card != null){
                                 if(card.getStatus().equals("valid")){
                                     Alert.show(mContext,
                                             "Card Successfully Added",
@@ -71,7 +70,7 @@ public class AddCardActivity extends AppCompatActivity {
                                                     "Card Token: " + card.getToken() + "\n" +
                                                     "transaction_reference: " + card.getTransactionReference());
 
-                                }else if (card.getStatus().equals("review")) {
+                                } else if (card.getStatus().equals("review")) {
                                     Alert.show(mContext,
                                             "Card Under Review",
                                             "status: " + card.getStatus() + "\n" +

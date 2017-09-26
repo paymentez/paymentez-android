@@ -64,25 +64,40 @@ if (cardToSave == null) {
 
 If the returned `Card` is null, error states will show on the fields that need to be fixed. 
 
-Once you have a non-null `Card` object from either widget, you can call [addCard](#addCard).
+Once you have a non-null `Card` object from the widget, you can call [addCard](#addCard).
 
 ### Init library
 You should initialize the library on your Application or in your first Activity. 
 
 ```java
-/**
- * Init library
- *
- * @param test_mode false to use production environment
- * @param paymentez_client_app_code provided by Paymentez.
- * @param paymentez_client_app_key provided by Paymentez.
- */
-Paymentez.setEnvironment(Constants.PAYMENTEZ_IS_TEST_MODE, Constants.PAYMENTEZ_CLIENT_APP_CODE, Constants.PAYMENTEZ_CLIENT_APP_KEY);
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import com.paymentez.android.Paymentez;
+import com.paymentez.examplestore.utils.Constants;
 
-
- // In case you have your own Fraud Risk Merchant Id
- //Paymentez.setRiskMerchantId(1000);
- // Note: for most of the devs, that's not necessary.
+public class MainActivity extends ActionBarActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);      
+      setContentView(R.layout.activity_main);
+      
+      /**
+       * Init library
+       *
+       * @param test_mode false to use production environment
+       * @param paymentez_client_app_code provided by Paymentez.
+       * @param paymentez_client_app_key provided by Paymentez.
+       */
+      Paymentez.setEnvironment(Constants.PAYMENTEZ_IS_TEST_MODE, Constants.PAYMENTEZ_CLIENT_APP_CODE, Constants.PAYMENTEZ_CLIENT_APP_KEY);
+      
+      
+       // In case you have your own Fraud Risk Merchant Id
+       //Paymentez.setRiskMerchantId(1000);
+       // Note: for most of the devs, that's not necessary.
+    }
+}
 ```
 
 ### addCard
@@ -94,7 +109,7 @@ paymentez.addCard(mContext, uid, email, cardToSave, new TokenCallback() {
 
     public void onSuccess(Card card) {
         
-        if(card!=null){
+        if(card != null){
             if(card.getStatus().equals("valid")){
                 Alert.show(mContext,
                         "Card Successfully Added",
@@ -102,7 +117,7 @@ paymentez.addCard(mContext, uid, email, cardToSave, new TokenCallback() {
                                 "Card Token: " + card.getToken() + "\n" +
                                 "transaction_reference: " + card.getTransactionReference());
 
-            }else if (card.getStatus().equals("review")) {
+            } else if (card.getStatus().equals("review")) {
                 Alert.show(mContext,
                         "Card Under Review",
                         "status: " + card.getStatus() + "\n" +
