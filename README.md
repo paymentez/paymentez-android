@@ -1,7 +1,7 @@
 Paymentez Android SDK
 ===================
 
- Paymentez Android SDK is a library that allows developers to easily connect to the Paymentez CREDITCARDS API
+Paymentez Android SDK is a library that allows developers to easily connect to the Paymentez CREDITCARDS API
 
 ----------
 
