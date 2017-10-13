@@ -242,7 +242,10 @@ Note: the app require an [Android SDK](https://developer.android.com/studio/inde
 Before you can run the PaymentezStore application, you need to provide it with your Paymentez Credentials and a Sample Backend.
 
 1. If you don't have any Credentials yet, please ask your contact on Paymentez Team for it.
-2. Replace the `PAYMENTEZ_CLIENT_APP_CODE` and `PAYMENTEZ_CLIENT_APP_KEY` constants in Constants.java with your own Paymentez Client Credentials.
-3. Head to https://github.com/paymentez/example-java-backend and click "Deploy to Heroku" (you may have to sign up for a Heroku account as part of this process). Provide your Paymentez Server Credentials PAYMENTEZ_SERVER_APP_CODE and  PAYMENTEZ_SERVER_APP_KEY fields under 'Env'. Click "Deploy for Free".
-4. Replace the `BACKEND_URL` variable in the Constants.java file with the app URL Heroku provides you with (e.g. "https://my-example-app.herokuapp.com")
+2. Head to https://github.com/paymentez/example-java-backend and click "Deploy to Heroku" (you may have to sign up for a Heroku account as part of this process). Provide your Paymentez Server Credentials `PAYMENTEZ_SERVER_APP_CODE` and  `PAYMENTEZ_SERVER_APP_KEY` fields under 'Env'. Click "Deploy for Free".
+3. Open the project on Android Studio.
+4. Replace the `PAYMENTEZ_CLIENT_APP_CODE` and `PAYMENTEZ_CLIENT_APP_KEY` constants in Constants.java with your own Paymentez Client Credentials.
+5. Replace the `BACKEND_URL` variable in the Constants.java file with the app URL Heroku provides you with (e.g. "https://my-example-app.herokuapp.com")
+6. Run the Project.
 
+Important Note: if you only have one APP_CODE, please asume that it's your `PAYMENTEZ_SERVER_APP_CODE`. So you need to ask your contact on Paymentez Team for your `PAYMENTEZ_CLIENT_APP_CODE`.
