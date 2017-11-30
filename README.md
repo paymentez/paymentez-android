@@ -12,7 +12,7 @@ Paymentez Android SDK is a library that allows developers to easily connect to t
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.paymentez:paymentez-android:1.0.0'
+    compile 'com.paymentez:paymentez-android:1.1'
 
 ### ProGuard
 
@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity {
 addCard converts sensitive card data to a single-use token which you can safely pass to your server to charge the user. 
 
 ```java
-paymentez.addCard(mContext, uid, email, cardToSave, new TokenCallback() {
+Paymentez.addCard(mContext, uid, email, cardToSave, new TokenCallback() {
 
     public void onSuccess(Card card) {
         
@@ -174,7 +174,7 @@ It should send the token to your server for processing onSuccess, and notify the
 
 Here's a sample implementation of the token callback:
 ```java
-paymentez.addCard(
+Paymentez.addCard(
     mContext, uid, email, cardToSave,
     new TokenCallback() {
         public void onSuccess(Card card) {
