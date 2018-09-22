@@ -12,7 +12,7 @@ Paymentez Android SDK is a library that allows developers to easily connect to t
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.paymentez:paymentez-android:1.1'
+    compile 'com.paymentez:paymentez-android:1.2.1'
 
 ### ProGuard
 
