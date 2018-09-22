@@ -20,11 +20,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.InputFilter;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.paymentez.android.R;
 import com.paymentez.android.model.Card;
 import com.paymentez.android.util.CardUtils;
@@ -64,14 +70,26 @@ public class CardMultilineWidget extends LinearLayout {
     private TextInputLayout mCardNumberTextInputLayout;
     private TextInputLayout mExpiryTextInputLayout;
     private TextInputLayout mCvcTextInputLayout;
+    private TextInputLayout mNipTextInputLayout;
+    private TextInputLayout mFiscalNumberTextInputLayout;
+
     private TextInputLayout mPostalInputLayout;
     private TextInputLayout mCardHolderNameInputLayout;
     private ImageButton imageButtonScanCard;
     private ImageView imageViewPaymentezLogo;
+    private LinearLayout second_row_layout;
+    private LinearLayout third_row_layout;
+    private LinearLayout four_row_layout;
+    private Button buttonHideNip;
+    private PaymentezEditText mFiscalNumberEditText;
+    private PaymentezEditText mNipEditText;
+
 
     private boolean mIsEnabled;
     private boolean mShouldShowPostalCode;
     private boolean mShouldShowCardHolderName;
+    private boolean mShouldShowFiscalNumber;
+    private boolean mShouldShowNip;
     private boolean mShouldShowScanCard;
     private boolean mShouldShowPaymentezLogo;
     private boolean mHasAdjustedDrawable;
@@ -80,8 +98,9 @@ public class CardMultilineWidget extends LinearLayout {
 
     private @DrawableRes
     int mCachedIconResource;
-    private @Card.CardBrand
     String mCardBrand;
+    String mCardLogo;
+    boolean mIsOtp;
     private @ColorInt
     int mTintColorInt;
 
@@ -132,7 +151,28 @@ public class CardMultilineWidget extends LinearLayout {
             int[] cardDate = mExpiryDateEditText.getValidDateFields();
             String cvcValue = mCvcEditText.getText().toString();
 
-            Card card = new Card(cardNumber, cardDate[0], cardDate[1], cvcValue);
+            int month = 0;
+            int year = 0;
+
+            if(cardDate != null && cardDate.length>=2){
+                month = cardDate[0];
+                year = cardDate[1];
+            }
+
+            Card card = new Card(cardNumber, month, year, cvcValue);
+
+            if(mCardBrand.equals("ex") || mCardBrand.equals("ak")){
+                card.setCVC("");
+                card.setFiscal_number(mFiscalNumberEditText.getText().toString());
+                if(mNipTextInputLayout.getVisibility() == View.VISIBLE){
+                    card.setNip(mNipEditText.getText().toString());
+                    card.setCard_auth("AUTH_NIP");
+                }else{
+                    card.setCard_auth("AUTH_OTP");
+                }
+
+            }
+
             if (mShouldShowPostalCode) {
                 card.setAddressZip(mPostalCodeEditText.getText().toString());
             }
@@ -156,12 +196,18 @@ public class CardMultilineWidget extends LinearLayout {
                 CardUtils.isValidCardNumber(mCardNumberEditText.getCardNumber());
         boolean expiryIsValid = mExpiryDateEditText.getValidDateFields() != null &&
                 mExpiryDateEditText.isDateValid();
+
         boolean cvcIsValid = ViewUtils.isCvcMaximalLength(
                 mCardBrand, mCvcEditText.getText().toString());
+
+        if(mCardBrand.equals("ex") || mCardBrand.equals("ak")){
+            expiryIsValid = true;
+            cvcIsValid = true;
+        }
         mCardNumberEditText.setShouldShowError(!cardNumberIsValid);
         mExpiryDateEditText.setShouldShowError(!expiryIsValid);
         mCvcEditText.setShouldShowError(!cvcIsValid);
-        boolean postalCodeIsValidOrGone, cardHolderNameIsValidOrGone;
+        boolean postalCodeIsValidOrGone, cardHolderNameIsValidOrGone, nipIsValidOrGone, fiscalNumberIsValidOrGone;
         if (mShouldShowPostalCode) {
             postalCodeIsValidOrGone = isPostalCodeMaximalLength(true,
                     mPostalCodeEditText.getText().toString());
@@ -178,10 +224,29 @@ public class CardMultilineWidget extends LinearLayout {
             cardHolderNameIsValidOrGone = true;
         }
 
+
+        if(mShouldShowFiscalNumber){
+            fiscalNumberIsValidOrGone = isFiscalNumberValid(
+                    mFiscalNumberEditText.getText().toString());
+            mFiscalNumberEditText.setShouldShowError(!fiscalNumberIsValidOrGone);
+        } else {
+            fiscalNumberIsValidOrGone = true;
+        }
+
+        if (mShouldShowNip) {
+            nipIsValidOrGone = isNipValid(
+                    mNipEditText.getText().toString());
+            mNipEditText.setShouldShowError(!nipIsValidOrGone);
+        } else {
+            nipIsValidOrGone = true;
+        }
+
         return cardNumberIsValid
                 && expiryIsValid
                 && cvcIsValid
                 && postalCodeIsValidOrGone
+                && fiscalNumberIsValidOrGone
+                && nipIsValidOrGone
                 && cardHolderNameIsValidOrGone;
     }
 
@@ -189,7 +254,7 @@ public class CardMultilineWidget extends LinearLayout {
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
         if (hasWindowFocus) {
-            updateBrand(mCardBrand);
+            //updateBrand(mCardBrand, mCardLogo);
         }
     }
 
@@ -223,6 +288,8 @@ public class CardMultilineWidget extends LinearLayout {
         mExpiryTextInputLayout.setEnabled(enabled);
         mCardNumberTextInputLayout.setEnabled(enabled);
         mCvcTextInputLayout.setEnabled(enabled);
+        mNipTextInputLayout.setEnabled(enabled);
+        mFiscalNumberTextInputLayout.setEnabled(enabled);
         mPostalInputLayout.setEnabled(enabled);
         mCardHolderNameInputLayout.setEnabled(enabled);
         mIsEnabled = enabled;
@@ -285,6 +352,14 @@ public class CardMultilineWidget extends LinearLayout {
         return text != null && text.length() >= 5;
     }
 
+    static boolean isFiscalNumberValid(@Nullable String text) {
+        return text != null && text.length() >= 6;
+    }
+
+    static boolean isNipValid(@Nullable String text) {
+        return text != null && text.length() == 4;
+    }
+
     static boolean isPostalCodeMaximalLength(boolean isZip, @Nullable String text) {
         return isZip && text != null && text.length() == 5;
     }
@@ -298,7 +373,7 @@ public class CardMultilineWidget extends LinearLayout {
 
             try {
                 mShouldShowScanCard =
-                        a.getBoolean(R.styleable.CardMultilineWidget_shouldShowScanCard, true);
+                        a.getBoolean(R.styleable.CardMultilineWidget_shouldShowScanCard, false);
                 mShouldShowPaymentezLogo =
                         a.getBoolean(R.styleable.CardMultilineWidget_shouldShowPaymentezLogo, true);
 
@@ -321,7 +396,7 @@ public class CardMultilineWidget extends LinearLayout {
                 ? R.drawable.ic_cvc_amex
                 : R.drawable.ic_cvc;
 
-        updateDrawable(resourceId, true);
+        updateDrawable(resourceId, true, null);
     }
 
     @StringRes
@@ -405,7 +480,15 @@ public class CardMultilineWidget extends LinearLayout {
             }
         });
 
+
+
+
         mCardNumberEditText = (CardNumberEditText) findViewById(R.id.et_add_source_card_number_ml);
+        mNipEditText = (PaymentezEditText) findViewById(R.id.et_add_source_nip_ml);
+        mFiscalNumberEditText = (PaymentezEditText) findViewById(R.id.et_add_source_fiscal_number_ml);
+
+
+
         mExpiryDateEditText = (ExpiryDateEditText) findViewById(R.id.et_add_source_expiry_ml);
         mCvcEditText = (PaymentezEditText) findViewById(R.id.et_add_source_cvc_ml);
         mPostalCodeEditText = (PaymentezEditText) findViewById(R.id.et_add_source_postal_ml);
@@ -421,8 +504,30 @@ public class CardMultilineWidget extends LinearLayout {
         mExpiryTextInputLayout = (TextInputLayout) findViewById(R.id.tl_add_source_expiry_ml);
         // We dynamically set the hint of the CVC field, so we need to keep a reference.
         mCvcTextInputLayout = (TextInputLayout) findViewById(R.id.tl_add_source_cvc_ml);
+        mNipTextInputLayout = (TextInputLayout) findViewById(R.id.tl_add_source_nip_ml);
+        mFiscalNumberTextInputLayout = (TextInputLayout) findViewById(R.id.tl_add_source_fiscal_number_ml);
         mPostalInputLayout = (TextInputLayout) findViewById(R.id.tl_add_source_postal_ml);
         mCardHolderNameInputLayout = (TextInputLayout) findViewById(R.id.tl_add_source_cardholdername_ml);
+
+
+        second_row_layout = (LinearLayout) findViewById(R.id.second_row_layout);
+        third_row_layout = (LinearLayout) findViewById(R.id.third_row_layout);
+        four_row_layout = (LinearLayout) findViewById(R.id.four_row_layout);
+
+
+        buttonHideNip = (Button) findViewById(R.id.buttonHideNip);
+        buttonHideNip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mNipTextInputLayout.getVisibility() == View.INVISIBLE){
+                    mShouldShowNip = true;
+                    mNipTextInputLayout.setVisibility(View.VISIBLE);
+                }else{
+                    mShouldShowNip = false;
+                    mNipTextInputLayout.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
         if (mShouldShowPostalCode) {
             // Set the label/hint to the shorter value if we have three things in a row.
@@ -434,7 +539,10 @@ public class CardMultilineWidget extends LinearLayout {
                 mCardNumberTextInputLayout,
                 mExpiryTextInputLayout,
                 mCvcTextInputLayout,
-                mPostalInputLayout);
+                mPostalInputLayout,
+                mNipTextInputLayout,
+                mFiscalNumberTextInputLayout
+                );
 
         initErrorMessages();
         initFocusChangeListeners();
@@ -443,8 +551,8 @@ public class CardMultilineWidget extends LinearLayout {
         mCardNumberEditText.setCardBrandChangeListener(
                 new CardNumberEditText.CardBrandChangeListener() {
                     @Override
-                    public void onCardBrandChanged(@NonNull @Card.CardBrand String brand) {
-                        updateBrand(brand);
+                    public void onCardBrandChanged(@NonNull String brand, String cardLogo, boolean isOtp) {
+                        updateBrand(brand, cardLogo, isOtp);
                     }
                 });
 
@@ -452,7 +560,12 @@ public class CardMultilineWidget extends LinearLayout {
                 new CardNumberEditText.CardNumberCompleteListener() {
                     @Override
                     public void onCardNumberComplete() {
-                        mExpiryDateEditText.requestFocus();
+                        if(mCardBrand.equals("ex") || mCardBrand.equals("ak")){
+                            mFiscalNumberEditText.requestFocus();
+                        }else{
+                            mExpiryDateEditText.requestFocus();
+                        }
+
                         if (mCardInputListener != null) {
                             mCardInputListener.onCardComplete();
                         }
@@ -476,7 +589,7 @@ public class CardMultilineWidget extends LinearLayout {
                     @Override
                     public void onTextChanged(String text) {
                         if (ViewUtils.isCvcMaximalLength(mCardBrand, text)) {
-                            updateBrand(mCardBrand);
+                            updateBrand(mCardBrand, mCardLogo, mIsOtp);
                             if (mShouldShowPostalCode) {
                                 mPostalCodeEditText.requestFocus();
                             }
@@ -511,7 +624,7 @@ public class CardMultilineWidget extends LinearLayout {
                 });
 
         mCardNumberEditText.updateLengthFilter();
-        updateBrand(Card.UNKNOWN);
+        updateBrand(Card.UNKNOWN, mCardLogo, mIsOtp);
         setEnabled(true);
     }
 
@@ -539,6 +652,8 @@ public class CardMultilineWidget extends LinearLayout {
         mCvcEditText.setErrorMessage(getContext().getString(R.string.invalid_cvc));
         mPostalCodeEditText.setErrorMessage(getContext().getString(R.string.invalid_zip));
         mPostalCodeEditText.setErrorMessage(getContext().getString(R.string.invalid_cardholdername));
+        mFiscalNumberEditText.setErrorMessage(getContext().getString(R.string.error_fiscal_number));
+        mNipEditText.setErrorMessage(getContext().getString(R.string.error_nip));
     }
 
     private void initFocusChangeListeners() {
@@ -586,7 +701,7 @@ public class CardMultilineWidget extends LinearLayout {
                         mCardInputListener.onFocusChange(FOCUS_CVC);
                     }
                 } else {
-                    updateBrand(mCardBrand);
+                    updateBrand(mCardBrand, mCardLogo, mIsOtp);
                     mCvcEditText.setHint("");
                 }
             }
@@ -637,6 +752,48 @@ public class CardMultilineWidget extends LinearLayout {
         }
 
 
+        if (mFiscalNumberEditText != null) {
+            mFiscalNumberEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!mShouldShowFiscalNumber) {
+                        return;
+                    }
+                    if (hasFocus) {
+                    } else {
+                        mFiscalNumberEditText.setHint("");
+                        if(!isFiscalNumberValid(mFiscalNumberEditText.getText().toString())){
+                            mFiscalNumberEditText.setShouldShowError(true);
+                        }else{
+                            mFiscalNumberEditText.setShouldShowError(false);
+                        }
+                    }
+                }
+            });
+        }
+
+
+        if (mNipEditText != null) {
+            mNipEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!mShouldShowNip) {
+                        return;
+                    }
+                    if (hasFocus) {
+                    } else {
+                        mFiscalNumberEditText.setHint("");
+                        if(!isNipValid(mNipEditText.getText().toString())){
+                            mNipEditText.setShouldShowError(true);
+                        }else{
+                            mNipEditText.setShouldShowError(false);
+                        }
+                    }
+                }
+            });
+        }
+
+
     }
 
     private void initTextInputLayoutErrorHandlers(
@@ -644,11 +801,17 @@ public class CardMultilineWidget extends LinearLayout {
             TextInputLayout cardInputLayout,
             TextInputLayout expiryInputLayout,
             TextInputLayout cvcTextInputLayout,
-            TextInputLayout postalInputLayout) {
+            TextInputLayout postalInputLayout,
+            TextInputLayout nipInputLayout,
+            TextInputLayout fiscalNumberInputLayout
+            ) {
 
 
         mCardNumberEditText.setErrorMessageListener(new ErrorListener(cardInputLayout));
         mExpiryDateEditText.setErrorMessageListener(new ErrorListener(expiryInputLayout));
+
+
+
         mCvcEditText.setErrorMessageListener(new ErrorListener(cvcTextInputLayout));
         if (mPostalCodeEditText != null) {
             mPostalCodeEditText.setErrorMessageListener(new ErrorListener(postalInputLayout));
@@ -659,16 +822,66 @@ public class CardMultilineWidget extends LinearLayout {
             mCardHolderNameEditText.setErrorMessageListener(new ErrorListener(cardholdernameInputLayout));
         }
 
+        if (mNipEditText != null) {
+            mNipEditText.setErrorMessageListener(new ErrorListener(nipInputLayout));
+        }
+
+        if (mFiscalNumberEditText != null) {
+            mFiscalNumberEditText.setErrorMessageListener(new ErrorListener(fiscalNumberInputLayout));
+        }
 
     }
 
-    private void updateBrand(@NonNull @Card.CardBrand String brand) {
+    private void updateBrand(@NonNull String brand, String cardLogo, boolean isOtp) {
         mCardBrand = brand;
+        mCardLogo = cardLogo;
+        mIsOtp = isOtp;
+
         updateCvc(mCardBrand);
-        updateDrawable(BRAND_RESOURCE_MAP.get(brand), Card.UNKNOWN.equals(brand));
+        int iconResourceId = BRAND_RESOURCE_MAP.get(Card.UNKNOWN);
+        try{
+            iconResourceId = BRAND_RESOURCE_MAP.get(mCardBrand);
+        }catch(Exception e){}
+
+
+        if(brand.equals("ex") || brand.equals("ak")){
+            showTuyaFields(true);
+        }else{
+            showTuyaFields(false);
+        }
+
+        if(!isOtp){
+            buttonHideNip.setVisibility(View.INVISIBLE);
+        }
+
+        updateDrawable(iconResourceId, Card.UNKNOWN.equals(brand), cardLogo);
     }
 
-    private void updateCvc(@NonNull @Card.CardBrand String brand) {
+    private void showTuyaFields(boolean isVisible){
+        if(isVisible){
+            second_row_layout.setVisibility(View.GONE);
+            third_row_layout.setVisibility(View.VISIBLE);
+            four_row_layout.setVisibility(View.VISIBLE);
+
+            mCardNumberEditText.setNextFocusForwardId(R.id.et_add_source_fiscal_number_ml);
+            mCardNumberEditText.setNextFocusDownId(R.id.et_add_source_fiscal_number_ml);
+
+            mShouldShowNip = true;
+            mShouldShowFiscalNumber = true;
+        }else{
+            second_row_layout.setVisibility(View.VISIBLE);
+            third_row_layout.setVisibility(View.GONE);
+            four_row_layout.setVisibility(View.GONE);
+
+            mCardNumberEditText.setNextFocusForwardId(R.id.et_add_source_expiry_ml);
+            mCardNumberEditText.setNextFocusDownId(R.id.et_add_source_expiry_ml);
+
+            mShouldShowNip = false;
+            mShouldShowFiscalNumber = false;
+        }
+    }
+
+    private void updateCvc(@NonNull String brand) {
         if (Card.AMERICAN_EXPRESS.equals(brand)) {
             mCvcEditText.setFilters(
                     new InputFilter[]{
@@ -686,15 +899,16 @@ public class CardMultilineWidget extends LinearLayout {
     @SuppressWarnings("deprecation")
     private void updateDrawable(
             @DrawableRes int iconResourceId,
-            boolean needsTint) {
+            final boolean needsTint, String brandLogoUrl) {
 
-        Drawable icon;
+
+        final Drawable[] icon = new Drawable[1];
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            icon = getResources().getDrawable(iconResourceId, null);
+            icon[0] = getResources().getDrawable(iconResourceId, null);
         } else {
             // This method still triggers the "deprecation" warning, despite the other
             // one not being allowed for SDK < 21
-            icon = getResources().getDrawable(iconResourceId);
+            icon[0] = getResources().getDrawable(iconResourceId);
         }
 
         Drawable[] drawables = mCardNumberEditText.getCompoundDrawables();
@@ -703,10 +917,10 @@ public class CardMultilineWidget extends LinearLayout {
             return;
         }
 
-        Rect copyBounds = new Rect();
+        final Rect copyBounds = new Rect();
         original.copyBounds(copyBounds);
 
-        int iconPadding = mCardNumberEditText.getCompoundDrawablePadding();
+        final int iconPadding = mCardNumberEditText.getCompoundDrawablePadding();
 
         if (!mHasAdjustedDrawable) {
             copyBounds.top = copyBounds.top - getDynamicBufferInPixels();
@@ -714,14 +928,32 @@ public class CardMultilineWidget extends LinearLayout {
             mHasAdjustedDrawable = true;
         }
 
-        icon.setBounds(copyBounds);
-        Drawable compatIcon = DrawableCompat.wrap(icon);
+        icon[0].setBounds(copyBounds);
+        final Drawable[] compatIcon = {DrawableCompat.wrap(icon[0])};
         if (needsTint) {
-            DrawableCompat.setTint(compatIcon.mutate(), mTintColorInt);
+            DrawableCompat.setTint(compatIcon[0].mutate(), mTintColorInt);
         }
 
         mCardNumberEditText.setCompoundDrawablePadding(iconPadding);
-        mCardNumberEditText.setCompoundDrawables(compatIcon, null, null, null);
+        mCardNumberEditText.setCompoundDrawables(compatIcon[0], null, null, null);
+
+        if(brandLogoUrl != null && !brandLogoUrl.equals(Card.UNKNOWN)){
+            Glide.with(this)
+                    .load(brandLogoUrl)
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            resource.setBounds(copyBounds);
+                            Drawable compatIcon = DrawableCompat.wrap(resource);
+                            if(needsTint){
+                                DrawableCompat.setTint(compatIcon.mutate(), mTintColorInt);
+                            }
+                            mCardNumberEditText.setCompoundDrawablePadding(iconPadding);
+                            mCardNumberEditText.setCompoundDrawables(resource, null, null, null);
+                        }
+                    });
+        }
+
     }
 
     private static class ErrorListener implements PaymentezEditText.ErrorMessageListener {

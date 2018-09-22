@@ -155,6 +155,86 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/third_row_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/add_card_element_vertical_margin"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        >
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tl_add_source_fiscal_number_ml"
+            android:layout_width="0dp"
+            android:hint="@string/documento_de_identificacion"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/add_card_expiry_middle_margin"
+            android:layout_marginRight="@dimen/add_card_expiry_middle_margin"
+            android:layout_weight="1"
+            >
+
+            <com.paymentez.android.view.PaymentezEditText
+                android:id="@+id/et_add_source_fiscal_number_ml"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="@string/valid_digits"
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_add_source_nip_ml"
+                android:nextFocusForward="@+id/et_add_source_nip_ml"
+                android:nextFocusRight="@+id/et_add_source_nip_ml"
+                android:imeOptions="actionNext"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/four_row_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/add_card_element_vertical_margin"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            >
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tl_add_source_nip_ml"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/add_card_expiry_middle_margin"
+                android:layout_marginRight="@dimen/add_card_expiry_middle_margin"
+                android:layout_weight="1"
+                >
+
+                <com.paymentez.android.view.PaymentezEditText
+                    android:id="@+id/et_add_source_nip_ml"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="@string/valid_digits"
+                    android:inputType="number"
+                    android:hint="@string/clave_tuya"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/buttonHideNip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg_transparent"
+                android:textColor="?colorAccent"
+                android:text="Continuar sin Clave" />
+
+
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imageViewPaymentezLogo"
             android:contentDescription="@string/app_name"

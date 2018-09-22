@@ -1,5 +1,7 @@
 package com.paymentez.android.model;
 
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,7 +48,9 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
             DINERS_CLUB,
             VISA,
             MASTERCARD,
-            UNKNOWN
+            UNKNOWN,
+            EXITO,
+            ALKOSTO
     })
     public @interface CardBrand { }
     public static final String AMERICAN_EXPRESS = "ax";
@@ -55,6 +59,8 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     public static final String DINERS_CLUB = "di";
     public static final String VISA = "vi";
     public static final String MASTERCARD = "mc";
+    public static final String EXITO = "ex";
+    public static final String ALKOSTO = "ak";
     public static final String UNKNOWN = "Unknown";
 
     public static final int CVC_LENGTH_AMERICAN_EXPRESS = 4;
@@ -82,7 +88,19 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
                 put(Card.MASTERCARD, R.drawable.ic_mastercard);
                 put(Card.VISA, R.drawable.ic_visa);
                 put(Card.UNKNOWN, R.drawable.ic_unknown);
+                put(Card.EXITO, R.drawable.ic_exito);
+                put(Card.ALKOSTO, R.drawable.ic_alkosto);
             }};
+
+
+    public static int getDrawableBrand(String brand){
+
+        @DrawableRes int iconResourceId = R.drawable.ic_unknown;
+        try{
+            iconResourceId = BRAND_RESOURCE_MAP.get(brand);
+        }catch(Exception e){}
+        return iconResourceId;
+    }
 
     // Based on http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
     public static final String[] PREFIXES_AMERICAN_EXPRESS = {"34", "37"};
@@ -144,8 +162,9 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     private String customerId;
     private String cvcCheck;
     private String id;
+
     @NonNull
-    private List<String> loggingTokens = new ArrayList<>();
+    private transient List<String> loggingTokens = new ArrayList<>();
 
     private String termination;
 
@@ -169,6 +188,14 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     @SerializedName("status")
     @Expose
     private String status;
+
+    @SerializedName("nip")
+    @Expose
+    private String nip;
+
+    @SerializedName("card_auth")
+    @Expose
+    private String card_auth;
 
 
     @SerializedName("number")
@@ -194,6 +221,8 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     @SerializedName("message")
     @Expose
     private String message;
+
+    private String fiscal_number;
 
     /**
      * Builder class for a {@link Card} model.
@@ -1139,9 +1168,7 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
         return cvc;
     }
 
-    public void setCvc(String cvc) {
-        this.cvc = cvc;
-    }
+
 
     public String getToken() {
         return token;
@@ -1199,5 +1226,29 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getNip() {
+        return nip;
+    }
+
+    public void setNip(String nip) {
+        this.nip = nip;
+    }
+
+    public String getCard_auth() {
+        return card_auth;
+    }
+
+    public void setCard_auth(String card_auth) {
+        this.card_auth = card_auth;
+    }
+
+    public String getFiscal_number() {
+        return fiscal_number;
+    }
+
+    public void setFiscal_number(String fiscal_number) {
+        this.fiscal_number = fiscal_number;
     }
 }

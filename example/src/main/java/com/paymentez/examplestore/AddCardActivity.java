@@ -48,6 +48,7 @@ public class AddCardActivity extends AppCompatActivity {
 
                 Card cardToSave = cardWidget.getCard();
                 if (cardToSave == null) {
+                    buttonNext.setEnabled(true);
                     Alert.show(mContext,
                             "Error",
                             "Invalid Card Data");

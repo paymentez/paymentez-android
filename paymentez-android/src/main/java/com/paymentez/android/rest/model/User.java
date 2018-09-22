@@ -16,6 +16,11 @@ public class User {
     @Expose
     private String ipAddress;
 
+    @SerializedName("fiscal_number")
+    @Expose
+    private String fiscal_number;
+
+
     public String getId() {
         return id;
     }
@@ -40,4 +45,11 @@ public class User {
         this.ipAddress = ipAddress;
     }
 
+    public String getFiscal_number() {
+        return fiscal_number;
+    }
+
+    public void setFiscal_number(String fiscal_number) {
+        this.fiscal_number = fiscal_number;
+    }
 }

@@ -16,6 +16,8 @@ public class CardUtils {
     private static final int LENGTH_AMERICAN_EXPRESS = 15;
     private static final int LENGTH_DINERS_CLUB = 14;
 
+    private static String CARD_BRAND = null;
+
     /**
      * Returns a {@link Card.CardBrand} corresponding to a partial card number,
      * or {@link Card#UNKNOWN} if the card brand can't be determined from the input value.
@@ -117,10 +119,16 @@ public class CardUtils {
         }
     }
 
+    public static void setPossibleCardType(String card_brand){
+        CARD_BRAND = card_brand;
+    }
+
     @NonNull
-    @Card.CardBrand
     private static String getPossibleCardType(@Nullable String cardNumber,
                                               boolean shouldNormalize) {
+        if(CARD_BRAND != null)
+            return CARD_BRAND;
+
         if (PaymentezTextUtils.isBlank(cardNumber)) {
             return Card.UNKNOWN;
         }
@@ -129,6 +137,9 @@ public class CardUtils {
         if (shouldNormalize) {
             spacelessCardNumber = PaymentezTextUtils.removeSpacesAndHyphens(cardNumber);
         }
+
+
+
 
         if (PaymentezTextUtils.hasAnyPrefix(spacelessCardNumber, Card.PREFIXES_AMERICAN_EXPRESS)) {
             return Card.AMERICAN_EXPRESS;

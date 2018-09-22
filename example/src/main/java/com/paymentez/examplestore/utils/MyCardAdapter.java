@@ -23,16 +23,7 @@ import java.util.Map;
 public class MyCardAdapter  extends RecyclerView.Adapter<MyCardAdapter.ViewHolder> {
     private ArrayList<Card> cards;
 
-    public static final Map<String , Integer> TEMPLATE_RESOURCE_MAP = new HashMap<>();
-    static {
-        TEMPLATE_RESOURCE_MAP.put(Card.AMERICAN_EXPRESS, R.drawable.ic_amex);
-        TEMPLATE_RESOURCE_MAP.put(Card.DINERS_CLUB, R.drawable.ic_diners);
-        TEMPLATE_RESOURCE_MAP.put(Card.DISCOVER, R.drawable.ic_discover);
-        TEMPLATE_RESOURCE_MAP.put(Card.JCB, R.drawable.ic_jcb);
-        TEMPLATE_RESOURCE_MAP.put(Card.MASTERCARD, R.drawable.ic_mastercard);
-        TEMPLATE_RESOURCE_MAP.put(Card.VISA, R.drawable.ic_visa);
-        TEMPLATE_RESOURCE_MAP.put(Card.UNKNOWN, R.drawable.ic_unknown);
-    }
+
 
     public interface OnCardSelectedListener {
         void onItemClick(Card item);
@@ -95,8 +86,7 @@ public class MyCardAdapter  extends RecyclerView.Adapter<MyCardAdapter.ViewHolde
         holder.textViewCardNumber.setText("XXXX." + cards.get(position).getLast4() + " - status: " + cards.get(position).getStatus());
         holder.textViewCardHoldersName.setText(cards.get(position).getHolderName());
 
-        @DrawableRes int iconResourceId = TEMPLATE_RESOURCE_MAP.get(cards.get(position).getType());
-        holder.imageViewBrandCard.setImageResource(iconResourceId);
+        holder.imageViewBrandCard.setImageResource(Card.getDrawableBrand(cards.get(position).getType()));
 
 
 

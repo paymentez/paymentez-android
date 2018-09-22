@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.paymentez.android.Paymentez;
+import com.paymentez.android.model.Card;
 import com.paymentez.android.rest.model.ErrorResponse;
 import com.paymentez.examplestore.rest.BackendService;
 import com.paymentez.examplestore.rest.RetrofitFactory;
@@ -28,8 +29,6 @@ import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.paymentez.examplestore.utils.MyCardAdapter.TEMPLATE_RESOURCE_MAP;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -147,9 +146,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
                 if(CARD_LAST4 != null && !CARD_LAST4.equals("")){
                     textViewCCLastFour.setText("XXXX." + CARD_LAST4);
-
-                    @DrawableRes int iconResourceId = TEMPLATE_RESOURCE_MAP.get(CARD_TYPE);
-                    imageViewCCImage.setImageResource(iconResourceId);
+                    imageViewCCImage.setImageResource(Card.getDrawableBrand(CARD_TYPE));
                 }
 
             }

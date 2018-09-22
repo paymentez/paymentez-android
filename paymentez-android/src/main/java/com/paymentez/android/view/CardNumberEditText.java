@@ -8,16 +8,25 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.EditText;
 
 
+import com.paymentez.android.Paymentez;
 import com.paymentez.android.model.Card;
+import com.paymentez.android.rest.PaymenezClient;
+import com.paymentez.android.rest.PaymentezService;
+import com.paymentez.android.rest.model.CardBinResponse;
 import com.paymentez.android.util.CardUtils;
 import com.paymentez.android.util.PaymentezTextUtils;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * An {@link EditText} that handles spacing out the digits of a credit card.
@@ -38,31 +47,35 @@ public class CardNumberEditText extends PaymentezEditText {
             new HashSet<>(Arrays.asList(SPACES_ARRAY_AMEX));
 
     @VisibleForTesting
-    @Card.CardBrand
     String mCardBrand = Card.UNKNOWN;
+    String mCardLogo = Card.UNKNOWN;
+    boolean mIsOtp = false;
     private CardBrandChangeListener mCardBrandChangeListener;
     private CardNumberCompleteListener mCardNumberCompleteListener;
     private int mLengthMax = 19;
     private boolean mIgnoreChanges = false;
     private boolean mIsCardNumberValid = false;
+    Context mContext;
 
     public CardNumberEditText(Context context) {
         super(context);
+        this.mContext = context;
         listenForTextChanges();
     }
 
     public CardNumberEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.mContext = context;
         listenForTextChanges();
     }
 
     public CardNumberEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mContext = context;
         listenForTextChanges();
     }
 
     @NonNull
-    @Card.CardBrand
     public String getCardBrand() {
         return mCardBrand;
     }
@@ -102,7 +115,7 @@ public class CardNumberEditText extends PaymentezEditText {
         mCardBrandChangeListener = listener;
         // Immediately display the brand if known, in case this method is invoked when
         // partial data already exists.
-        mCardBrandChangeListener.onCardBrandChanged(mCardBrand);
+        mCardBrandChangeListener.onCardBrandChanged(mCardBrand, mCardLogo, mIsOtp);
     }
 
     void updateLengthFilter() {
@@ -167,7 +180,11 @@ public class CardNumberEditText extends PaymentezEditText {
                     return;
                 }
 
-                if (start < 4) {
+                if(start < 6){
+                    updateCardBrand(Card.UNKNOWN, Card.UNKNOWN, false);
+                }
+
+                if (start >= 6 && start <= 10) {
                     updateCardBrandFromNumber(s.toString());
                 }
 
@@ -226,15 +243,17 @@ public class CardNumberEditText extends PaymentezEditText {
         });
     }
 
-    private void updateCardBrand(@NonNull @Card.CardBrand String brand) {
+    private void updateCardBrand(@NonNull String brand, String cardLogo, boolean isOtp) {
         if (mCardBrand.equals(brand)) {
             return;
         }
 
         mCardBrand = brand;
+        mCardLogo = cardLogo;
+        mIsOtp = isOtp;
 
         if (mCardBrandChangeListener != null) {
-            mCardBrandChangeListener.onCardBrandChanged(mCardBrand);
+            mCardBrandChangeListener.onCardBrandChanged(mCardBrand, cardLogo, isOtp);
         }
 
         int oldLength = mLengthMax;
@@ -247,10 +266,38 @@ public class CardNumberEditText extends PaymentezEditText {
     }
 
     private void updateCardBrandFromNumber(String partialNumber) {
-        updateCardBrand(CardUtils.getPossibleCardType(partialNumber));
+        String spacelessCardNumber = PaymentezTextUtils.removeSpacesAndHyphens(partialNumber);
+
+
+
+        if(partialNumber.length() >= 6 && partialNumber.length() <= 10){
+            PaymentezService paymentezService = Paymentez.getPaymentezService(mContext);
+            paymentezService.cardBin(spacelessCardNumber).enqueue(new Callback<CardBinResponse>() {
+                @Override
+                public void onResponse(Call<CardBinResponse> call, Response<CardBinResponse> response) {
+                    CardBinResponse cardBinResponse = response.body();
+                    if(response.isSuccessful()) {
+                        if(cardBinResponse.getCardType()!=null && !cardBinResponse.getCardType().equals("")){
+                            String cardLogo = cardBinResponse.getUrlLogoPng();
+                            CardUtils.setPossibleCardType(cardBinResponse.getCardType());
+                            updateCardBrand(cardBinResponse.getCardType(), cardLogo, cardBinResponse.isOtp());
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CardBinResponse> call, Throwable e) {
+
+                }
+            });
+        }
+
+
+
     }
 
-    private static int getLengthForBrand(@Card.CardBrand String cardBrand) {
+    private static int getLengthForBrand(String cardBrand) {
         if (Card.AMERICAN_EXPRESS.equals(cardBrand) || Card.DINERS_CLUB.equals(cardBrand)) {
             return MAX_LENGTH_AMEX_DINERS;
         } else {
@@ -263,6 +310,6 @@ public class CardNumberEditText extends PaymentezEditText {
     }
 
     interface CardBrandChangeListener {
-        void onCardBrandChanged(@NonNull @Card.CardBrand String brand);
+        void onCardBrandChanged(@NonNull String brand, String cardLogo, boolean isOtp);
     }
 }

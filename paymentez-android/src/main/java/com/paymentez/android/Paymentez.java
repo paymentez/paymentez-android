@@ -13,6 +13,7 @@ import com.paymentez.android.model.Card;
 import com.paymentez.android.rest.PaymentezService;
 import com.paymentez.android.rest.PaymenezClient;
 import com.paymentez.android.rest.TokenCallback;
+import com.paymentez.android.rest.model.CardBinResponse;
 import com.paymentez.android.rest.model.CreateTokenRequest;
 import com.paymentez.android.rest.model.CreateTokenResponse;
 import com.paymentez.android.rest.model.ErrorResponse;
@@ -61,6 +62,8 @@ public class Paymentez{
 
 
 
+
+
     }
 
     /**
@@ -70,6 +73,32 @@ public class Paymentez{
      */
     public static void setRiskMerchantId(int merchant_id){
         MERCHANT_ID = merchant_id;
+    }
+
+    public static PaymentezService getPaymentezService(Context mContext){
+        paymentezService = PaymenezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
+
+        return paymentezService;
+    }
+
+    public static void getImageBin(Context mContext, String bin){
+        paymentezService = PaymenezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
+        paymentezService.cardBin(bin).enqueue(new Callback<CardBinResponse>() {
+            @Override
+            public void onResponse(Call<CardBinResponse> call, Response<CardBinResponse> response) {
+                CardBinResponse cardBinResponse = response.body();
+                if(response.isSuccessful()) {
+
+                }else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CardBinResponse> call, Throwable e) {
+
+            }
+        });
     }
 
     /**
@@ -86,6 +115,7 @@ public class Paymentez{
         User user = new User();
         user.setId(uid);
         user.setEmail(email);
+        user.setFiscal_number(card.getFiscal_number());
 
         CreateTokenRequest createTokenRequest = new CreateTokenRequest();
         createTokenRequest.setSessionId(getSessionId(mContext));
@@ -162,7 +192,7 @@ public class Paymentez{
 
                     @Override
                     public void failed(String s, final DataCollector.Error error) {
-                        Log.d("Collector", s + " - " + error.getDescription());
+
                     }
 
                 });
