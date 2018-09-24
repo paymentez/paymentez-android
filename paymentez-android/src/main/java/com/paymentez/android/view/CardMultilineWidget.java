@@ -938,7 +938,7 @@ public class CardMultilineWidget extends LinearLayout {
         mCardNumberEditText.setCompoundDrawables(compatIcon[0], null, null, null);
 
         if(brandLogoUrl != null && !brandLogoUrl.equals(Card.UNKNOWN)){
-            Picasso.get().load(brandLogoUrl).into(new Target() {
+            Picasso.with(getContext()).load(brandLogoUrl).into(new Target() {
 
                 @Override
                 public void onPrepareLoad(Drawable arg0) {
@@ -960,9 +960,10 @@ public class CardMultilineWidget extends LinearLayout {
                 }
 
                 @Override
-                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                public void onBitmapFailed(Drawable errorDrawable) {
 
                 }
+
 
             });
 

@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/paymentez/paymentez-android'
     gitUrl = 'https://github.com/paymentez/paymentez-android.git'
 
-    libraryVersion = '1.2.3'
+    libraryVersion = '1.2.7'
 
     developerId = 'paymentez'
     developerName = 'Paymentez'
@@ -36,14 +36,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 3
+        versionCode 6
         versionName libraryVersion
-        multiDexEnabled true
-    }
-    dexOptions {
-        javaMaxHeapSize "4g"
-        preDexLibraries = false
-        incremental false
     }
     buildTypes {
         release {
@@ -69,7 +63,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 
 install {

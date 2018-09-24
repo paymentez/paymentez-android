@@ -12,7 +12,7 @@ Paymentez Android SDK is a library that allows developers to easily connect to t
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.paymentez:paymentez-android:1.2.3'
+    compile 'com.paymentez:paymentez-android:1.2.7'
 
 ### ProGuard
 
@@ -229,7 +229,7 @@ There is an example app included in the repository:
 
 - PaymentezStore project is a full walk-through of building a shop activity, including connecting to a back end.
 
-http://d20omjwo1khove.cloudfront.net/ccapi/paymentez-store-v1.0.apk
+https://cdn.paymentez.com/apps/paymentez-example-1-2-7.apk
 
 To build and run the example app, clone the repository and open the project.
 
