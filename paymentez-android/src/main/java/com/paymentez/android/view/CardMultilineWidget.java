@@ -3,7 +3,9 @@ package com.paymentez.android.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -27,13 +29,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.paymentez.android.R;
 import com.paymentez.android.model.Card;
 import com.paymentez.android.util.CardUtils;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -938,20 +938,35 @@ public class CardMultilineWidget extends LinearLayout {
         mCardNumberEditText.setCompoundDrawables(compatIcon[0], null, null, null);
 
         if(brandLogoUrl != null && !brandLogoUrl.equals(Card.UNKNOWN)){
-            Glide.with(this)
-                    .load(brandLogoUrl)
-                    .into(new SimpleTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            resource.setBounds(copyBounds);
-                            Drawable compatIcon = DrawableCompat.wrap(resource);
-                            if(needsTint){
-                                DrawableCompat.setTint(compatIcon.mutate(), mTintColorInt);
-                            }
-                            mCardNumberEditText.setCompoundDrawablePadding(iconPadding);
-                            mCardNumberEditText.setCompoundDrawables(resource, null, null, null);
-                        }
-                    });
+            Picasso.get().load(brandLogoUrl).into(new Target() {
+
+                @Override
+                public void onPrepareLoad(Drawable arg0) {
+
+
+                }
+
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom arg1) {
+                    Drawable resource = new BitmapDrawable(getContext().getResources(),bitmap);
+                    resource.setBounds(copyBounds);
+                    Drawable compatIcon = DrawableCompat.wrap(resource);
+                    if(needsTint){
+                        DrawableCompat.setTint(compatIcon.mutate(), mTintColorInt);
+                    }
+                    mCardNumberEditText.setCompoundDrawablePadding(iconPadding);
+                    mCardNumberEditText.setCompoundDrawables(resource, null, null, null);
+
+                }
+
+                @Override
+                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                }
+
+            });
+
+
         }
 
     }
