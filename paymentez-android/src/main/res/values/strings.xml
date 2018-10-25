@@ -22,5 +22,9 @@
     <string name="invalid_cvc">Your card\'s security code is invalid.</string>
     <string name="invalid_zip">Your postal code is incomplete.</string>
     <string name="invalid_cardholdername">Your name\'s Name is invalid.</string>
+    <string name="documento_de_identificacion">Identification document</string>
+    <string name="clave_tuya">Tuya Password</string>
+    <string name="error_fiscal_number">Invalid Identification document</string>
+    <string name="error_nip">Invalid Password</string>
 
 </resources>

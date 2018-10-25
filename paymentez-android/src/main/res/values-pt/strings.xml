@@ -11,4 +11,8 @@
     <string name="invalid_zip">Código postal Inválido.</string>
     <string name="invalid_cardholdername">>Nome do Titular do cartão Inválido.</string>
     <string name="acc_label_cardholdername">Nome do Titular do cartão</string>
+    <string name="error_nip">Senha Inválida</string>
+    <string name="error_fiscal_number">Documento de identificação inválido</string>
+    <string name="clave_tuya">Senha Tuya</string>
+    <string name="documento_de_identificacion">Documento de identificação</string>
 </resources>
