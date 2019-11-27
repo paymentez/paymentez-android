@@ -10,9 +10,19 @@ Paymentez Android SDK is a library that allows developers to easily connect to t
 
 ### Android Studio (or Gradle)
 
+Add it in your root build.gradle at the end of repositories:
+
+    allprojects {
+            repositories {
+                ...
+                maven { url 'https://jitpack.io' }
+            }
+        }
+
+
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.paymentez:paymentez-android:1.2.8'
+	   implementation 'com.github.paymentez:paymentez-android:v1.2.9'
 
 ### ProGuard
 
