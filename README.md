@@ -22,7 +22,7 @@ Add it in your root build.gradle at the end of repositories:
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-	   implementation 'com.github.paymentez:paymentez-android:v1.3.2'
+	   implementation 'com.github.paymentez:paymentez-android:v1.3.3'
 
 ### ProGuard
 
