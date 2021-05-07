@@ -4,12 +4,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -20,6 +14,13 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.AppCompatEditText;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.paymentez.android.R;
 
 import static com.paymentez.android.view.ViewUtils.isColorDark;
@@ -144,7 +145,7 @@ public class PaymentezEditText extends TextInputEditText {
     /**
      * Change the hint value of this control after a delay.
      *
-     * @param hintResource the string resource for the hint to be set
+     * @param hintResource      the string resource for the hint to be set
      * @param delayMilliseconds a delay period, measured in milliseconds
      */
     public void setHintDelayed(@StringRes final int hintResource, long delayMilliseconds) {

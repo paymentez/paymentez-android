@@ -1,8 +1,9 @@
 package com.paymentez.android.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.Size;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Size;
 
 import com.paymentez.android.util.PaymentezTextUtils;
 
@@ -29,7 +30,7 @@ class PaymentezJsonUtils {
      * converting the raw string "null" and the empty string to {@code null}.
      *
      * @param jsonObject the input object
-     * @param fieldName the required field name
+     * @param fieldName  the required field name
      * @return the value stored in the requested field
      * @throws JSONException if the field does not exist
      */
@@ -45,7 +46,7 @@ class PaymentezJsonUtils {
      * key exists. This returns {@code null} if the key is not in the object.
      *
      * @param jsonObject the input object
-     * @param fieldName the required field name
+     * @param fieldName  the required field name
      * @return the value stored in the requested field, or {@code null} if the key is not present
      */
     @Nullable
@@ -63,7 +64,7 @@ class PaymentezJsonUtils {
      * key exists. This returns {@code null} if the key is not in the object.
      *
      * @param jsonObject the input object
-     * @param fieldName the required field name
+     * @param fieldName  the required field name
      * @return the value stored in the requested field, or {@code null} if the key is not present
      */
     @Nullable
@@ -81,7 +82,7 @@ class PaymentezJsonUtils {
      * key exists. This returns {@code null} if the key is not in the object.
      *
      * @param jsonObject the input object
-     * @param fieldName the required field name
+     * @param fieldName  the required field name
      * @return the value stored in the requested field, or {@code null} if the key is not present
      */
     @Nullable
@@ -100,7 +101,7 @@ class PaymentezJsonUtils {
      * an exception if the field isn't found.
      *
      * @param jsonObject the input object
-     * @param fieldName the optional field name
+     * @param fieldName  the optional field name
      * @return the value stored in the field, or {@code null} if the field isn't present
      */
     @Nullable
@@ -114,8 +115,9 @@ class PaymentezJsonUtils {
      * Calls through to {@link JSONObject#optString(String)} while safely converting
      * the raw string "null" and the empty string to {@code null}, along with any value that isn't
      * a two-character string.
+     *
      * @param jsonObject the object from which to retrieve the country code
-     * @param fieldName the name of the field in which the country code is stored
+     * @param fieldName  the name of the field in which the country code is stored
      * @return a two-letter country code if one is found, or {@code null}
      */
     @Nullable
@@ -134,8 +136,9 @@ class PaymentezJsonUtils {
      * Calls through to {@link JSONObject#optString(String)} while safely converting
      * the raw string "null" and the empty string to {@code null}, along with any value that isn't
      * a three-character string.
+     *
      * @param jsonObject the object from which to retrieve the currency code
-     * @param fieldName the name of the field in which the currency code is stored
+     * @param fieldName  the name of the field in which the currency code is stored
      * @return a three-letter currency code if one is found, or {@code null}
      */
     @Nullable
@@ -155,7 +158,7 @@ class PaymentezJsonUtils {
      * uses {@link #jsonObjectToMap(JSONObject)} on the result.
      *
      * @param jsonObject the input object
-     * @param fieldName the required field name
+     * @param fieldName  the required field name
      * @return the value stored in the requested field, or {@code null} if the key is not present
      */
     @Nullable
@@ -175,7 +178,7 @@ class PaymentezJsonUtils {
      * uses {@link #jsonObjectToStringMap(JSONObject)} on the result.
      *
      * @param jsonObject the input object
-     * @param fieldName the required field name
+     * @param fieldName  the required field name
      * @return the value stored in the requested field, or {@code null} if the key is not present
      */
     @Nullable
@@ -203,7 +206,7 @@ class PaymentezJsonUtils {
         }
         Map<String, Object> map = new HashMap<>();
         Iterator<String> keyIterator = jsonObject.keys();
-        while(keyIterator.hasNext()) {
+        while (keyIterator.hasNext()) {
             String key = keyIterator.next();
             Object value = jsonObject.opt(key);
             if (NULL.equals(value) || value == null) {
@@ -392,8 +395,8 @@ class PaymentezJsonUtils {
      * due to insertion.
      *
      * @param jsonObject the {@link JSONObject} into which to put the field
-     * @param fieldName the field name
-     * @param value the potential field value
+     * @param fieldName  the field name
+     * @param value      the potential field value
      */
     static void putStringIfNotNull(
             @NonNull JSONObject jsonObject,
@@ -402,7 +405,8 @@ class PaymentezJsonUtils {
         if (!PaymentezTextUtils.isBlank(value)) {
             try {
                 jsonObject.put(fieldName, value);
-            } catch (JSONException ignored) { }
+            } catch (JSONException ignored) {
+            }
         }
     }
 
@@ -412,8 +416,8 @@ class PaymentezJsonUtils {
      * due to insertion.
      *
      * @param jsonObject the {@link JSONObject} into which to put the field
-     * @param fieldName the field name
-     * @param value the potential field value
+     * @param fieldName  the field name
+     * @param value      the potential field value
      */
     static void putIntegerIfNotNull(
             @NonNull JSONObject jsonObject,
@@ -424,7 +428,8 @@ class PaymentezJsonUtils {
         }
         try {
             jsonObject.put(fieldName, value.intValue());
-        } catch (JSONException ignored) { }
+        } catch (JSONException ignored) {
+        }
     }
 
     /**
@@ -433,8 +438,8 @@ class PaymentezJsonUtils {
      * due to insertion.
      *
      * @param jsonObject the {@link JSONObject} into which to put the field
-     * @param fieldName the field name
-     * @param value the potential field value
+     * @param fieldName  the field name
+     * @param value      the potential field value
      */
     static void putLongIfNotNull(
             @NonNull JSONObject jsonObject,
@@ -445,7 +450,8 @@ class PaymentezJsonUtils {
         }
         try {
             jsonObject.put(fieldName, value.longValue());
-        } catch (JSONException ignored) { }
+        } catch (JSONException ignored) {
+        }
     }
 
     /**
@@ -454,8 +460,8 @@ class PaymentezJsonUtils {
      * insertion.
      *
      * @param jsonObject the {@link JSONObject} into which to put the field
-     * @param fieldName the field name
-     * @param value the potential field value
+     * @param fieldName  the field name
+     * @param value      the potential field value
      */
     static void putBooleanIfNotNull(
             @NonNull JSONObject jsonObject,
@@ -466,7 +472,8 @@ class PaymentezJsonUtils {
         }
         try {
             jsonObject.put(fieldName, value.booleanValue());
-        } catch (JSONException ignored) { }
+        } catch (JSONException ignored) {
+        }
     }
 
     /**
@@ -475,8 +482,8 @@ class PaymentezJsonUtils {
      * insertion.
      *
      * @param jsonObject the {@link JSONObject} into which to put the field
-     * @param fieldName the field name
-     * @param value the potential field value
+     * @param fieldName  the field name
+     * @param value      the potential field value
      */
     static void putStringHashIfNotNull(
             @NonNull JSONObject jsonObject,
@@ -492,7 +499,8 @@ class PaymentezJsonUtils {
 
         try {
             jsonObject.put(fieldName, jsonHash);
-        } catch (JSONException ignored) { }
+        } catch (JSONException ignored) {
+        }
     }
 
     /**
@@ -501,8 +509,8 @@ class PaymentezJsonUtils {
      * insertion.
      *
      * @param jsonObject the {@link JSONObject} into which to put the field
-     * @param fieldName the field name
-     * @param value the potential field value
+     * @param fieldName  the field name
+     * @param value      the potential field value
      */
     static void putMapIfNotNull(
             @NonNull JSONObject jsonObject,
@@ -520,7 +528,8 @@ class PaymentezJsonUtils {
 
         try {
             jsonObject.put(fieldName, mapObject);
-        } catch (JSONException ignored) { }
+        } catch (JSONException ignored) {
+        }
 
     }
 
@@ -530,8 +539,8 @@ class PaymentezJsonUtils {
      * insertion.
      *
      * @param jsonObject the {@link JSONObject} into which to put the field
-     * @param fieldName the field name
-     * @param value the potential field value
+     * @param fieldName  the field name
+     * @param value      the potential field value
      */
     static void putObjectIfNotNull(
             @NonNull JSONObject jsonObject,
@@ -544,7 +553,8 @@ class PaymentezJsonUtils {
 
         try {
             jsonObject.put(fieldName, value);
-        } catch (JSONException ignored) { }
+        } catch (JSONException ignored) {
+        }
     }
 
     @Nullable

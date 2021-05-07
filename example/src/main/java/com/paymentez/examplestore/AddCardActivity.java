@@ -2,11 +2,13 @@ package com.paymentez.examplestore;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.paymentez.android.Paymentez;
 import com.paymentez.android.model.Card;
@@ -28,13 +30,11 @@ public class AddCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
         mContext = this;
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
-
-
 
 
         final String uid = Constants.USER_ID;
@@ -53,7 +53,7 @@ public class AddCardActivity extends AppCompatActivity {
                             "Error",
                             "Invalid Card Data");
                     return;
-                }else{
+                } else {
                     final ProgressDialog pd = new ProgressDialog(AddCardActivity.this);
                     pd.setMessage("");
                     pd.show();
@@ -63,8 +63,8 @@ public class AddCardActivity extends AppCompatActivity {
                         public void onSuccess(Card card) {
                             buttonNext.setEnabled(true);
                             pd.dismiss();
-                            if(card != null){
-                                if(card.getStatus().equals("valid")){
+                            if (card != null) {
+                                if (card.getStatus().equals("valid")) {
                                     Alert.show(mContext,
                                             "Card Successfully Added",
                                             "status: " + card.getStatus() + "\n" +

@@ -2,7 +2,8 @@ package com.paymentez.examplestore.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * Created by mmucito on 22/09/17.

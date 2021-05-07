@@ -1,13 +1,14 @@
 package com.paymentez.android.model;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.Size;
-import android.support.annotation.StringDef;
 import android.text.TextUtils;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.Size;
+import androidx.annotation.StringDef;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
 import com.paymentez.android.R;
 
 import static com.paymentez.android.model.PaymentezJsonUtils.optCountryCode;
@@ -52,7 +54,9 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
             EXITO,
             ALKOSTO
     })
-    public @interface CardBrand { }
+    public @interface CardBrand {
+    }
+
     public static final String AMERICAN_EXPRESS = "ax";
     public static final String DISCOVER = "dc";
     public static final String JCB = "jc";
@@ -73,14 +77,16 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
             FUNDING_PREPAID,
             FUNDING_UNKNOWN
     })
-    public @interface FundingType { }
+    public @interface FundingType {
+    }
+
     public static final String FUNDING_CREDIT = "credit";
     public static final String FUNDING_DEBIT = "debit";
     public static final String FUNDING_PREPAID = "prepaid";
     public static final String FUNDING_UNKNOWN = "unknown";
 
-    public static final Map<String , Integer> BRAND_RESOURCE_MAP =
-            new HashMap<String , Integer>() {{
+    public static final Map<String, Integer> BRAND_RESOURCE_MAP =
+            new HashMap<String, Integer>() {{
                 put(Card.AMERICAN_EXPRESS, R.drawable.ic_amex);
                 put(Card.DINERS_CLUB, R.drawable.ic_diners);
                 put(Card.DISCOVER, R.drawable.ic_discover);
@@ -93,12 +99,13 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
             }};
 
 
-    public static int getDrawableBrand(String brand){
+    public static int getDrawableBrand(String brand) {
 
         @DrawableRes int iconResourceId = R.drawable.ic_unknown;
-        try{
+        try {
             iconResourceId = BRAND_RESOURCE_MAP.get(brand);
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
         return iconResourceId;
     }
 
@@ -109,11 +116,11 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     public static final String[] PREFIXES_DINERS_CLUB = {"300", "301", "302", "303", "304", "305", "309", "36", "38", "39"};
     public static final String[] PREFIXES_VISA = {"4"};
     public static final String[] PREFIXES_MASTERCARD = {
-        "2221", "2222", "2223", "2224", "2225", "2226", "2227", "2228", "2229",
-        "223", "224", "225", "226", "227", "228", "229",
-        "23", "24", "25", "26",
-        "270", "271", "2720",
-        "50", "51", "52", "53", "54", "55"
+            "2221", "2222", "2223", "2224", "2225", "2226", "2227", "2228", "2229",
+            "223", "224", "225", "226", "227", "228", "229",
+            "23", "24", "25", "26",
+            "270", "271", "2720",
+            "50", "51", "52", "53", "54", "55"
     };
 
     public static final int MAX_LENGTH_STANDARD = 16;
@@ -153,9 +160,11 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     private String addressZip;
     private String addressZipCheck;
     private String addressCountry;
-    @Size(4) private String last4;
+    @Size(4)
+    private String last4;
 
-    @FundingType private String funding;
+    @FundingType
+    private String funding;
     private String fingerprint;
     private String country;
     private String currency;
@@ -257,10 +266,10 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
         /**
          * Constructor with most common {@link Card} fields.
          *
-         * @param number the credit card number
+         * @param number   the credit card number
          * @param expMonth the expiry month, as an integer value between 1 and 12
-         * @param expYear the expiry year
-         * @param cvc the card CVC number
+         * @param expYear  the expiry year
+         * @param cvc      the card CVC number
          */
         public Builder(
                 String number,
@@ -488,30 +497,30 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
         return builder.build();
     }
 
-    public Card(){
+    public Card() {
     }
 
     /**
      * Card constructor with all available fields.
      *
-     * @param number the credit card number
-     * @param expMonth the expiry month
-     * @param expYear the expiry year
-     * @param cvc the CVC number
-     * @param name the card holderName
-     * @param addressLine1 first line of the billing address
-     * @param addressLine2 second line of the billing address
-     * @param addressCity city of the billing address
-     * @param addressState state of the billing address
-     * @param addressZip zip code of the billing address
+     * @param number         the credit card number
+     * @param expMonth       the expiry month
+     * @param expYear        the expiry year
+     * @param cvc            the CVC number
+     * @param name           the card holderName
+     * @param addressLine1   first line of the billing address
+     * @param addressLine2   second line of the billing address
+     * @param addressCity    city of the billing address
+     * @param addressState   state of the billing address
+     * @param addressZip     zip code of the billing address
      * @param addressCountry country for the billing address
-     * @param type type of this card
-     * @param last4 last 4 digits of the card
-     * @param fingerprint the card fingerprint
-     * @param funding the funding type of the card
-     * @param country ISO country code of the card itself
-     * @param currency currency used by the card
-     * @param id the cardId
+     * @param type           type of this card
+     * @param last4          last 4 digits of the card
+     * @param fingerprint    the card fingerprint
+     * @param funding        the funding type of the card
+     * @param country        ISO country code of the card itself
+     * @param currency       currency used by the card
+     * @param id             the cardId
      */
     public Card(
             String number,
@@ -555,18 +564,18 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     /**
      * Convenience constructor with address and currency.
      *
-     * @param number the card number
-     * @param expMonth the expiry month
-     * @param expYear the expiry year
-     * @param cvc the CVC code
-     * @param name the cardholder holderName
-     * @param addressLine1 the first line of the billing address
-     * @param addressLine2 the second line of the billing address
-     * @param addressCity the city of the billing address
-     * @param addressState the state of the billing address
-     * @param addressZip the zip code of the billing address
+     * @param number         the card number
+     * @param expMonth       the expiry month
+     * @param expYear        the expiry year
+     * @param cvc            the CVC code
+     * @param name           the cardholder holderName
+     * @param addressLine1   the first line of the billing address
+     * @param addressLine2   the second line of the billing address
+     * @param addressCity    the city of the billing address
+     * @param addressState   the state of the billing address
+     * @param addressZip     the zip code of the billing address
      * @param addressCountry the country of the billing address
-     * @param currency the currency of the card
+     * @param currency       the currency of the card
      */
     public Card(
             String number,
@@ -605,10 +614,10 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     /**
      * Convenience constructor for a Card object with a minimum number of inputs.
      *
-     * @param number the card number
+     * @param number   the card number
      * @param expMonth the expiry month
-     * @param expYear the expiry year
-     * @param cvc the CVC code
+     * @param expYear  the expiry year
+     * @param cvc      the CVC code
      */
     public Card(
             String number,
@@ -639,10 +648,10 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     /**
      * Convenience constructor for a Card object with a minimum number of inputs.
      *
-     * @param number the card number
+     * @param number   the card number
      * @param expMonth the expiry month
-     * @param expYear the expiry year
-     * @param cvc the CVC code
+     * @param expYear  the expiry year
+     * @param cvc      the CVC code
      */
     public Card(
             String number,
@@ -711,8 +720,8 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
         String updatedType = getType();
         boolean validLength =
                 (updatedType == null && cvcValue.length() >= 3 && cvcValue.length() <= 4)
-                || (AMERICAN_EXPRESS.equals(updatedType) && cvcValue.length() == 4)
-                || cvcValue.length() == 3;
+                        || (AMERICAN_EXPRESS.equals(updatedType) && cvcValue.length() == 4)
+                        || cvcValue.length() == 3;
 
         return ModelUtils.isWholePositiveNumber(cvcValue) && validLength;
     }
@@ -950,7 +959,6 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
 
-
     /**
      * Gets the {@link #type} of this card. Updates the value if none has yet been set, or
      * if the {@link #number} has been changed.
@@ -1169,7 +1177,6 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     }
 
 
-
     public String getToken() {
         return token;
     }
@@ -1177,7 +1184,6 @@ public class Card extends PaymentezJsonModel implements PaymentezPaymentSource {
     public void setToken(String token) {
         this.token = token;
     }
-
 
 
     public String getTermination() {

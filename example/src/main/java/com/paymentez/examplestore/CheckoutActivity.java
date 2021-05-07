@@ -4,14 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,7 +47,7 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
         mContext = this;
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
@@ -137,6 +138,7 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_CARD_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
@@ -144,7 +146,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 String CARD_TYPE = data.getStringExtra("CARD_TYPE");
                 String CARD_LAST4 = data.getStringExtra("CARD_LAST4");
 
-                if(CARD_LAST4 != null && !CARD_LAST4.equals("")){
+                if (CARD_LAST4 != null && !CARD_LAST4.equals("")) {
                     textViewCCLastFour.setText("XXXX." + CARD_LAST4);
                     imageViewCCImage.setImageResource(Card.getDrawableBrand(CARD_TYPE));
                 }
