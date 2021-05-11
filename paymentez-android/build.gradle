@@ -1,33 +1,32 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 
-ext {
-    bintrayRepo = 'Paymentez'
-    bintrayName = 'paymentez-android'
-
-    publishedGroupId = 'com.paymentez'
-    libraryName = 'paymentez-android'
-    artifact = 'paymentez-android'
-
-    libraryDescription = 'Paymentez Android SDK is a library that allows developers to easily connect to the Paymentez CREDITCARDS API'
-
-    siteUrl = 'https://github.com/paymentez/paymentez-android'
-    gitUrl = 'https://github.com/paymentez/paymentez-android.git'
-
-    libraryVersion = '1.3.5'
-
-    developerId = 'paymentez'
-    developerName = 'Paymentez'
-    developerEmail = 'dev@paymentez.com'
-
-    licenseName = 'MIT'
-    licenseUrl = 'https://github.com/paymentez/paymentez-android/blob/master/LICENSE'
-    allLicenses = ["MIT"]
-}
-
-group = publishedGroupId
-version = libraryVersion
+//ext {
+//    bintrayRepo = 'Paymentez'
+//    bintrayName = 'paymentez-android'
+//
+//    publishedGroupId = 'com.paymentez'
+//    libraryName = 'paymentez-android'
+//    artifact = 'paymentez-android'
+//
+//    libraryDescription = 'Paymentez Android SDK is a library that allows developers to easily connect to the Paymentez CREDITCARDS API'
+//
+//    siteUrl = 'https://github.com/paymentez/paymentez-android'
+//    gitUrl = 'https://github.com/paymentez/paymentez-android.git'
+//
+//    libraryVersion = '1.3.5'
+//
+//    developerId = 'paymentez'
+//    developerName = 'Paymentez'
+//    developerEmail = 'dev@paymentez.com'
+//
+//    licenseName = 'MIT'
+//    licenseUrl = 'https://github.com/paymentez/paymentez-android/blob/master/LICENSE'
+//    allLicenses = ["MIT"]
+//}
+//
+//group = publishedGroupId
+//version = libraryVersion
 
 android {
     compileSdkVersion 30
@@ -37,7 +36,10 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 6
-        versionName libraryVersion
+        versionName '1.3.5'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
     buildTypes {
         release {
@@ -48,75 +50,84 @@ android {
 
     lintOptions {
         abortOnError false
-        disable 'ValidFragment'
+//        disable 'ValidFragment'
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13.2'
-    implementation 'com.google.android.material:material:1.4.0-alpha02'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha10'
+    //IOCARD
     implementation 'io.card:android-sdk:5.5.0'
+    //CODEC
     implementation 'commons-codec:commons-codec:1.10'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    //RETROFIT
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    //TEST
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation files('libs\\devicecollector-sdk-2.5.jar')
+    implementation files('libs\\kount-data-collector-3.2.jar')
 }
 
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            name libraryName
-            description libraryDescription
-            url siteUrl
+//install {
+//    repositories.mavenInstaller {
+//        pom.project {
+//            name libraryName
+//            description libraryDescription
+//            url siteUrl
+//
+//            packaging 'aar'
+//            groupId publishedGroupId
+//            artifactId artifact
+//            version libraryVersion
+//
+//            licenses {
+//                license {
+//                    name licenseName
+//                    url licenseUrl
+//                }
+//            }
+//            scm {
+//                connection gitUrl
+//                developerConnection gitUrl
+//                url siteUrl
+//            }
+//            developers {
+//                developer {
+//                    id developerId
+//                    name developerName
+//                    email developerEmail
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-            packaging 'aar'
-            groupId publishedGroupId
-            artifactId artifact
-            version libraryVersion
-
-            licenses {
-                license {
-                    name licenseName
-                    url licenseUrl
-                }
-            }
-            scm {
-                connection gitUrl
-                developerConnection gitUrl
-                url siteUrl
-            }
-            developers {
-                developer {
-                    id developerId
-                    name developerName
-                    email developerEmail
-                }
-            }
-        }
-    }
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintrayUser")
-    key = properties.getProperty("bintrayApiKey")
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        userOrg = user
-        licenses = allLicenses
-        vcsUrl = gitUrl
-        version {
-            name = libraryVersion
-            desc = libraryDescription
-            vcsTag = libraryVersion
-        }
-    }
-}
+//bintray {
+//    user = properties.getProperty("bintrayUser")
+//    key = properties.getProperty("bintrayApiKey")
+//    configurations = ['archives']
+//    pkg {
+//        repo = bintrayRepo
+//        name = bintrayName
+//        userOrg = user
+//        licenses = allLicenses
+//        vcsUrl = gitUrl
+//        version {
+//            name = libraryVersion
+//            desc = libraryDescription
+//            vcsTag = libraryVersion
+//        }
+//    }
+//}
+//}
