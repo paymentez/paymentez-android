@@ -14,10 +14,10 @@ public class Constants {
     public static boolean PAYMENTEZ_IS_TEST_MODE = false;
 
     //Ask the Paymentez team for it
-    public static String PAYMENTEZ_CLIENT_APP_CODE = "LORO-CO-CLIENT-PROD";
+    public static String PAYMENTEZ_CLIENT_APP_CODE = "IOS-CO-CLIENT";
 
     //Ask the Paymentez team for it.
-    public static String PAYMENTEZ_CLIENT_APP_KEY = "WuaX26bR13Nuiyf06AB9GV1fJiSuMf";
+    public static String PAYMENTEZ_CLIENT_APP_KEY = "AKKqsezFDHtanNv1G0ARyxb8DiYARE";
 
     //Backend Deployed from https://github.com/paymentez/example-java-backend
     public static String BACKEND_URL = "https://example-paymentez-backend.herokuapp.com";
