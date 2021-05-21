@@ -1,20 +1,19 @@
 package com.paymentez.android.view;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
 import com.paymentez.android.Paymentez;
 import com.paymentez.android.model.Card;
-import com.paymentez.android.rest.PaymenezClient;
 import com.paymentez.android.rest.PaymentezService;
 import com.paymentez.android.rest.model.CardBinResponse;
 import com.paymentez.android.util.CardUtils;

@@ -22,7 +22,7 @@ import static com.paymentez.android.util.PaymentezUtils.SERVER_PROD_URL;
  * Created by mmucito on 13/09/17.
  */
 
-public class PaymenezClient {
+public class PaymentezClient {
 
     private static Retrofit retrofit = null;
     static OkHttpClient.Builder builder = new OkHttpClient().newBuilder();

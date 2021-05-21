@@ -4,13 +4,14 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.paymentez.android.model.Card;
 
@@ -76,7 +77,7 @@ class ViewUtils {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             color = context.getResources().getColor(colorResourceId, context.getTheme());
             icon = context.getResources().getDrawable(iconResourceId, context.getTheme());
-        }  else {
+        } else {
             color = context.getResources().getColor(colorResourceId);
             icon = context.getResources().getDrawable(iconResourceId);
         }
@@ -103,16 +104,16 @@ class ViewUtils {
      * @param color an integer representation of a color
      * @return {@code true} if the color is "dark," else {@link false}
      */
-    static boolean isColorDark(@ColorInt int color){
+    static boolean isColorDark(@ColorInt int color) {
         // Forumla comes from W3C standards and conventional theory
         // about how to calculate the "brightness" of a color, often
         // thought of as how far along the spectrum from white to black the
         // grayscale version would be.
         // See https://www.w3.org/TR/AERT#color-contrast and
         // http://paulbourke.net/texture_colour/colourspace/ for further reading.
-        double luminescence = 0.299* Color.red(color)
-                + 0.587* Color.green(color)
-                + 0.114* Color.blue(color);
+        double luminescence = 0.299 * Color.red(color)
+                + 0.587 * Color.green(color)
+                + 0.114 * Color.blue(color);
 
         // Because the colors are all hex integers.
         double luminescencePercentage = luminescence / 255;
@@ -143,7 +144,7 @@ class ViewUtils {
      * Note that this does not verify that the card number is valid, or even that it is a number.
      *
      * @param spacelessCardNumber the raw card number, without spaces
-     * @param brand the {@link Card.CardBrand} to use as a separating scheme
+     * @param brand               the {@link Card.CardBrand} to use as a separating scheme
      * @return an array of strings with the number groups, in order. If the number is not complete,
      * some of the array entries may be {@code null}.
      */
@@ -178,7 +179,7 @@ class ViewUtils {
             numberGroups = new String[4];
             int i = 0;
             int previousStart = 0;
-            while((i + 1) * 4 < spacelessCardNumber.length()) {
+            while ((i + 1) * 4 < spacelessCardNumber.length()) {
                 String group = spacelessCardNumber.substring(previousStart, (i + 1) * 4);
                 numberGroups[i] = group;
                 previousStart = (i + 1) * 4;

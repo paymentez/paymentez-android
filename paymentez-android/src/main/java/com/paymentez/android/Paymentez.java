@@ -3,15 +3,15 @@ package com.paymentez.android;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kount.api.DataCollector;
 import com.paymentez.android.model.Card;
 import com.paymentez.android.rest.PaymentezService;
-import com.paymentez.android.rest.PaymenezClient;
+import com.paymentez.android.rest.PaymentezClient;
 import com.paymentez.android.rest.TokenCallback;
 import com.paymentez.android.rest.model.CardBinResponse;
 import com.paymentez.android.rest.model.CreateTokenRequest;
@@ -76,13 +76,13 @@ public class Paymentez{
     }
 
     public static PaymentezService getPaymentezService(Context mContext){
-        paymentezService = PaymenezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
+        paymentezService = PaymentezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
 
         return paymentezService;
     }
 
     public static void getImageBin(Context mContext, String bin){
-        paymentezService = PaymenezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
+        paymentezService = PaymentezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
         paymentezService.cardBin(bin).enqueue(new Callback<CardBinResponse>() {
             @Override
             public void onResponse(Call<CardBinResponse> call, Response<CardBinResponse> response) {
@@ -111,7 +111,7 @@ public class Paymentez{
      */
     public static void addCard(Context mContext, @NonNull final String uid, @NonNull final String email, @NonNull final Card card, @NonNull final TokenCallback callback) {
 
-        paymentezService = PaymenezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
+        paymentezService = PaymentezClient.getClient(mContext, TEST_MODE, PAYMENTEZ_CLIENT_APP_CODE, PAYMENTEZ_CLIENT_APP_KEY).create(PaymentezService.class);
         User user = new User();
         user.setId(uid);
         user.setEmail(email);

@@ -8,18 +8,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -29,6 +17,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.paymentez.android.R;
 import com.paymentez.android.model.Card;
 import com.paymentez.android.util.CardUtils;
@@ -938,7 +939,7 @@ public class CardMultilineWidget extends LinearLayout {
         mCardNumberEditText.setCompoundDrawables(compatIcon[0], null, null, null);
 
         if(brandLogoUrl != null && !brandLogoUrl.equals(Card.UNKNOWN)){
-            Picasso.get().load(brandLogoUrl).into(new Target() {
+            Picasso.with(this.getContext()).load(brandLogoUrl).into(new Target() {
 
                 @Override
                 public void onPrepareLoad(Drawable arg0) {
@@ -960,7 +961,7 @@ public class CardMultilineWidget extends LinearLayout {
                 }
 
                 @Override
-                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                public void onBitmapFailed(Drawable errorDrawable) {
 
                 }
 
