@@ -11,7 +11,7 @@ public class Constants {
     public static String USER_EMAIL = "dev@paymentez.com";
 
     //Is Paymentez SDK DEV environment?
-    public static boolean PAYMENTEZ_IS_TEST_MODE = false;
+    public static boolean PAYMENTEZ_IS_TEST_MODE = true;
 
     //Ask the Paymentez team for it
     public static String PAYMENTEZ_CLIENT_APP_CODE = "IOS-CO-CLIENT";
