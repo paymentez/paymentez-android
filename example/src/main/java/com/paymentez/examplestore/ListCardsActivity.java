@@ -130,7 +130,7 @@ public class ListCardsActivity extends AppCompatActivity {
                         Alert.show(mContext,
                                 "Error",
                                 errorResponse.getError().getType());
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
