@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kount.api.DataCollector;
+//import com.kount.api.DataCollector;
 import com.paymentez.android.model.Card;
 import com.paymentez.android.rest.PaymentezService;
 import com.paymentez.android.rest.PaymentezClient;
@@ -37,8 +37,8 @@ public class Paymentez{
     private static String PAYMENTEZ_CLIENT_APP_KEY;
 
     static int MERCHANT_ID = 500005;
-    static int KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_TEST;
-
+    //static int KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_TEST;
+    static int KOUNT_ENVIRONMENT = 0;
     static PaymentezService paymentezService;
 
     /**
@@ -52,13 +52,13 @@ public class Paymentez{
         TEST_MODE = test_mode;
         PAYMENTEZ_CLIENT_APP_CODE = paymentez_client_app_code;
         PAYMENTEZ_CLIENT_APP_KEY = paymentez_client_app_key;
-        if (TEST_MODE){
-            KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_TEST;
-
-        }else{
-            KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_PRODUCTION;
-
-        }
+//        if (TEST_MODE){
+//            KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_TEST;
+//
+//        }else{
+//            KOUNT_ENVIRONMENT = DataCollector.ENVIRONMENT_PRODUCTION;
+//
+//        }
 
 
 
@@ -172,32 +172,32 @@ public class Paymentez{
 
 
         // Configure the collector
-        final DataCollector dataCollector = com.kount.api.DataCollector.getInstance();
-        if(TEST_MODE)
-            dataCollector.setDebug(true);
-        else
-            dataCollector.setDebug(false);
-        dataCollector.setContext(mContext);
-        dataCollector.setMerchantID(MERCHANT_ID);
-        dataCollector.setEnvironment(KOUNT_ENVIRONMENT);
-        dataCollector.setLocationCollectorConfig(DataCollector.LocationConfig.COLLECT);
-
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            public void run() {
-                dataCollector.collectForSession(deviceSessionID, new com.kount.api.DataCollector.CompletionHandler() {
-                    @Override
-                    public void completed(String s) {
-
-                    }
-
-                    @Override
-                    public void failed(String s, final DataCollector.Error error) {
-
-                    }
-
-                });
-            }
-        });
+//        final DataCollector dataCollector = com.kount.api.DataCollector.getInstance();
+//        if(TEST_MODE)
+//            dataCollector.setDebug(true);
+//        else
+//            dataCollector.setDebug(false);
+//        dataCollector.setContext(mContext);
+//        dataCollector.setMerchantID(MERCHANT_ID);
+//        dataCollector.setEnvironment(KOUNT_ENVIRONMENT);
+//        dataCollector.setLocationCollectorConfig(DataCollector.LocationConfig.COLLECT);
+//
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            public void run() {
+//                dataCollector.collectForSession(deviceSessionID, new com.kount.api.DataCollector.CompletionHandler() {
+//                    @Override
+//                    public void completed(String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void failed(String s, final DataCollector.Error error) {
+//
+//                    }
+//
+//                });
+//            }
+//        });
 
         return deviceSessionID;
     }
