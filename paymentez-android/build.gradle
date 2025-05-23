@@ -1,5 +1,8 @@
-apply plugin: 'com.android.library'
-
+//apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 android {
     compileSdkVersion 30
     buildToolsVersion '28.0.3'
@@ -15,7 +18,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -45,5 +48,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //implementation files('libs\\devicecollector-sdk-2.5.jar')
-    //implementation files('libs\\kount-data-collector-3.2.jar')
+    implementation files('libs\\kount-data-collector-3.2.jar')
 }
